@@ -1,0 +1,30 @@
+﻿  math.c
+e:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
+e:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(211): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+  main.cpp
+e:\github\graphics-tests\common\camera.h(193): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(194): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(195): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(227): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(228): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(229): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(230): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(114): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(115): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(116): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(117): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(133): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(134): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(135): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(246): warning C4305: аргумент: усечение из "int" в "GLubyte"
+e:\github\graphics-tests\opengl\vectors_test\main.cpp(246): warning C4309: аргумент: усечение константного значения
+  vectors_test.vcxproj -> E:\GITHUB\graphics-tests\Debug\vectors_test.exe

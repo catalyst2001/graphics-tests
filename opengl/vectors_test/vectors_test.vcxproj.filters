@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\common\gldl.c" />
+    <ClCompile Include="..\..\common\glmath.cpp" />
+    <ClCompile Include="..\..\common\math.c">
+      <Filter>c math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\camera2.h" />
+    <ClInclude Include="..\..\common\gldl.h" />
+    <ClInclude Include="..\..\common\glmath.h" />
+    <ClInclude Include="..\..\common\camera.h">
+      <Filter>c math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\math.h">
+      <Filter>c math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="c math">
+      <UniqueIdentifier>{e0b247e5-97dd-4279-b61c-c70a6107cb3d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
