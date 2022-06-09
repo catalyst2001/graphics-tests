@@ -6,7 +6,7 @@
 // 
 // Changelog:
 // -03.09.2021 - added basic vectors functions, quaternions class
-// 
+// -09.06.2022 - 
 // 
 // ----------------------------------------------------------------------------------------------------------------------------
 #include <math.h>
@@ -19,6 +19,8 @@
 #define __mmin(a, b) (a < b) ? a : b
 #define __mmax(a, b) (a > b) ? a : b
 #define __mabs(f) (f < 0.f) ? -f : f
+
+#define MATH_NOTHINGMACRO(x)
 
 // ----------------------------------------------------------------------------------------------------------------------------
 class vec2
@@ -209,14 +211,59 @@ public:
 	quat() : x(0.f), y(0.f), z(0.f), w(0.f) {}
 	quat(float xx, float yy, float zz, float ww) : x(xx), y(yy), z(zz), w(ww) {}
 	quat(vec3 vec, float ww) : x(vec.x), y(vec.y), z(vec.z), w(ww) {}
+	quat(const quat &q) { x = q.x, y = q.y, z = q.z, w = q.w; }
 	~quat() {}
 
 	bool operator==(quat q) { return x == q.x && y == q.y && z == q.z && w == q.w; }
 	bool operator!=(quat q) { return x != q.x && y != q.y && z != q.z && w != q.w; }
-	vec3 vec() { return vec3(x, y, z); }
+	quat operator*(const quat &a) { return quat((x * a.w + y * a.z - z * a.y + w * a.x), (-x * a.z + y * a.w + z * a.x + w * a.y), (x * a.y - y * a.x + z * a.w + w * a.z), (-x * a.x - y * a.y - z * a.z + w * a.w)); }
+	quat operator*(const vec3 &a) { return quat((-(x * a.x) - (y * a.y) - (z * a.z)), ((w * a.x) + (y * a.z) - (z * a.y)), ((w * a.y) + (z * a.x) - (x * a.z)), ((w * a.z) + (x * a.y) - (y * a.x))); }
+	quat &operator=(const quat &a) { x = a.x; y = a.y; z = a.z; w = a.w; return *this; }
+	vec3 &vec() { return v.vector; }
+	float length2() { return (x * x) + (y * y) + (z * z) + (w * w); }
+	float length() { return sqrtf(length2()); }
 
-	float x, y, z, w;
-};
+	quat &normalize() {
+		float mag = length(); //compute magnitude of the quaternion
+		if (mag > 0.0f) { //prevent divide by zero
+			float oneOverMag = 1.0f / mag; //normalize it
+			x *= oneOverMag;
+			y *= oneOverMag;
+			z *= oneOverMag;
+			w *= oneOverMag;
+		}
+		return *this;
+	}
+
+	quat normalized() {
+		quat norm = *this;
+		norm.normalize();
+		return norm;
+	}
+
+	quat &conjugate() { x = -x; y = -y; z = -z; return *this; }
+	quat conjugated() {
+		quat qconjugated = *this;
+		qconjugated.conjugate();
+		return qconjugated;
+	}
+
+	float dot(quat qb) { return ((x * qb.x) + (y * qb.y) + (z * qb.z) + (w * qb.w)); }
+	quat &computew() {
+		float t = 1.0f - (x * x) - (y * y) - (z * z);
+		w = (t < 0.0f) ? 0.0f : -sqrt(t);
+		return *this;
+	}
+
+	union {
+		struct { float x, y, z, w; };
+		struct { float v[4]; } arr;
+		struct {
+			vec3 vector;
+			float w;
+		} v;
+	};
+}; MATH_NOTHINGMACRO(sizeof(quat))
 
 quat computew(quat q);
 float length_squared(quat q);
@@ -227,7 +274,12 @@ quat mul(quat qa, quat qb);
 quat mul(quat qa, vec3 vb);
 quat slerp(quat &qa, quat &qb, float t);
 quat conjugate(quat &q);
+
+// ------ 
 vec3 rotate_with_quat(vec3 a, quat q);
+vec3 quat_rotate_point(quat &q, const vec3 &in); // return - out rotated point
+// ------ 
+
 quat quat_from_angle_axis(float angle, vec3 axis);
 
 // ----------------------------------------------------------------------------------------------------------------------------
@@ -349,6 +401,7 @@ mat4x4 transpose(const mat4x4 &Matrix);
 // --------------------
 // PLANE
 // 
+// TODO: REMOVE ORIGIN!
 // --------------------
 class plane
 {
@@ -361,6 +414,26 @@ public:
 	vec3 origin;
 	vec3 normal;
 };
+
+// -------------------- 
+// Axis Aligned Bouding Box (AABB)
+// 
+// --------------------
+class bbox
+{
+public:
+	bbox() {}
+	bbox(vec3 __min, vec3 __max) : vmin(__min), vmax(__max) {}
+	bbox(float x, float y, float z, float size) {
+		vmin = vec3(x, y, z);
+		vmax = vec3(x + size, y + size, z + size);
+	}
+	~bbox() {}
+
+	vec3 vmin;
+	vec3 vmax;
+};
+typedef bbox aabb;
 
 // -------------------- 
 // RAY
@@ -381,16 +454,47 @@ public:
 
 	// ------------------
 	// TODO: not tested!
+	// 
+	// @returns - t
+	// t > 0.f - intersect
 	// ------------------
-	bool ray_plane_intersect_test(plane &pln, float *p_t) {
+	float ray_plane_intersect_test(plane &pln) {
 		float d = -dot(pln.origin, pln.normal);
-		*p_t = -(d + origin.z * pln.normal.z + origin.y * pln.normal.y + origin.x * pln.normal.x) / (direction.z * pln.normal.z + direction.y * pln.normal.y + direction.x * pln.normal.x);
-		return (*p_t > 0.f);
+		return -(d + origin.z * pln.normal.z + origin.y * pln.normal.y + origin.x * pln.normal.x) / (direction.z * pln.normal.z + direction.y * pln.normal.y + direction.x * pln.normal.x);
 	}
 
-	void evaluate(float t, vec3 &dstp) {
-		dstp = origin + (direction * t);
+	// ------------------
+	// TODO: not tested!
+	// 
+	// @returns - true if intersect
+	// ------------------
+	bool ray_triangle_intersect_test(vec3 &v0, vec3 &v1, vec3 &v2, float *p_t) {
+		vec3 e1 = v1 - v0;
+		vec3 e2 = v2 - v0;
+		vec3 pvec = cross(direction, e2);
+		float det = dot(e1, pvec);
+		if (det < 1e-8 && det > -1e-8)
+			return false;
+
+		float inv_det = 1 / det;
+		vec3 tvec = origin - v0;
+		float u = dot(tvec, pvec) * inv_det;
+		if (u < 0 || u > 1)
+			return false;
+
+		vec3 qvec = cross(tvec, e1);
+		float v = dot(direction, qvec) * inv_det;
+		if (v < 0 || u + v > 1)
+			return false;
+
+		*p_t = dot(e2, qvec) * inv_det;
+		return true;
 	}
+
+	// point = origin + direction * t
+	void evaluate(float t, vec3 &dstp) { dstp = origin + direction * t; }
+
+
 
 	vec3 origin;
 	vec3 direction;
@@ -410,6 +514,31 @@ public:
 
 	void from_matrix(mat4x4 &vpm) {
 
+	}
+
+	bool contain_point(vec3 &point) {
+		for(register int i = 0; i < 6; i++)
+			if (dot(planes[i].normal, point) <= 0.f)
+				return false;
+
+		return true;
+	}
+
+	bool bbox_inside() {
+
+		return true;
+	}
+
+	bool sphere_inside(vec3 &point, float radius) {
+		for (register int i = 0; i < 6; i++) {
+			float d = dot(planes[i].normal, point);
+			if (d < -radius)
+				return false;
+
+			if ((float)fabs(d) < radius)
+				return true;
+		}
+		return true;
 	}
 };
 

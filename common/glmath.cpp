@@ -412,7 +412,21 @@ quat conjugate(quat &q)
 
 vec3 rotate_with_quat(vec3 a, quat q)
 {
-	return mul(q, mul(quat(a, 0.f), conjugate(q))).vec();
+	quat m = mul(quat(a, 0.f), conjugate(q));
+	return mul(q, m).vec();
+}
+
+vec3 quat_rotate_point(quat &q, const vec3 &in)
+{
+	quat tmp, inv, out;
+	inv.x = -q.x;
+	inv.y = -q.y;
+	inv.z = -q.z;
+	inv.w = q.w;
+	inv.normalize();
+	tmp = q * in;
+	out = tmp * inv;
+	return out.vec();
 }
 
 quat quat_from_angle_axis(float angle, vec3 axis)
