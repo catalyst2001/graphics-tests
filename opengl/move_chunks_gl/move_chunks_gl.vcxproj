@@ -18,22 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\common\camera.c" />
-    <ClCompile Include="..\..\common\gldl.c" />
-    <ClCompile Include="..\..\common\math.c" />
-    <ClCompile Include="main.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\common\camera.h" />
-    <ClInclude Include="..\..\common\gldl.h" />
-    <ClInclude Include="..\..\common\math.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{2e596dc5-54cc-401f-9a30-43cfefdc0124}</ProjectGuid>
+    <ProjectGuid>{5b671ce2-707a-4046-b666-902bd8a8d325}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ray_sphere_intersect_gl</RootNamespace>
+    <RootNamespace>move_chunks_gl</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -161,6 +150,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\common\gldl.c" />
+    <ClCompile Include="..\..\common\glmath.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\euler_camera.h" />
+    <ClInclude Include="..\..\common\gldl.h" />
+    <ClInclude Include="..\..\common\glmath.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

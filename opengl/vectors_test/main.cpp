@@ -147,6 +147,13 @@ GLUquadric *quadric;
 
 int main()
 {
+	vector3_t res;
+	vector3_t vec1 = { 10, 0, 0 }, vec2 = { 0, 0, 10 };
+	vec3_cross(&res, &vec1, &vec2);
+	printf(" vec3_cross = ( %f %f %f )\n", res.x, res.y, res.z);
+
+	return 0;
+
 	if (!(pwnd = gldl_initialize(-1, -1, 1680, 1050, 24, 32, "ray sphere intersect", NULL))) {
 		printf("Failed to create window!\n");
 		return 1;
@@ -255,20 +262,3 @@ int main()
 	ShowCursor(TRUE);
 	return 0;
 }
-
-//vec3 listener = vec3(0.f, 5.f, 0.f);
-//vec3 leftuho = listener + vec3(-10.f, 0.f, 0.f);
-//vec3 rightuho = listener + vec3(10.f, 0.f, 0.f);
-
-//glBegin(GL_LINES);
-//
-//glVertex3f(0.f, 0.f, 0.f);
-//glVertex3f(listener.x, listener.y, listener.z);
-//
-//glVertex3f(listener.x, listener.y, listener.z);
-//glVertex3f(leftuho.x, leftuho.y, leftuho.z);
-//
-//glVertex3f(listener.x, listener.y, listener.z);
-//glVertex3f(rightuho.x, rightuho.y, rightuho.z);
-//
-//glEnd();

@@ -1,24 +1,4 @@
-﻿  camera.c
-e:\github\graphics-tests\common\camera.h(193): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(194): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(195): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(227): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(228): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(229): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(230): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
-  math.c
-e:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
-e:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(211): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-  main.c
+﻿  main.c
 e:\github\graphics-tests\common\camera.h(193): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\camera.h(194): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\camera.h(195): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
@@ -40,4 +20,3 @@ e:\github\graphics-tests\opengl\ray_sphere_intersect_gl\main.c(23): error C2065:
 e:\github\graphics-tests\opengl\ray_sphere_intersect_gl\main.c(23): error C2224: выражение слева от ".mousecenter" должно иметь тип структуры или объединения
 e:\github\graphics-tests\opengl\ray_sphere_intersect_gl\main.c(34): warning C4013: ecamera_update: нет определения; предполагается "extern" с возвратом типа "int"
 e:\github\graphics-tests\opengl\ray_sphere_intersect_gl\main.c(34): error C2065: camera: необъявленный идентификатор
-  Создание кода...

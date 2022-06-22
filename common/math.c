@@ -187,7 +187,7 @@ float vec3_dot(const vector3_t *p_vec_a, const vector3_t *p_vec_b)
 void vec3_cross(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b)
 {
 	p_dst->x = p_vec_a->y * p_vec_b->z - p_vec_a->z * p_vec_b->y;
-	p_dst->y = -(p_vec_a->z * p_vec_b->x - p_vec_a->x * p_vec_b->z);
+	p_dst->y = (p_vec_a->z * p_vec_b->x - p_vec_a->x * p_vec_b->z);
 	p_dst->z = p_vec_a->x * p_vec_b->y - p_vec_a->y * p_vec_b->x;
 }
 

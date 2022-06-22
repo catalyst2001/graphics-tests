@@ -1,0 +1,10 @@
+﻿  main.cpp
+e:\github\graphics-tests\common\glmath.h(254): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(109): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(110): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(111): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(112): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(128): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(129): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(130): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+  camera_move_anim_gl.vcxproj -> E:\GITHUB\graphics-tests\Debug\camera_move_anim_gl.exe
