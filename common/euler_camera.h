@@ -24,7 +24,6 @@ public:
 	vec3 Up;
 	vec3 Right;
 	vec3 WorldUp;
-	vec3 Dir;
 	// euler Angles
 	float Yaw;
 	float Pitch;
@@ -115,7 +114,7 @@ public:
 		ProcessKeyboard();
 		ProcessMouseMovement(xdiff, -ydiff, true);
 		
-		Dir = Position + Front;
+		vec3 Dir = Position + Front;
 		gluLookAt(Position.x, Position.y, Position.z, Dir.x, Dir.y, Dir.z, 0.f, 1.f, 0.f);
 		SetCursorPos(cpt.x, cpt.y);
 	}

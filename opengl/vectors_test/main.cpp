@@ -147,14 +147,9 @@ GLUquadric *quadric;
 
 int main()
 {
-	vector3_t res;
-	vector3_t vec1 = { 10, 0, 0 }, vec2 = { 0, 0, 10 };
-	vec3_cross(&res, &vec1, &vec2);
-	printf(" vec3_cross = ( %f %f %f )\n", res.x, res.y, res.z);
 
-	return 0;
 
-	if (!(pwnd = gldl_initialize(-1, -1, 1680, 1050, 24, 32, "ray sphere intersect", NULL))) {
+	if (!(pwnd = gldl_initialize(-1, -1, 800, 600, 24, 32, "ray sphere intersect", NULL))) {
 		printf("Failed to create window!\n");
 		return 1;
 	}
@@ -201,6 +196,7 @@ int main()
 		ray_t ray;
 		ray.pos = cam2.origin;
 		ray.dir = cam2.direction;
+		printf("%f %f %f\n", cam2.direction.x, cam2.direction.y, cam2.direction.z);
 
 		vector3_t plane_origin = {0.f, 0.f, 0.f};
 		vector3_t plane_normal = {0.f, 1.f, 0.f};
