@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "move_chunks_gl", "opengl\mo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vertex_compress", "vertex_compress\vertex_compress.vcxproj", "{B2417E41-2445-4BDA-B610-536C7F5D82E1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "drawarrays_glbyte", "opengl\drawarrays_glbyte\drawarrays_glbyte.vcxproj", "{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{B2417E41-2445-4BDA-B610-536C7F5D82E1}.Release|x64.Build.0 = Release|x64
 		{B2417E41-2445-4BDA-B610-536C7F5D82E1}.Release|x86.ActiveCfg = Release|Win32
 		{B2417E41-2445-4BDA-B610-536C7F5D82E1}.Release|x86.Build.0 = Release|Win32
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Debug|x64.ActiveCfg = Debug|x64
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Debug|x64.Build.0 = Debug|x64
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Debug|x86.ActiveCfg = Debug|Win32
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Debug|x86.Build.0 = Debug|Win32
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Release|x64.ActiveCfg = Release|x64
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Release|x64.Build.0 = Release|x64
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Release|x86.ActiveCfg = Release|Win32
+		{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

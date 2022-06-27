@@ -15,18 +15,18 @@ inline float decompress_float(short fcval)
 	return (val * FLT_MAX);
 }
 
-short Encode(double value) {
+short Encode(float value) {
 	int cnt = 0;
 	while (value != floor(value)) {
 		value *= 10.0;
 		cnt++;
 	}
-	return (short)((cnt << 12) + (int)value);
+	return (short)((cnt << 12) + (short)value);
 }
 
-double Decode(short value) {
+float Decode(short value) {
 	int cnt = value >> 12;
-	double result = value & 0xfff;
+	float result = value & 0xfff;
 	while (cnt > 0) {
 		result /= 10.0;
 		cnt--;
@@ -36,6 +36,5 @@ double Decode(short value) {
 
 int main()
 {
-	printf("Max value: %f\n", FLT_MAX);
 	return 0;
 }
