@@ -48,7 +48,7 @@ int main()
 		}
 	};
 
-	if (!(pwnd = gldl_initialize(-1, -1, 800, 600, 24, 32, "Angle between two vectors in space", &events))) {
+	if (!(pwnd = gldl_initialize(-1, -1, 1280, 1024, 24, 32, "Angle between two vectors in space", &events))) {
 		printf("Failed to create window!\n");
 		return 1;
 	}

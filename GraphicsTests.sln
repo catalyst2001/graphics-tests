@@ -23,7 +23,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vertex_compress", "vertex_c
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "drawarrays_glbyte", "opengl\drawarrays_glbyte\drawarrays_glbyte.vcxproj", "{5B7F8CF0-9194-4616-BD16-744BF3ACBA44}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vector_angle_gl", "opengl\vector_angle_gl\vector_angle_gl.vcxproj", "{09E3C629-7F7E-4D0C-9810-DD7940A3FC33}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vectors_angle_gl", "opengl\vector_angle_gl\vector_angle_gl.vcxproj", "{09E3C629-7F7E-4D0C-9810-DD7940A3FC33}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "muitisampling_test", "opengl\muitisampling_test\muitisampling_test.vcxproj", "{CFB1BEC9-003B-473C-A721-77C2931C0CFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -121,6 +123,14 @@ Global
 		{09E3C629-7F7E-4D0C-9810-DD7940A3FC33}.Release|x64.Build.0 = Release|x64
 		{09E3C629-7F7E-4D0C-9810-DD7940A3FC33}.Release|x86.ActiveCfg = Release|Win32
 		{09E3C629-7F7E-4D0C-9810-DD7940A3FC33}.Release|x86.Build.0 = Release|Win32
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Debug|x64.ActiveCfg = Debug|x64
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Debug|x64.Build.0 = Debug|x64
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Debug|x86.ActiveCfg = Debug|Win32
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Debug|x86.Build.0 = Debug|Win32
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Release|x64.ActiveCfg = Release|x64
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Release|x64.Build.0 = Release|x64
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Release|x86.ActiveCfg = Release|Win32
+		{CFB1BEC9-003B-473C-A721-77C2931C0CFF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
