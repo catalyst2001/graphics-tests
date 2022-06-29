@@ -84,11 +84,40 @@ int main()
 		center[1] = height / 2;
 
 		float radius = 250.f;
-		glBegin(GL_LINES);
 		float triangleAmount = 100;
 		float twicePi = 3.14 * 2;
+		glBegin(GL_LINES);
 		for (float i = 0; i <= triangleAmount; i++) {
 			glVertex2i(center[0], center[1]);
+			glVertex2f(
+				center[0] + (radius * cos(i * twicePi / triangleAmount)),
+				center[1] + (radius * sin(i * twicePi / triangleAmount))
+			);
+		}
+		glEnd();
+
+		glBegin(GL_LINE_LOOP);
+		glVertex2i(
+			center[0] + (radius * cos(0.f * twicePi / triangleAmount)),
+			center[1] + (radius * sin(0.f * twicePi / triangleAmount))
+		);
+		for (float i = 1.f; i <= triangleAmount; i++) {
+			glVertex2f(
+				center[0] + (radius * cos(i * twicePi / triangleAmount)),
+				center[1] + (radius * sin(i * twicePi / triangleAmount))
+			);
+		}
+		glEnd();
+
+		center[0] = 100;
+		center[1] = 100;
+		radius = 20.f;
+		glBegin(GL_POLYGON);
+		glVertex2i(
+			center[0] + (radius * cos(0.f * twicePi / triangleAmount)),
+			center[1] + (radius * sin(0.f * twicePi / triangleAmount))
+		);
+		for (float i = 1.f; i <= triangleAmount; i++) {
 			glVertex2f(
 				center[0] + (radius * cos(i * twicePi / triangleAmount)),
 				center[1] + (radius * sin(i * twicePi / triangleAmount))

@@ -31,9 +31,10 @@ public:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
+	bool updatemouse;
 
 	// constructor with vectors
-	Camera(vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 up = vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+	Camera(bool bupdatemouse, vec3 position = vec3(0.0f, 0.0f, 0.0f), vec3 up = vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : updatemouse(bupdatemouse), Front(vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 	{
 		Position = position;
 		WorldUp = up;
@@ -43,7 +44,7 @@ public:
 	}
 
 	// constructor with scalar values
-	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+	Camera(bool bupdatemouse, float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : updatemouse(bupdatemouse), Front(vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 	{
 		Position = vec3(posX, posY, posZ);
 		WorldUp = vec3(upX, upY, upZ);
@@ -110,13 +111,13 @@ public:
 		cpt.y = (window_rect.bottom / 2.f);
 		float xdiff = pt.x - cpt.x;
 		float ydiff = pt.y - cpt.y;
-
-		ProcessKeyboard();
-		ProcessMouseMovement(xdiff, -ydiff, true);
-		
+		if (updatemouse) {
+			SetCursorPos(cpt.x, cpt.y);
+			ProcessKeyboard();
+			ProcessMouseMovement(xdiff, -ydiff, true);
+		}
 		vec3 Dir = Position + Front;
 		gluLookAt(Position.x, Position.y, Position.z, Dir.x, Dir.y, Dir.z, 0.f, 1.f, 0.f);
-		SetCursorPos(cpt.x, cpt.y);
 	}
 
 private:
