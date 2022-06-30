@@ -6,13 +6,14 @@ extern "C" {
 }
 
 gldl_dt_t *pwnd;
-Camera camera;
+Camera camera(true);
 
 // 
 //       dot(A, B)
 // -----------------------
 //  length(A) * length(B)
 // 
+// 0 - 180
 float cos_angle_between_vectors(vec3 &veca, vec3 &vecb)
 {
 	float l = (length(veca) * length(vecb));
@@ -20,6 +21,32 @@ float cos_angle_between_vectors(vec3 &veca, vec3 &vecb)
 		l = 1.f;
 
 	return dot(veca, vecb) / l;
+}
+
+//ANGLE IN DEGRESS
+float angle_between_vectors(vec3 veca, vec3 vecb, vec3 &vecn)
+{
+	veca.normalize();
+	vecb.normalize();
+	float d = dot(veca, vecb);
+	float angle = acosf(d);
+
+	vec3 cross_ab = cross(veca, vecb);
+	if (dot(cross_ab, vecn) < 0) // Or > 0
+		angle = -angle;
+
+	return angle;
+}
+
+float SignedAngleBetween(vec3 a, vec3 b)
+{
+	// Angle between -1 and +1
+	float fAngle = cross(a.normalize(), b.normalize()).y;
+
+	// Convert to -180 to +180 degrees
+	fAngle *= 180.0f;
+
+	return(fAngle);
 }
 
 float yaw = 0.f, pitch = 0.f;
@@ -48,7 +75,7 @@ int main()
 		}
 	};
 
-	if (!(pwnd = gldl_initialize(-1, -1, 1280, 1024, 24, 32, "Angle between two vectors in space", &events))) {
+	if (!(pwnd = gldl_initialize(-1, -1, 800, 600, 24, 32, "Angle between two vectors in space", &events))) {
 		printf("Failed to create window!\n");
 		return 1;
 	}
@@ -92,6 +119,9 @@ int main()
 
 		float cos_angle = cos_angle_between_vectors(source, listener_dir);
 
+		static vec3 vn(0.f, 1.f, 0.f);
+		float angle2 = angle_between_vectors(source, listener_dir, vn);
+
 		// clamp value -1.f -- 1.f
 		if (cos_angle < -1.f)
 			cos_angle = -1.f;
@@ -99,7 +129,7 @@ int main()
 			cos_angle = 1.f;
 
 		float angle = acosf(cos_angle);
-		printf("Angle: %f\n", angle * RTOD);
+		printf("Angle180: %f   Angle360: %f\n", angle * RTOD, angle2 * RTOD);
 
 		glPopAttrib();
 	}

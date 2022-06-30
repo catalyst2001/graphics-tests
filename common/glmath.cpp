@@ -2,6 +2,16 @@
 
 // ----------------------------------------------------------------------------------------------------------------------------
 
+float clampf(float val, float min, float max)
+{
+	return clamp<float>(val, min, max);
+}
+
+double clampd(double val, double min, double max)
+{
+	return clamp<double>(val, min, max);
+}
+
 float dot(const vec2 &u, const vec2 &v)
 {
 	return u.x * v.x + u.y * v.y;
@@ -92,6 +102,11 @@ vec3 mulsc(vec3 a, float scalar)
 vec3 cross(const vec3 &u, const vec3 &v)
 {
 	return vec3(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x);
+}
+
+void cross(vec3 &dst, const vec3 &u, const vec3 &v)
+{
+	dst = vec3(u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x);
 }
 
 float dot(const vec3 &u, const vec3 &v)

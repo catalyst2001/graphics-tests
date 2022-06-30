@@ -22,6 +22,21 @@
 
 #define MATH_NOTHINGMACRO(x)
 
+template<typename _Type>
+_Type clamp(_Type val, _Type min, _Type max)
+{
+	if (val > max)
+		return max;
+
+	if (val < min)
+		return min;
+
+	return val;
+}
+
+float clampf(float val, float min, float max);
+double clampd(double val, double min, double max);
+
 // ----------------------------------------------------------------------------------------------------------------------------
 class vec2
 {
@@ -115,6 +130,25 @@ public:
 	inline float operator[](int i) { return v[i]; }
 
 	vec3 inverse() { return vec3(-x, -y, -z); }
+	float length2() const { return x * x + y * y + z * z; }
+
+	// len == mag
+	float length() const { return sqrt(length2()); }
+	float magnitude() const { return length(); }
+
+	vec3 &normalize() {
+		float t = sqrt(x * x + y * y + z * z);
+		if (t <= 0.f) {
+			x = 0.f;
+			y = 0.f;
+			z = 0.f;
+			return *this;
+		}
+		x /= t;
+		y /= t;
+		z /= t;
+		return *this;
+	}
 
 	union {
 		struct { float x, y, z; };
@@ -131,6 +165,7 @@ vec3 mul(vec3 a, vec3 b);
 vec3 mulsc(vec3 a, float scalar);
 
 vec3 cross(const vec3 &u, const vec3 &v);
+void cross(vec3 &dst, const vec3 &u, const vec3 &v);
 float dot(const vec3 &u, const vec3 &v);
 float length(const vec3 &u);
 float length_squared(const vec3 &u);

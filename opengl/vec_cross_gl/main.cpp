@@ -6,7 +6,7 @@ extern "C" {
 }
 
 gldl_dt_t *pwnd;
-Camera camera;
+Camera camera(1);
 
 int main()
 {
@@ -27,7 +27,7 @@ int main()
 		return 1;
 	}
 
-	vec3 result, vec1 = { 10, 0, 0 }, vec2 = { 0, 0, 10 };
+	vec3 result, vec1 = { 33, 20, 0 }, vec2 = { 74, 0, 10 };
 	glViewport(0, 0, pwnd->GetWindowWidth(), pwnd->GetWindowHeight());
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -61,9 +61,9 @@ int main()
 
 		// --- camera dir
 		vec3 center(1.f, 1.f, 1.f);
-		vec3 dir = normalize(camera.Dir - camera.Position);
+		vec3 dir = normalize(camera.Front);
 		float deg = acosf(dot(dir, center)) * RTOD;
-		printf("Degress of camera: %f  ( %f %f %f )\n", deg, camera.Dir.x, camera.Dir.y, camera.Dir.z);
+		printf("Degress of camera: %f  ( %f %f %f )\n", deg, dir.x, dir.y, dir.z);
 		
 		glLineWidth(2.f);
 		glColor4ub(0, 255, 0, 255);
