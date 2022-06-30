@@ -183,6 +183,21 @@ vec3 Min(const vec3 &a, const vec3 &b);
 vec3 Max(const vec3 &a, const vec3 &b);
 
 void round_vector(vec3 &dest, const vec3 vec, float roundfactor);
+
+// 
+// compute cos angle
+// 0 -- 180 deg
+// 
+float cos_angle_between_vectors(vec3 &veca, vec3 &vecb);
+
+// 
+// compute angle in degress
+// -180 -- 180 deg
+// 
+// vecn - normal vector vec3(0.f, 1.f, 0.f)
+// 
+float angle_between_vectors(vec3 veca, vec3 vecb, vec3 &vecn);
+
 // ----------------------------------------------------------------------------------------------------------------------------
 
 class vec3int

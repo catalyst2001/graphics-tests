@@ -8,47 +8,6 @@ extern "C" {
 gldl_dt_t *pwnd;
 Camera camera(true);
 
-// 
-//       dot(A, B)
-// -----------------------
-//  length(A) * length(B)
-// 
-// 0 - 180
-float cos_angle_between_vectors(vec3 &veca, vec3 &vecb)
-{
-	float l = (length(veca) * length(vecb));
-	if (l == 0.f)
-		l = 1.f;
-
-	return dot(veca, vecb) / l;
-}
-
-//ANGLE IN DEGRESS
-float angle_between_vectors(vec3 veca, vec3 vecb, vec3 &vecn)
-{
-	veca.normalize();
-	vecb.normalize();
-	float d = dot(veca, vecb);
-	float angle = acosf(d);
-
-	vec3 cross_ab = cross(veca, vecb);
-	if (dot(cross_ab, vecn) < 0) // Or > 0
-		angle = -angle;
-
-	return angle;
-}
-
-float SignedAngleBetween(vec3 a, vec3 b)
-{
-	// Angle between -1 and +1
-	float fAngle = cross(a.normalize(), b.normalize()).y;
-
-	// Convert to -180 to +180 degrees
-	fAngle *= 180.0f;
-
-	return(fAngle);
-}
-
 float yaw = 0.f, pitch = 0.f;
 vec3 angles;
 vec3 listener_dir;

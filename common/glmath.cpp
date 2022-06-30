@@ -212,6 +212,35 @@ void round_vector(vec3 &dest, const vec3 vec, float roundfactor)
 	dest.z = round(vec.z / roundfactor) * roundfactor;
 }
 
+// 
+//       dot(A, B)
+// -----------------------
+//  length(A) * length(B)
+// 
+// 0 - 180
+float cos_angle_between_vectors(vec3 &veca, vec3 &vecb)
+{
+	float l = (length(veca) * length(vecb));
+	if (l == 0.f)
+		l = 1.f;
+
+	return dot(veca, vecb) / l;
+}
+
+float angle_between_vectors(vec3 veca, vec3 vecb, vec3 &vecn)
+{
+	veca.normalize();
+	vecb.normalize();
+	float d = dot(veca, vecb);
+	float angle = acosf(d);
+
+	vec3 cross_ab = cross(veca, vecb);
+	if (dot(cross_ab, vecn) < 0.f) // Or > 0
+		angle = -angle;
+
+	return angle;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------
 
 mat2x2::mat2x2()
