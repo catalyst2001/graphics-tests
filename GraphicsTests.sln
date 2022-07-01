@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "muitisampling_test", "openg
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "marching_cubes", "opengl\marching_cubes\marching_cubes.vcxproj", "{FF999445-9D9D-4BC3-942F-A8582D104055}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "find_contour", "wingdi\find_contour\find_contour.vcxproj", "{4A6BE305-136C-4989-895C-6231A02E2DEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -141,6 +143,14 @@ Global
 		{FF999445-9D9D-4BC3-942F-A8582D104055}.Release|x64.Build.0 = Release|x64
 		{FF999445-9D9D-4BC3-942F-A8582D104055}.Release|x86.ActiveCfg = Release|Win32
 		{FF999445-9D9D-4BC3-942F-A8582D104055}.Release|x86.Build.0 = Release|Win32
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Debug|x64.ActiveCfg = Debug|x64
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Debug|x64.Build.0 = Debug|x64
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Debug|x86.ActiveCfg = Debug|Win32
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Debug|x86.Build.0 = Debug|Win32
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x64.ActiveCfg = Release|x64
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x64.Build.0 = Release|x64
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x86.ActiveCfg = Release|Win32
+		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

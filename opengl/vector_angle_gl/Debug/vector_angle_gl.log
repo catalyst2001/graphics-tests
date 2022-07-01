@@ -1,8 +1,8 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (vector_angle_gl.vcxproj).  Это может привести к ошибкам очистки и перестроения.
   glmath.cpp
-e:\github\graphics-tests\common\glmath.h(136): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\glmath.h(140): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\glmath.h(302): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(307): warning C4244: =: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\glmath.cpp(37): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\glmath.cpp(50): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\glmath.cpp(59): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
@@ -34,9 +34,9 @@ e:\github\graphics-tests\common\glmath.cpp(702): warning C4244: аргумент
 e:\github\graphics-tests\common\glmath.cpp(926): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\glmath.cpp(946): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
   main.cpp
-e:\github\graphics-tests\common\glmath.h(136): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\glmath.h(140): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\glmath.h(302): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(307): warning C4244: =: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(110): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(111): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(112): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных

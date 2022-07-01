@@ -76,18 +76,11 @@ int main()
 		glVertex3f(endpoint.x, endpoint.y, endpoint.z);
 		glEnd();
 
-		float cos_angle = cos_angle_between_vectors(source, listener_dir);
+		float cos_angle = clampf(cos_angle_between_vectors(source, listener_dir), -1.f, 1.f); // clamp value -1.f -- 1.f
+		float angle = acosf(cos_angle);
 
 		static vec3 vn(0.f, 1.f, 0.f);
 		float angle2 = angle_between_vectors(source, listener_dir, vn);
-
-		// clamp value -1.f -- 1.f
-		if (cos_angle < -1.f)
-			cos_angle = -1.f;
-		if (cos_angle > 1.f)
-			cos_angle = 1.f;
-
-		float angle = acosf(cos_angle);
 		printf("Angle180: %f   Angle360: %f\n", angle * RTOD, angle2 * RTOD);
 
 		glPopAttrib();

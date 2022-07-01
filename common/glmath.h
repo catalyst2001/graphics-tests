@@ -13,12 +13,15 @@
 #include <assert.h>
 
 #define PI 3.141592653589793238462643
-#define DTOR            0.0174532925    
-#define RTOD            57.2957795   
+#define DTOR 0.0174532925    
+#define RTOD 57.2957795   
 
 #define __mmin(a, b) (a < b) ? a : b
 #define __mmax(a, b) (a > b) ? a : b
 #define __mabs(f) (f < 0.f) ? -f : f
+
+#define step_roundf(x, rf) (roundf(x * rf) / rf)
+#define step_roundd(x, rf) (round(x * rf) / rf)
 
 #define MATH_NOTHINGMACRO(x)
 
