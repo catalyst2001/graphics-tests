@@ -53,7 +53,7 @@ int main()
 	if (!glfwInit())
 		return 1;
 
-	glfwWindowHint(GLFW_SAMPLES, 8);
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	window = glfwCreateWindow(800, 600, "Multisampling test", NULL, NULL);
 	if (!window) {
 		glfwTerminate();

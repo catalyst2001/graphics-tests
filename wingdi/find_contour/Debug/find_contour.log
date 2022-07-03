@@ -1,2 +1,4 @@
 ﻿  main.cpp
+e:\github\graphics-tests\wingdi\find_contour\main.cpp(179): warning C4101: line_min: неиспользованная локальная переменная
+e:\github\graphics-tests\wingdi\find_contour\main.cpp(180): warning C4101: line_max: неиспользованная локальная переменная
   find_contour.vcxproj -> E:\GITHUB\graphics-tests\Debug\find_contour.exe

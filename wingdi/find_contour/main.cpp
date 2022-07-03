@@ -54,6 +54,25 @@ public:
 	operator HDC() { return memdc; }
 };
 
+class Color3
+{
+public:
+	union {
+		struct { BYTE arr[3]; };
+		struct { BYTE r, g, b; };
+	};
+
+	Color3() {}
+	Color3(BYTE rr, BYTE gg, BYTE bb) : r(rr), g(gg), b(bb) {}
+	~Color3() {}
+
+	bool IsGray() { return r == g && g == b; }
+
+	bool operator==(Color3 &pixel) { return r == pixel.r && g == pixel.g && b == pixel.b; }
+	bool operator!=(Color3 &pixel) { return r != pixel.r && g != pixel.g && b != pixel.b; }
+};
+
+
 class MemoryBitmap
 {
 	PBYTE ppixels;
@@ -137,12 +156,75 @@ public:
 		return &ppixels[(y * bitmapsize.cx + x) * bytes_per_pixel];
 	}
 
+	LONG Size() { return bitmapsize.cx * bitmapsize.cy * bytes_per_pixel; }
+
+	PBYTE GetPixels() {
+		return ppixels;
+	}
+
 	VOID Delete() {
 		if (ppixels)
 			free(ppixels);
 	}
 
 };
+
+enum FIND_EDGE_OPTION
+{
+	FE_RECT = 0,
+};
+
+bool find_line_width(MemoryBitmap &membitamp, LONG minwidth, LONG maxwidth, Color3 from, Color3 to)
+{
+	POINT line_min;
+	POINT line_max;
+	Color3 *ppixel;
+	int min[2] = { -1, -1 }, max[2] = { -1, -1 };
+	for (LONG y = 0; y < membitamp.GetHeight(); y++) {
+		for (LONG x = 0; x < membitamp.GetWidth(); x++) {
+			ppixel = (Color3 *)membitamp.GetPixel(x, y);
+			if (ppixel->IsGray() && (ppixel->r >= from.r) && (ppixel->r <= to.r)) {
+				printf("pixel( %d %d )  Color( %d %d %d )\n", x, y, ppixel->r, ppixel->g, ppixel->b);
+
+				return true;
+			}
+		}
+	}
+	return true;
+}
+
+// ----------------------
+// find_edge
+// 
+// Color3 background_color[2] = {begincolor, endcolor}
+// ----------------------
+bool find_edge(MemoryBitmap &membitamp, PPOINT ppoints, Color3 background_color[2], Color3 edge_color, DWORD type)
+{
+	bool was_find = false;
+	memset(ppoints, 0, sizeof(PPOINT) * 4);
+
+	Color3 *ppixel;
+	int min[2] = { -1, -1 }, max[2] = { -1, -1 };
+	for (LONG y = 0; y < membitamp.GetHeight(); y++) {
+		for (LONG x = 0; x < membitamp.GetWidth(); x++) {
+			ppixel = (Color3 *)membitamp.GetPixel(x, y);
+			if (ppixel->IsGray() && (background_color[0].r < ppixel->r) && (background_color[1].r > ppixel->r)) {
+				if (min[0] != -1)
+					min[0] = x;
+				if (min[1] != -1)
+					min[1] = y;
+
+
+			}
+		}
+	}
+	ppoints[0].x = min[0];
+	ppoints[1].x = min[1];
+	return was_find;
+}
+
+MemoryBitmap memimage;
+POINT points[4];
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -173,11 +255,27 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	ShowWindow(h_wnd, nCmdShow);
 	UpdateWindow(h_wnd);
 
-	image = (HBITMAP)LoadImageA(NULL, "1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	AllocConsole();
+	freopen("conout$", "w", stdout);
+	printf("Console intialized\n");
+
+	image = (HBITMAP)LoadImageA(NULL, "1.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE|LR_CREATEDIBSECTION);
 	if (!image) {
 		MessageBoxA(0, "Faield to load image", 0, 0);
 		return 11;
 	}
+	memimage.Create(image);
+	//memimage.FlipHorizontal();
+	SetBitmapBits(image, memimage.Size(), memimage.GetPixels());
+
+	Color3 colors[] = {
+		Color3(0, 0, 0),
+		Color3(5, 5, 5)
+	};
+	find_edge(memimage, points, colors, Color3(0, 0, 0), 0);
+	find_line_width(memimage, 0, 0, Color3(0, 0, 0), Color3(5, 5, 5));
+
+	printf("Min point: %d %d\n", points[0].x, points[0].y);
 
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0)) {
@@ -186,18 +284,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 	DeleteObject(image);
 	return (int)msg.wParam;
-}
-
-bool find_edge(PBITMAP pbitmap, HBITMAP hbitmap, PPOINT ppoints, COLORREF background_color, COLORREF edge_color)
-{
-	LONG bytes_per_pixel = pbitmap->bmBitsPixel / 8;
-	LONG total_bytes = pbitmap->bmWidth * pbitmap->bmHeight * bytes_per_pixel;
-	PBYTE ppixels = (PBYTE)malloc((size_t)total_bytes);
-	GetBitmapBits(hbitmap, total_bytes, ppixels);
-
-	//for(LONG x = 0; x < )
-
-	return true;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -210,9 +296,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE: {
-		AllocConsole();
-		freopen("conout$", "w", stdout);
-		printf("Console intialized\n");
 		//HBITMAP bitmap = (HBITMAP)LoadImageA(0, "test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE|LR_CREATEDIBSECTION);
 		//MemoryBitmap membitmap;
 		//membitmap.Create(bitmap);
@@ -256,7 +339,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		BITMAP bitmap;
 		GetObject(image, sizeof(BITMAP), &bitmap);
 		DrawingLayer view_layer;
-		view_layer.Create(display_layer, bitmap.bmWidth + zoom, bitmap.bmHeight + zoom);
+		view_layer.Create(display_layer, bitmap.bmWidth, bitmap.bmHeight);
 		
 		char text[128];
 		sprintf_s(text, "WidthBytes: %d\n", bitmap.bmWidthBytes);
@@ -266,9 +349,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		SelectObject(bitmapdc, image);
 		//StretchBlt(chdc, start_pt.x, start_pt.y, bitmap.bmWidth + zoom, bitmap.bmHeight + zoom, bitmapdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
 		BitBlt(view_layer, 0, 0, bitmap.bmWidth, bitmap.bmHeight, bitmapdc, 0, 0, SRCCOPY);
+
 		DeleteDC(bitmapdc);
 
-		view_layer.Draw(display_layer, 0, &start_pt);
+		view_layer.Draw(display_layer, zoom, &start_pt);
 		view_layer.Delete();
 
 		display_layer.Draw(hdc, 0, 0, 0);

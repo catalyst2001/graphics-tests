@@ -12,6 +12,16 @@ float yaw = 0.f, pitch = 0.f;
 vec3 angles;
 vec3 listener_dir;
 
+void print_uho(float deg)
+{
+	if (deg == 0.f) {
+		printf("( R: 0.5  | L: 0.5 )\n");
+	}
+	else {
+		printf("( R: %f  | L: %f )\n", (deg / 180.f) * 2,  1 - ((deg / 180.f) * 2));
+	}
+}
+
 int main()
 {
 	gldl_events_dt_t events;
@@ -49,7 +59,7 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	vec3 source = { 20, 0, 20 };
+	vec3 source = { 20, 0, 0 };
 	vec3 pos = { 0, 0, 0 };
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -81,7 +91,12 @@ int main()
 
 		static vec3 vn(0.f, 1.f, 0.f);
 		float angle2 = angle_between_vectors(source, listener_dir, vn);
-		printf("Angle180: %f   Angle360: %f\n", angle * RTOD, angle2 * RTOD);
+		printf("Angle180: %f   Angle360: %f  -1 -- 1: %f  ",
+			angle * RTOD,
+			angle2 * RTOD,
+			(angle2 * RTOD) / 180.f);
+
+		print_uho(angle2 * RTOD);
 
 		glPopAttrib();
 	}

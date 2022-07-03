@@ -233,9 +233,8 @@ float angle_between_vectors(vec3 veca, vec3 vecb, vec3 &vecn)
 	vecb.normalize();
 	float d = dot(veca, vecb);
 	float angle = acosf(d);
-
 	vec3 cross_ab = cross(veca, vecb);
-	if (dot(cross_ab, vecn) < 0.f) // Or > 0
+	if (dot(cross_ab, vecn) > 0.f) // Or > 0
 		angle = -angle;
 
 	return angle;

@@ -1,5 +1,6 @@
 #include "voxel.h"
 
+//#define USE_INTERP
 
 // offsets from the minimal corner to other corners
 static vec3 cornerOffsets[8] =
@@ -291,53 +292,6 @@ static int triangleTable[][16] = {
 	{0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 	{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 };
-
-int chunk_alloc_voxels(chunk *pchunk, int width, int height)
-{
-	//limit coordinates in chunk to 250, since the maximum number can be 255
-	//compression is used and float is limited to 1 byte
-	//if (width < 1 || width > 250 || height < 1 || height > 250)
-	//	return CHUNK_ERROR_BAD_PARAMETER;
-
-	//compute of the required memory for one chunk using the formula: (chunk_width * chunk_height * chunk_width) * voxel_struct_size
-	pchunk->voxels = (voxel *)malloc(CHUNK_SIZE(width, height));
-	if (!pchunk->voxels)
-		return CHUNK_ALLOC_FAILURE;
-
-	pchunk->chunk_width = width;
-	pchunk->chunk_height = height;
-	return CHUNK_OK;
-}
-
-voxel *chunk_find_voxel(chunk *pchunk, float x, float y, float z)
-{
-	//check chunk coordinates bounds
-	if (x < pchunk->pos.x || y < pchunk->pos.y || z < pchunk->pos.z)
-		return NULL;
-
-	if(x > pchunk->pos.x + (float)pchunk->chunk_width || y > pchunk->pos.y + (float)pchunk->chunk_height || z > pchunk->pos.z + (float)pchunk->chunk_width)
-		return NULL;
-
-	int ix = lround(x);
-	int iy = lround(y);
-	int iz = lround(z);
-	return &pchunk->voxels[COORD2OFFSET(pchunk, ix, iy, iz)];
-}
-
-bool voxel_in_air(voxel *pvox, chunk *pchunk)
-{
-	//main voxel is air
-	if (voxel_is_air(pvox))
-		return false;
-
-	voxel *p_computed_voxel = NULL;
-	if ((p_computed_voxel = CHUNK_PREV_VOXEL(pvox)) < pchunk->voxels) {
-		//is first voxel
-	}
-
-	//return voxel_is_air() && voxel_is_air(CHUNK_NEXT_VOXEL(pvox)) && voxel_is_air(CHUNK_LEFT_VOXEL(pvox, pchunk)) && voxel_is_air(CHUNK_RIGHT_VOXEL(pvox, pchunk)) && voxel_is_air(CHUNK_BOTTOM_VOXEL(pvox, pchunk)) && voxel_is_air(CHUNK_TOP_VOXEL(pvox, pchunk));
-	return true;
-}
 
 bool GetChunkMinByRay(vec3 &chunkmin, ray &r, float distance)
 {
@@ -641,16 +595,6 @@ bool CChunk::PointInChunk(int x, int y, int z)
 	return m_ChunkPos.x < x && x < m_vecMax.x && m_ChunkPos.y < y && y < m_vecMax.y && m_ChunkPos.z < z && z < m_vecMax.x;
 }
 
-bool CChunk::HasIdle()
-{
-	return m_bIdle;
-}
-
-void CChunk::MarkIdle(bool idle)
-{
-	m_bIdle = idle;
-}
-
 void CChunk::ClearMesh()
 {
 	m_vertices.clear();
@@ -660,12 +604,12 @@ void CChunk::ClearMesh()
 
 void CChunk::MarchCube(vec3 min_corner_pos)
 {
-	// construct case index from 8 corner samples
 	const static vec2 uvtypecord[2][3] = { 
 		{ vec2(0.f, 1.f) , vec2(1.f, 1.f) , vec2(0.f, 0.f) },
 		{ vec2(0.f, 0.f) , vec2(1.f, 1.f) , vec2(1.f, 0.f) }
 	};
 
+	// construct case index from 8 corner samples
 	int caseIndex = 0;
 	for (int i = 0; i < 8; i++) {
 		//добавлено 04.10.2021
@@ -719,7 +663,7 @@ void CChunk::MarchCube(vec3 min_corner_pos)
 				uv_type = !uv_type;
 			}
 			
-			m_uvs.push_back(uvtypecord[uv_type][uv_hueta%3]);
+			m_uvs.push_back(uvtypecord[uv_type][uv_hueta % 3]);
 			uv_hueta++;
 #else
 				// interpolate along the edge
@@ -733,7 +677,7 @@ void CChunk::MarchCube(vec3 min_corner_pos)
 
 			// Lerp
 			vec3 vertPosInterpolated = vert1 + ((vert2 - vert1) * dif);
-			m_verts.push_back(vertPosInterpolated);
+			m_vertices.push_back(vertPosInterpolated);
 #endif
 			m_indices.push_back(m_vertices.size() - 1);
 			caseVert++;
@@ -741,7 +685,7 @@ void CChunk::MarchCube(vec3 min_corner_pos)
 	}
 }
 
-void CChunk::GNormal()
+void CChunk::ComputeNormals()
 {
 	//vec3 normal;
 	//triangle_t *p_triangle = (triangle_t *)m_vertices.data();
@@ -826,7 +770,7 @@ void CChunk::BuildMesh()
 
 void CChunk::RebuildMesh()
 {
-	//GNormal();
+	//ComputeNormals();
 	ClearMesh();
 	BuildMesh();
 }
