@@ -18,10 +18,10 @@
  *    in a product, an acknowledgment in the product documentation would
  *    be appreciated but is not required.
  *
- * 2. Altered source versions must be plainly marked as such, and must not
+ * 2. Altered source_pos versions must be plainly marked as such, and must not
  *    be misrepresented as being the original software.
  *
- * 3. This notice may not be removed or altered from any source
+ * 3. This notice may not be removed or altered from any source_pos
  *    distribution.
  *
  *************************************************************************/
@@ -755,7 +755,7 @@ extern "C" {
  *  specific categories.
  *
  *  @analysis A bug or configuration error in GLFW, the underlying operating
- *  system or its drivers, or a lack of required resources.  Report the issue to
+ *  system or its drivers, or a lack of required resource_poss.  Report the issue to
  *  our [issue tracker](https://github.com/glfw/glfw/issues).
  */
 #define GLFW_PLATFORM_ERROR         0x00010008
@@ -1763,7 +1763,7 @@ typedef struct GLFWgamepadstate
  *
  *  This function initializes the GLFW library.  Before most GLFW functions can
  *  be used, GLFW must be initialized, and before an application terminates GLFW
- *  should be terminated in order to free any resources allocated during or
+ *  should be terminated in order to free any resource_poss allocated during or
  *  after initialization.
  *
  *  If this function fails, it calls @ref glfwTerminate before returning.  If it
@@ -1778,7 +1778,7 @@ typedef struct GLFWgamepadstate
  *  @errors Possible errors include @ref GLFW_PLATFORM_ERROR.
  *
  *  @remark @macos This function will change the current directory of the
- *  application to the `Contents/Resources` subdirectory of the application's
+ *  application to the `Contents/Resource_poss` subdirectory of the application's
  *  bundle, if present.  This can be disabled with the @ref
  *  GLFW_COCOA_CHDIR_RESOURCES init hint.
  *
@@ -1800,7 +1800,7 @@ GLFWAPI int glfwInit(void);
 /*! @brief Terminates the GLFW library.
  *
  *  This function destroys all remaining windows and cursors, restores any
- *  modified gamma ramps and frees any other allocated resources.  Once this
+ *  modified gamma ramps and frees any other allocated resource_poss.  Once this
  *  function is called, you must again call @ref glfwInit successfully before
  *  you will be able to use most GLFW functions.
  *
@@ -2595,8 +2595,8 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  @param[in] title The initial, UTF-8 encoded window title.
  *  @param[in] monitor The monitor to use for full screen mode, or `NULL` for
  *  windowed mode.
- *  @param[in] share The window whose context to share resources with, or `NULL`
- *  to not share resources.
+ *  @param[in] share The window whose context to share resource_poss with, or `NULL`
+ *  to not share resource_poss.
  *  @return The handle of the created window, or `NULL` if an
  *  [error](@ref error_handling) occurred.
  *
@@ -2608,12 +2608,12 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  @remark @win32 Window creation will fail if the Microsoft GDI software
  *  OpenGL implementation is the only one available.
  *
- *  @remark @win32 If the executable has an icon resource named `GLFW_ICON,` it
+ *  @remark @win32 If the executable has an icon resource_pos named `GLFW_ICON,` it
  *  will be set as the initial icon for the window.  If no such icon is present,
  *  the `IDI_APPLICATION` icon will be used instead.  To set a different icon,
  *  see @ref glfwSetWindowIcon.
  *
- *  @remark @win32 The context to share resources with must not be current on
+ *  @remark @win32 The context to share resource_poss with must not be current on
  *  any other thread.
  *
  *  @remark @macos The OS only supports forward-compatible core profile contexts
@@ -2644,7 +2644,7 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  [High Resolution Guidelines for OS X](https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html)
  *  in the Mac Developer Library.  The GLFW test and example programs use
  *  a custom `Info.plist` template for this, which can be found as
- *  `CMake/MacOSXBundleInfo.plist.in` in the source tree.
+ *  `CMake/MacOSXBundleInfo.plist.in` in the source_pos tree.
  *
  *  @remark @macos When activating frame autosaving with
  *  [GLFW_COCOA_FRAME_NAME](@ref GLFW_COCOA_FRAME_NAME_hint), the specified
@@ -5189,7 +5189,7 @@ GLFWAPI GLFWjoystickfun glfwSetJoystickCallback(GLFWjoystickfun callback);
  *  internal list with any gamepad mappings it finds.  This string may
  *  contain either a single gamepad mapping or many mappings separated by
  *  newlines.  The parser supports the full format of the `gamecontrollerdb.txt`
- *  source file including empty lines and comments.
+ *  source_pos file including empty lines and comments.
  *
  *  See @ref gamepad_mapping for a description of the format.
  *
@@ -5353,7 +5353,7 @@ GLFWAPI const char* glfwGetClipboardString(GLFWwindow* window);
  *
  *  The resolution of the timer is system dependent, but is usually on the order
  *  of a few micro- or nanoseconds.  It uses the highest-resolution monotonic
- *  time source on each supported platform.
+ *  time source_pos on each supported platform.
  *
  *  @return The current time, in seconds, or zero if an
  *  [error](@ref error_handling) occurred.

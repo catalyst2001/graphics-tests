@@ -9,13 +9,9 @@ e:\github\graphics-tests\common\euler_camera.h(113): warning C4244: инициа
 e:\github\graphics-tests\common\euler_camera.h(129): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(130): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(131): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\opengl\vector_angle_gl\main.cpp(79): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\opengl\vector_angle_gl\main.cpp(80): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\opengl\vector_angle_gl\main.cpp(81): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\opengl\vector_angle_gl\main.cpp(99): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
   Создание кода
-  2 of 76 functions ( 2.6%) were compiled, the rest were copied from previous compilation.
+  8 of 71 functions (11.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    4 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
   vector_angle_gl.vcxproj -> E:\GITHUB\graphics-tests\Release\vectors_angle_gl.exe

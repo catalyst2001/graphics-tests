@@ -5,7 +5,7 @@
  * Copyright (c) 2014-2018 Sebastien Rombauts (sebastien.rombauts@gmail.com)
  *
  * This C++ implementation is based on the speed-improved Java version 2012-03-09
- * by Stefan Gustavson (original Java source code in the public domain).
+ * by Stefan Gustavson (original Java source_pos code in the public domain).
  * http://webstaff.itn.liu.se/~stegu/simplexnoise/SimplexNoise.java:
  * - Based on example code by Stefan Gustavson (stegu@itn.liu.se).
  * - Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
@@ -21,7 +21,7 @@
  * were implemented from scratch by me from Ken Perlin's text.
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
- * or copy at http://opensource.org/licenses/MIT)
+ * or copy at http://opensource_pos.org/licenses/MIT)
  */
 
 #include "SimplexNoise.h"

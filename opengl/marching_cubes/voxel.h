@@ -87,6 +87,12 @@ private:
 
 #define COMPUTE_CHUNK_SIZE(w, h) (w * h * w * sizeof(CVoxel))
 
+class CVoxelSector
+{
+public:
+	int Init(int width, int height);
+};
+
 class CChunk
 {
 public:

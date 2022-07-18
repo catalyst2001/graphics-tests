@@ -31,6 +31,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "marching_cubes", "opengl\ma
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "find_contour", "wingdi\find_contour\find_contour.vcxproj", "{4A6BE305-136C-4989-895C-6231A02E2DEC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "new_delete_overloading", "new_delete_overloading\new_delete_overloading.vcxproj", "{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vox_cube_gl", "opengl\vox_cube_gl\vox_cube_gl.vcxproj", "{5874221D-016A-4F73-9BF5-7CF46CFF3822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -151,6 +155,22 @@ Global
 		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x64.Build.0 = Release|x64
 		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x86.ActiveCfg = Release|Win32
 		{4A6BE305-136C-4989-895C-6231A02E2DEC}.Release|x86.Build.0 = Release|Win32
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Debug|x64.ActiveCfg = Debug|x64
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Debug|x64.Build.0 = Debug|x64
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Debug|x86.ActiveCfg = Debug|Win32
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Debug|x86.Build.0 = Debug|Win32
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Release|x64.ActiveCfg = Release|x64
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Release|x64.Build.0 = Release|x64
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Release|x86.ActiveCfg = Release|Win32
+		{9A4B28DF-739D-4165-80E2-AC4A01F91BAF}.Release|x86.Build.0 = Release|Win32
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Debug|x64.ActiveCfg = Debug|x64
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Debug|x64.Build.0 = Debug|x64
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Debug|x86.ActiveCfg = Debug|Win32
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Debug|x86.Build.0 = Debug|Win32
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Release|x64.ActiveCfg = Release|x64
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Release|x64.Build.0 = Release|x64
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Release|x86.ActiveCfg = Release|Win32
+		{5874221D-016A-4F73-9BF5-7CF46CFF3822}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -127,12 +127,12 @@ public:
 		//Stuck here don't know how flip those pixels 
 		for (int i = 0; i < bitmapsize.cy; i++)
 		{
-			PBYTE I0 = &ppixels[(i * bitmapsize.cx) * bytes_per_pixel]; //Points first pixel in source image
+			PBYTE I0 = &ppixels[(i * bitmapsize.cx) * bytes_per_pixel]; //Points first pixel in source_pos image
 
-			//j is destination index (index of rgb triple in source image I).
+			//j is destination index (index of rgb triple in source_pos image I).
 			for (int j = 0; j < bitmapsize.cx; j++)
 			{
-				//Iterate source row from end of row to beginning of row.
+				//Iterate source_pos row from end of row to beginning of row.
 				R[(j * bytes_per_pixel) + 0] = I0[((bitmapsize.cx - j - 1) * bytes_per_pixel) + 0];
 				R[(j * bytes_per_pixel) + 1] = I0[((bitmapsize.cx - j - 1) * bytes_per_pixel) + 1];
 				R[(j * bytes_per_pixel) + 2] = I0[((bitmapsize.cx - j - 1) * bytes_per_pixel) + 2];
