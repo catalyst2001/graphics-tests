@@ -341,7 +341,10 @@ CVoxel *CChunk::VoxelAt(int x, int y, int z)
 	if (x >= m_nMeshgenClipWidth || y >= m_nMeshgenClipHeight || z >= m_nMeshgenClipWidth)
 		return NULL;
 
-	return &m_pVoxels[COORD2OFFSET2(m_nMeshgenClipWidth, m_nMeshgenClipHeight, x, y, z)];
+	size_t offset;
+	offset = (y * m_nMeshgenClipWidth + z) * m_nMeshgenClipWidth + x;
+	//offset = COORD2OFFSET2(m_nMeshgenClipWidth, m_nMeshgenClipHeight, x, y, z);
+	return &m_pVoxels[offset];
 }
 
 vec3 TriangleNearPoint2(vec3 &p0, vec3 &p1, vec3 &p2, vec3 &point)
@@ -755,6 +758,18 @@ void CChunk::DrawMesh()
 	//glTexCoordPointer(2, GL_FLOAT, 0, m_uvs.data());
 	glVertexPointer(3, GL_FLOAT, 0, m_vertices.data());
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, m_indices.data());
+
+	//glBegin(GL_POINTS);
+	//for (int y = m_ChunkPos.y; y < m_vecMax.y; y++) {
+	//	for (int z = m_ChunkPos.z; z < m_vecMax.z; z++) {
+	//		for (int x = m_ChunkPos.x; x < m_vecMax.x; x++) {
+	//			CVoxel *pvox = VoxelAt(x, y, z);
+	//			if (pvox && pvox->IsSolid())
+	//				glVertex3f(x, y, z);
+	//		}
+	//	}
+	//}
+	//glEnd();
 }
 
 void CChunk::BuildMesh()

@@ -107,7 +107,7 @@ int main()
 
 	CVoxel *p_vox;
 	SimplexNoise snoise;
-	chunk.Init(vec3int(0, 0, 0), 32, 32);
+	chunk.Init(vec3int(0, 0, 0), 16, 250);
 	chunk.m_nDDBounds = true;
 
 	float nfrequency = 0.003f; //noise frequency
