@@ -186,6 +186,30 @@ public:
 
 #define CF_INIT_ALL_SECTORS (1 << 1)
 
+//
+// Voxels group for get/modify voxel from chunk
+//
+struct CVoxelGroup
+{
+	int num_of_voxels;
+	CVoxel *p_voxels[4];
+
+	CVoxelGroup() : num_of_voxels(0) {}
+	~CVoxelGroup() {}
+
+	inline voxel_cell_t GetFlags() { return p_voxels[0]->GetFlags(); }
+
+	void SetFlag(voxel_cell_t flag) {
+		for (int i = 0; i < num_of_voxels; i++)
+			p_voxels[i]->SetFlag(flag);
+	}
+
+	int GetVoxelsNumberInGroup() { return num_of_voxels; }
+	inline bool IsEmpty() { return p_voxels[0]->IsEmpty(); }
+	inline bool IsSolid() { return p_voxels[0]->IsSolid(); }
+	inline bool IsLiquid() { return p_voxels[0]->IsLiquid(); }
+};
+
 class CChunk
 {
 	int Flags;
@@ -214,7 +238,7 @@ public:
 #ifdef DEBUG_DRAW
 #endif
 
-	CVoxel *GetVoxel(long x, long y, long z, int *pFlags);
+	int GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pFlags);
 };
 
 //////////////////// 07.10.2021 ////////////////////////

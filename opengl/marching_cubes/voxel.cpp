@@ -1029,16 +1029,29 @@ void CChunk::DrawChunk()
 	}
 }
 
-CVoxel *CChunk::GetVoxel(long x, long y, long z, int *pFlags)
+int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pFlags)
 {
 	size_t sector_index = (size_t)(y / chunkWidth);
 	if (sector_index >= 0 && sector_index < sectors_size) {
 		int y_local = y % chunkWidth; // HACK: local_y = global_y % sector_width
 
-		//if (sector_index)
-		//	printf("SECTOR NOT 0!\n");
+		// voxels between sectors
+		p_dstVoxGroup->num_of_voxels = 0;
+		p_dstVoxGroup->p_voxels[p_dstVoxGroup->num_of_voxels] = p_sectors[sector_index].VoxelAt(x, y_local, z);
+		p_dstVoxGroup->num_of_voxels++;
 
-		return p_sectors[sector_index].VoxelAt(x, y_local, z);
+		// глобальный Y находится на пересечении двух секторов
+		// Возможных вокселей 2, самый нижний воксель по Y верхнего сектора и самый первый по Y текущего сектора
+		if (y != GetChunkHeight() && y != 0 && y_local == 0) {
+			size_t top_sector_index = sector_index; //текущий сектор
+			if (top_sector_index > 0) //если индекс сектора > 0
+				top_sector_index--; //вычитаю индекса сектора, чтобы попасть на сектор выше
+
+			//TODO: вроде бы работает
+			p_dstVoxGroup->p_voxels[p_dstVoxGroup->num_of_voxels] = p_sectors[top_sector_index].VoxelAt(x, chunkWidth, z); //получаю последний воксель в верхнем секторе
+			p_dstVoxGroup->num_of_voxels++;
+		}
+		return 1;
 	}
-	return NULL;
+	return 0;
 }

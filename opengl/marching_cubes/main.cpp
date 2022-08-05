@@ -85,14 +85,14 @@ void TestVoxelSector()
 #else
 void TestChunk()
 {
-	CVoxel *p_vox;
+	CVoxelGroup voxgroup;
 	SimplexNoise snoise;
 
 	vec3int chunk_pos(0, 0, 0);
-	chunk.Init(chunk_pos, 20, CF_INIT_ALL_SECTORS, 16);
+	chunk.Init(chunk_pos, 5, CF_INIT_ALL_SECTORS, 64);
 
-	float nfrequency = 0.0001f; //noise frequency
-	float namplitude = 90.2f; //noise amplitude
+	float nfrequency = 0.0019f; //noise frequency
+	float namplitude = 490.2f; //noise amplitude
 	for (int y = 0; y <= chunk.GetChunkHeight(); y++) {
 		for (int x = 0; x <= chunk.GetChunkWidth(); x++) {
 			for (int z = 0; z <= chunk.GetChunkWidth(); z++) {
@@ -102,9 +102,9 @@ void TestChunk()
 				
 				if (y <= voxel_height) {
 					int nFlags = 0;
-					if ((p_vox = chunk.GetVoxel(x, y, z, &nFlags))) {
+					if (chunk.GetVoxel(&voxgroup, x, y, z, &nFlags)) {
 						//printf("%d %d %d\n", x, y, z);
-						p_vox->SetFlag(VOXEL_FLAG_SOLID);
+						voxgroup.SetFlag(VOXEL_FLAG_SOLID);
 					}
 					else {
 						printf("chunk.GetVoxel() returned NULL!\n");
