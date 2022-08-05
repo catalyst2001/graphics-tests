@@ -42,7 +42,80 @@ vec3 VertexInterp(double isolevel, vec3 p1, vec3 p2, double valp1, double valp2)
 	return (p);
 }
 
+//#define VOXEL_SECTOR_TEST
+
+#ifdef VOXEL_SECTOR_TEST
+CVoxelSector sector;
+#else
 CChunk chunk;
+#endif
+
+#ifdef VOXEL_SECTOR_TEST
+void TestVoxelSector()
+{
+	if (!sector.Init(vec3int(0, 0, 0), 256, 256)) {
+		printf("Failed to init voxel sector!@\n");
+		return;
+	}
+
+	CVoxel *p_vox;
+	SimplexNoise snoise;
+	float nfrequency = 0.0001f; //noise frequency
+	float namplitude = 90.2f; //noise amplitude
+	for (int y = 0; y <= sector.GetChunkHeight(); y++) {
+		for (int x = 0; x <= sector.GetChunkWidth(); x++) {
+			for (int z = 0; z <= sector.GetChunkWidth(); z++) {
+				float max_height = (float)sector.GetChunkHeight();
+				float pn1v = snoise.noise((float)x * nfrequency, (float)z * nfrequency) * namplitude; //primary noise value
+				int voxel_height = floor(max_height - (pn1v + 10.f));
+				if (y <= voxel_height) {
+					int nFlags = 0;
+					if ((p_vox = sector.VoxelAt(x, y, z))) {
+						p_vox->SetFlag(VOXEL_FLAG_SOLID);
+					}
+					else {
+						printf("TestVoxelSector(): VoxelAt() returned NULL!\n");
+					}
+				}
+			}
+		}
+	}
+	sector.RebuildMesh();
+}
+#else
+void TestChunk()
+{
+	CVoxel *p_vox;
+	SimplexNoise snoise;
+
+	vec3int chunk_pos(0, 0, 0);
+	chunk.Init(chunk_pos, 20, CF_INIT_ALL_SECTORS, 16);
+
+	float nfrequency = 0.0001f; //noise frequency
+	float namplitude = 90.2f; //noise amplitude
+	for (int y = 0; y <= chunk.GetChunkHeight(); y++) {
+		for (int x = 0; x <= chunk.GetChunkWidth(); x++) {
+			for (int z = 0; z <= chunk.GetChunkWidth(); z++) {
+				float max_height = (float)chunk.GetChunkHeight();
+				float pn1v = snoise.noise((float)x * nfrequency, (float)z * nfrequency) * namplitude; //primary noise value
+				int voxel_height = floor(max_height - (pn1v + 10.f));
+				
+				if (y <= voxel_height) {
+					int nFlags = 0;
+					if ((p_vox = chunk.GetVoxel(x, y, z, &nFlags))) {
+						//printf("%d %d %d\n", x, y, z);
+						p_vox->SetFlag(VOXEL_FLAG_SOLID);
+					}
+					else {
+						printf("chunk.GetVoxel() returned NULL!\n");
+					}
+				}
+			}
+		}
+	}
+	chunk.RebuildMesh(0, CRB_ALL);
+}
+#endif
 
 int main()
 {
@@ -105,35 +178,22 @@ int main()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	CVoxel *p_vox;
-	SimplexNoise snoise;
-	chunk.Init(vec3int(0, 0, 0), 16, 250);
-	chunk.m_nDDBounds = true;
-
-	float nfrequency = 0.003f; //noise frequency
-	float namplitude = 15.2f; //noise amplitude
-	for (int y = 0; y <= chunk.GetChunkHeight(); y++) {
-		for (int x = 0; x <= chunk.GetChunkWidth(); x++) {
-			for (int z = 0; z <= chunk.GetChunkWidth(); z++) {
-				float max_height = (float)chunk.GetChunkHeight();
-				float pn1v = snoise.noise((float)x * nfrequency, (float)z * nfrequency) * namplitude; //primary noise value
-				int voxel_height = floor(max_height - pn1v);
-				if ((p_vox = chunk.VoxelAt(x, y, z)) && (y < voxel_height)) {
-					p_vox->SetFlag(VOXEL_FLAG_SOLID);
-				}
-			}
-		}
-	}
-	chunk.RebuildMesh();
+#ifdef VOXEL_SECTOR_TEST
+	TestVoxelSector();
+#else
+	TestChunk();
+#endif
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		camera.Look(wnd);
-
-		chunk.DrawMesh();
-
+#ifdef VOXEL_SECTOR_TEST
+		sector.DrawMesh();
+#else
+		chunk.DrawChunk();
+#endif
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

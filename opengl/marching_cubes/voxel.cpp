@@ -303,34 +303,34 @@ bool GetChunkMinByRay(vec3 &chunkmin, ray &r, float distance)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------
-int CChunk::GetChunkWidth()
+int CVoxelSector::GetChunkWidth()
 {
 	return m_nWidth;
 }
 
-int CChunk::GetChunkHeight()
+int CVoxelSector::GetChunkHeight()
 {
 	return m_nHeight;
 }
 
-CVoxel *CChunk::GetVoxels()
+CVoxel *CVoxelSector::GetVoxels()
 {
 	return m_pVoxels;
 }
 
-CVoxel *CChunk::SetVoxels(CVoxel *pvoxels)
+CVoxel *CVoxelSector::SetVoxels(CVoxel *pvoxels)
 {
 	CVoxel *olptr = m_pVoxels;
 	m_pVoxels = pvoxels;
 	return olptr;
 }
 
-int CChunk::GetNumberVoxels()
+int CVoxelSector::GetNumberVoxels()
 {
 	return m_nWidth * m_nHeight * m_nWidth;
 }
 
-CVoxel *CChunk::VoxelAt(int x, int y, int z)
+CVoxel *CVoxelSector::VoxelAt(int x, int y, int z)
 {
 	//проверяем, не выходим ли мы за пределы чанка по координатам,
 	if (x < 0 || y < 0 || z < 0)
@@ -394,7 +394,7 @@ vec3 TriangleNearPoint2(vec3 &p0, vec3 &p1, vec3 &p2, vec3 &point)
 //	return false;
 //}
 
-bool CChunk::DestroyVoxel(ray &r, float distance, int voxflags)
+bool CVoxelSector::DestroyVoxel(ray &r, float distance, int voxflags)
 {
 	float t = 0.f;
 	while (t < distance) {
@@ -416,7 +416,7 @@ bool CChunk::DestroyVoxel(ray &r, float distance, int voxflags)
 	return false;
 }
 
-bool CChunk::FindVoxelByRay(CVoxel **ppvoxel, vec3 *ppos, ray &r, int checkflag, float distance, float stepoccuracy)
+bool CVoxelSector::FindVoxelByRay(CVoxel **ppvoxel, vec3 *ppos, ray &r, int checkflag, float distance, float stepoccuracy)
 {
 	float t = 0.f;
 	while (t < distance) {
@@ -437,7 +437,7 @@ bool CChunk::FindVoxelByRay(CVoxel **ppvoxel, vec3 *ppos, ray &r, int checkflag,
 	return false;
 }
 
-bool CChunk::ChangeVoxelFlagsByRay(ray &r, float distance, int checkflag, int newflag)
+bool CVoxelSector::ChangeVoxelFlagsByRay(ray &r, float distance, int checkflag, int newflag)
 {
 	CVoxel *pvox = NULL;
 	if (!FindVoxelByRay(&pvox, NULL, r, checkflag, distance, 1.0f))
@@ -448,7 +448,7 @@ bool CChunk::ChangeVoxelFlagsByRay(ray &r, float distance, int checkflag, int ne
 }
 
 //TODO: соединить CChunk::PlaceVoxel с CChunk::FindVoxelByRay, слишком много дубляжа
-bool CChunk::PlaceVoxel(ray &r, float distance, int voxflags)
+bool CVoxelSector::PlaceVoxel(ray &r, float distance, int voxflags)
 {
 	printf("~~~ CChunk::PlaceVoxel called!\n");
 	vec3 voxpos;
@@ -475,7 +475,7 @@ bool CChunk::PlaceVoxel(ray &r, float distance, int voxflags)
 	return false;
 }
 
-int CChunk::VoxelsModifyRadial(vec3int pos, float radius, int voxflags)
+int CVoxelSector::VoxelsModifyRadial(vec3int pos, float radius, int voxflags)
 {
 	vec3 min, max;
 	min.x = pos.x - radius;
@@ -504,7 +504,7 @@ int CChunk::VoxelsModifyRadial(vec3int pos, float radius, int voxflags)
 	return n_modifvoxs;
 }
 
-int CChunk::VoxelsModifyCubical(vec3int min, vec3int max, int voxflags)
+int CVoxelSector::VoxelsModifyCubical(vec3int min, vec3int max, int voxflags)
 {
 	CVoxel *pvox;
 	vec3int nvoxels;
@@ -520,7 +520,7 @@ int CChunk::VoxelsModifyCubical(vec3int min, vec3int max, int voxflags)
 	return (nvoxels.x * nvoxels.y * nvoxels.z);
 }
 
-bool CChunk::VoxelInAir(int locx, int locy, int locz)
+bool CVoxelSector::VoxelInAir(int locx, int locy, int locz)
 {
 	CVoxel *pvox = NULL;
 
@@ -556,7 +556,7 @@ bool CChunk::VoxelInAir(int locx, int locy, int locz)
 	return true;
 }
 
-bool CChunk::VoxelOnGround(int locx, int locy, int locz)
+bool CVoxelSector::VoxelOnGround(int locx, int locy, int locz)
 {
 	CVoxel *pvox = NULL;
 
@@ -593,19 +593,22 @@ bool CChunk::VoxelOnGround(int locx, int locy, int locz)
 	return false;
 }
 
-bool CChunk::PointInChunk(int x, int y, int z)
+bool CVoxelSector::PointInChunk(int x, int y, int z)
 {
 	return m_ChunkPos.x < x && x < m_vecMax.x && m_ChunkPos.y < y && y < m_vecMax.y && m_ChunkPos.z < z && z < m_vecMax.x;
 }
 
-void CChunk::ClearMesh()
+void CVoxelSector::ClearMesh()
 {
-	m_vertices.clear();
-	m_uvs.clear();
-	m_indices.clear();
+	if(m_vertices.size())
+		m_vertices.clear();
+	if (m_vertices.size())
+		m_uvs.clear();
+	if (m_vertices.size())
+		m_indices.clear();
 }
 
-void CChunk::MarchCube(vec3 min_corner_pos)
+void CVoxelSector::MarchCube(vec3 min_corner_pos)
 {
 	const static vec2 uvtypecord[2][3] = { 
 		{ vec2(0.f, 1.f) , vec2(1.f, 1.f) , vec2(0.f, 0.f) },
@@ -688,7 +691,7 @@ void CChunk::MarchCube(vec3 min_corner_pos)
 	}
 }
 
-void CChunk::ComputeNormals()
+void CVoxelSector::ComputeNormals()
 {
 	//vec3 normal;
 	//triangle_t *p_triangle = (triangle_t *)m_vertices.data();
@@ -698,7 +701,7 @@ void CChunk::ComputeNormals()
 	//}
 }
 
-void CChunk::DrawMesh()
+void CVoxelSector::DrawMesh()
 {
 #ifdef DEBUG_DRAW
 	glPushAttrib(GL_CURRENT_BIT);
@@ -772,7 +775,7 @@ void CChunk::DrawMesh()
 	//glEnd();
 }
 
-void CChunk::BuildMesh()
+void CVoxelSector::BuildMesh()
 {
 	for (int y = m_ChunkPos.y; y < m_vecMax.y; y++) {
 		for (int z = m_ChunkPos.z; z < m_vecMax.z; z++) {
@@ -783,68 +786,81 @@ void CChunk::BuildMesh()
 	}
 }
 
-void CChunk::RebuildMesh()
+void CVoxelSector::RebuildMesh()
 {
 	//ComputeNormals();
 	ClearMesh();
 	BuildMesh();
 }
 
-vec3 *CChunk::GetVertices()
+vec3 *CVoxelSector::GetVertices()
 {
 	return m_vertices.data();
 }
 
-int *CChunk::GetIndices()
+int *CVoxelSector::GetIndices()
 {
 	return m_indices.data();
 }
 
-int CChunk::GetNumOfVertices()
+int CVoxelSector::GetNumOfVertices()
 {
 	return m_vertices.size();
 }
 
-int CChunk::GetNumOfIndices()
+int CVoxelSector::GetNumOfIndices()
 {
 	return m_indices.size();
 }
 
+int CVoxelSector::GetFlags()
+{
+	return nFlags;
+}
+
+int CVoxelSector::SetFlags(int flag)
+{
+	int oldFlags = GetFlags();
+	nFlags |= flag;
+	return oldFlags;
+}
+
 #ifdef DEBUG_DRAW
-void CChunk::DebugDraw_ChunkBounds(bool b)
+void CVoxelSector::DebugDraw_ChunkBounds(bool b)
 {
 	m_nDDBounds = b;
 }
 
-void CChunk::DebugDraw_ChunkVoxels(bool b)
+void CVoxelSector::DebugDraw_ChunkVoxels(bool b)
 {
 	m_nDDVoxels = b;
 }
 
-void CChunk::DebugDraw_ChunkCubes(bool b)
+void CVoxelSector::DebugDraw_ChunkCubes(bool b)
 {
 	m_nDDCubes = b;
 }
 
-void CChunk::DebugDraw_LastSelectTriangle(bool b)
+void CVoxelSector::DebugDraw_LastSelectTriangle(bool b)
 {
 	m_bDDLastSelectTri = b;
 }
 
-void CChunk::DebugDraw_SetLastSelectTriangle(triangle_t &tri)
+void CVoxelSector::DebugDraw_SetLastSelectTriangle(triangle_t &tri)
 {
 	m_LastSelectTriangle = tri;
 }
 
 #endif
 
-CChunk::CChunk(vec3int pos, int width, int height)
+CVoxelSector::CVoxelSector(vec3int pos, int width, int height)
 {
 	Init(pos, width, height);
 }
 
-int CChunk::Init(vec3int pos, int width, int height, int flags)
+int CVoxelSector::Init(vec3int pos, int width, int height, int flags)
 {
+	m_pVoxels = NULL;
 	m_nWidth = width;
 	m_nHeight = height;
 	m_nMeshgenClipWidth = width + 1;
@@ -856,8 +872,9 @@ int CChunk::Init(vec3int pos, int width, int height, int flags)
 	return AllocVoxels(m_nMeshgenClipWidth, m_nMeshgenClipHeight, flags);
 }
 
-int CChunk::InitNoAlloc(vec3int pos, int width, int height)
+int CVoxelSector::InitNoAlloc(vec3int pos, int width, int height)
 {
+	m_pVoxels = NULL;
 	m_nWidth = width;
 	m_nHeight = height;
 	m_nMeshgenClipWidth = width + 1;
@@ -869,19 +886,25 @@ int CChunk::InitNoAlloc(vec3int pos, int width, int height)
 	return 1;
 }
 
-int CChunk::AllocVoxels(int width, int height, int flags)
+int CVoxelSector::AllocVoxels(int width, int height, int flags)
 {
 	int size_in_bytes = COMPUTE_CHUNK_SIZE(width, height);
-	m_pVoxels = (CVoxel *)malloc(size_in_bytes);
-	if (!m_pVoxels)
-		return 0;
+	m_nBytesInMemory = size_in_bytes;
+
+	//m_pVoxels = (CVoxel *)malloc(size_in_bytes);
+	//if (!m_pVoxels)
+	//	return 0;
+
+	m_pVoxels = new CVoxel[width * height * width];
+
 	
 	//if (flags)
-	memset(m_pVoxels, flags, size_in_bytes);
+	//memset(m_pVoxels, flags, size_in_bytes);
+	SetFlags(GetFlags() | VSF_INITIALIZED);
 	return 1;
 }
 
-int CChunk::FreeVoxels()
+int CVoxelSector::FreeVoxels()
 {
 	if (m_pVoxels) {
 		free(m_pVoxels);
@@ -890,25 +913,25 @@ int CChunk::FreeVoxels()
 	return 0;
 }
 
-void CChunk::SetChunkPosition(vec3int pos)
+void CVoxelSector::SetChunkPosition(vec3int pos)
 {
 	m_ChunkPos = pos;
 }
 
-void CChunk::SetChunkPosition(int x, int y, int z)
+void CVoxelSector::SetChunkPosition(int x, int y, int z)
 {
 	m_ChunkPos.x = x;
 	m_ChunkPos.y = y;
 	m_ChunkPos.z = z;
 }
 
-void CChunk::SetChunkSize(int width, int height)
+void CVoxelSector::SetChunkSize(int width, int height)
 {
 	m_nWidth = width;
 	m_nHeight = height;
 }
 
-inline int CChunk::GetLayerArea()
+inline int CVoxelSector::GetLayerArea()
 {
 	return m_nWidth * m_nHeight;
 }
@@ -939,12 +962,83 @@ bool CVoxel::IsLiquid()
 	return (m_Flags & VOXEL_FLAG_LIQUID);
 }
 
-inline bool CVoxel::InChunkCorner(CChunk *pchunk, int x, int z)
+//-------------------------------------------------------------------------------------------------------------------------------
+
+int CChunk::Init(vec3int &position, int sectors_count, int flags, long chunk_width)
 {
-	return (!(x % pchunk->GetChunkWidth()) || x % pchunk->GetChunkWidth() == (pchunk->GetChunkWidth() - 1) && !(z % pchunk->GetChunkWidth()) || z % pchunk->GetChunkWidth() == (pchunk->GetChunkWidth() - 1));
+	Flags = flags;
+	chunkWidth = chunk_width;
+	chunkHeight = chunk_width * sectors_count;
+	Position = position;
+	sectors_size = sectors_count;
+	p_sectors = new CVoxelSector[sectors_size];
+	if (!p_sectors) {
+		printf(__FUNCSIG__ " Failed to allocate memory for voxel sectors!\n");
+		return 0;
+	}
+	
+	for (size_t i = 0; i < sectors_size; i++) {
+		p_sectors[i].InitNoAlloc(vec3int(Position.x, Position.y + (i * chunkWidth), Position.z), chunkWidth, chunkWidth); //init sector before voxels allocation
+		if (Flags & CF_INIT_ALL_SECTORS) {
+			if (!p_sectors[i].AllocVoxels(chunkWidth + 1, chunkWidth + 1)) {
+				printf(__FUNCSIG__ " Failed to allocate memory for region %d voxels!\n", i);
+				return 0;
+			}
+		}
+	}
+	return 1;
 }
 
-inline bool CVoxel::InChunkEdge(CChunk * pchunk, int x, int z)
+int CChunk::Shutdown()
 {
-	return (!(x % pchunk->GetChunkWidth() || !(z % pchunk->GetChunkWidth() || x % pchunk->GetChunkWidth() == (pchunk->GetChunkWidth() - 1) || z % pchunk->GetChunkWidth() == (pchunk->GetChunkWidth() - 1))));
+	free(p_sectors);
+	return 1;
+}
+
+long CChunk::GetChunkWidth()
+{
+	return chunkWidth;
+}
+
+long CChunk::GetChunkHeight()
+{
+	return chunkHeight;
+}
+
+bool CChunk::RebuildMesh(size_t sector, int flags)
+{
+	if (flags & CRB_ALL) {
+		for (size_t i = 0; i < sectors_size; i++)
+			p_sectors[i].RebuildMesh();
+
+		return true;
+	}
+
+	if (sector >= 0 && sector < sectors_size) {
+		p_sectors[sector].RebuildMesh();
+		return true;
+	}
+	return false;
+}
+
+void CChunk::DrawChunk()
+{
+	for (size_t sectorIdx = 0; sectorIdx < sectors_size; sectorIdx++) {
+		if(p_sectors[sectorIdx].GetFlags() & VSF_INITIALIZED)
+			p_sectors[sectorIdx].DrawMesh();
+	}
+}
+
+CVoxel *CChunk::GetVoxel(long x, long y, long z, int *pFlags)
+{
+	size_t sector_index = (size_t)(y / chunkWidth);
+	if (sector_index >= 0 && sector_index < sectors_size) {
+		int y_local = y % chunkWidth; // HACK: local_y = global_y % sector_width
+
+		//if (sector_index)
+		//	printf("SECTOR NOT 0!\n");
+
+		return p_sectors[sector_index].VoxelAt(x, y_local, z);
+	}
+	return NULL;
 }

@@ -12,5 +12,5 @@ e:\github\graphics-tests\common\euler_camera.h(131): warning C4244: аргуме
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(39): warning C4244: =: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(40): warning C4244: =: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(41): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\opengl\marching_cubes\main.cpp(120): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\main.cpp(88): warning C4101: p_vox: неиспользованная локальная переменная
   marching_cubes.vcxproj -> E:\GITHUB\graphics-tests\Debug\marching_cubes.exe

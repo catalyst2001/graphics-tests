@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\common\glmath.cpp" />
+    <ClCompile Include="..\..\common\rutility\rmemory.cpp" />
     <ClCompile Include="..\..\common\SimplexNoise.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="voxel.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\..\common\euler_camera.h" />
     <ClInclude Include="..\..\common\glfw\GLFW\glfw3.h" />
     <ClInclude Include="..\..\common\glmath.h" />
+    <ClInclude Include="..\..\common\rutility\rmemory.h" />
     <ClInclude Include="..\..\common\SimplexNoise.h" />
     <ClInclude Include="voxel.h" />
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include "../../common/glmath.h"
 #include <vector> //for renderer vertex buffer, indices buffer
+#include "../../common/rutility/rmemory.h"
 
 // -------------------------------------------------------------------------------------
 // Voxel Engine Main Part
@@ -77,28 +78,25 @@ public:
 	bool IsEmpty();
 	bool IsSolid();
 	bool IsLiquid();
-
-	// --- LEGACY CODE ---
-	inline bool InChunkCorner(CChunk *pchunk, int x, int z);
-	inline bool InChunkEdge(CChunk *pchunk, int x, int z);
 private:
 	voxel_cell_t m_Flags;
 };
 
 #define COMPUTE_CHUNK_SIZE(w, h) (w * h * w * sizeof(CVoxel))
 
+#define VSF_INITIALIZED ( 1 << 1 )
+
 class CVoxelSector
 {
+	int nFlags;
 public:
-	int Init(int width, int height);
-};
-
-class CChunk
-{
-public:
-	CChunk() : m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(0, 0, 0), m_vecMax(16, 16, 16) {}
-	CChunk(vec3int pos, int width, int height);
-	~CChunk() {}
+	CVoxelSector() : nFlags(0), m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(0, 0, 0), m_vecMax(16, 16, 16) {
+#ifdef DEBUG_DRAW
+		m_nDDBounds = true;
+#endif
+	}
+	CVoxelSector(vec3int pos, int width, int height);
+	~CVoxelSector() {}
 
 	int Init(vec3int pos, int width, int height, int flags = VOXEL_FLAG_AIR);
 	int InitNoAlloc(vec3int pos, int width, int height);
@@ -143,6 +141,10 @@ public:
 	int GetNumOfVertices();
 	int GetNumOfIndices();
 
+	// --- Flags ---
+	int GetFlags();
+	int SetFlags(int flag);
+
 #ifdef DEBUG_DRAW
 	void DebugDraw_ChunkBounds(bool b);
 	void DebugDraw_ChunkVoxels(bool b);
@@ -175,6 +177,44 @@ public:
 	std::vector<vec3> m_normals;
 	std::vector<vec2> m_uvs;
 	std::vector<int> m_indices;
+};
+
+
+// 
+// World Chunk
+//
+
+#define CF_INIT_ALL_SECTORS (1 << 1)
+
+class CChunk
+{
+	int Flags;
+	long chunkWidth;
+	long chunkHeight;
+	vec3int Position;
+
+	size_t sectors_size;
+	CVoxelSector *p_sectors;
+
+public:
+	CChunk() {}
+	~CChunk() {}
+
+	int Init(vec3int &position, int sectors_count, int flags, long chunk_width);
+	int Shutdown();
+
+	long GetChunkWidth();
+	long GetChunkHeight();
+
+#define CRB_BYIDX 0
+#define CRB_ALL (1 << 1)
+	bool RebuildMesh(size_t sector, int flags);
+
+	void DrawChunk();
+#ifdef DEBUG_DRAW
+#endif
+
+	CVoxel *GetVoxel(long x, long y, long z, int *pFlags);
 };
 
 //////////////////// 07.10.2021 ////////////////////////

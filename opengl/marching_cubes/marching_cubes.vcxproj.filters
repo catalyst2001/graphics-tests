@@ -5,6 +5,9 @@
     <ClCompile Include="..\..\common\glmath.cpp" />
     <ClCompile Include="voxel.cpp" />
     <ClCompile Include="..\..\common\SimplexNoise.cpp" />
+    <ClCompile Include="..\..\common\rutility\rmemory.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\glfw\GLFW\glfw3.h" />
@@ -12,5 +15,13 @@
     <ClInclude Include="..\..\common\euler_camera.h" />
     <ClInclude Include="voxel.h" />
     <ClInclude Include="..\..\common\SimplexNoise.h" />
+    <ClInclude Include="..\..\common\rutility\rmemory.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="utility">
+      <UniqueIdentifier>{e745f68c-a535-4a88-8943-b0865a2b4462}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
