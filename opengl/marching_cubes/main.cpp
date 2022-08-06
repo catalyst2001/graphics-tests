@@ -91,8 +91,8 @@ void TestChunk()
 	vec3int chunk_pos(0, 0, 0);
 	chunk.Init(chunk_pos, 5, CF_INIT_ALL_SECTORS, 64);
 
-	float nfrequency = 0.0019f; //noise frequency
-	float namplitude = 490.2f; //noise amplitude
+	float nfrequency = 0.009f; //noise frequency
+	float namplitude = 4.2f; //noise amplitude
 	for (int y = 0; y <= chunk.GetChunkHeight(); y++) {
 		for (int x = 0; x <= chunk.GetChunkWidth(); x++) {
 			for (int z = 0; z <= chunk.GetChunkWidth(); z++) {
@@ -127,7 +127,7 @@ int main()
 		return 1;
 
 	glfwWindowHint(GLFW_SAMPLES, 4);
-	window = glfwCreateWindow(800, 600, "Multisampling test", NULL, NULL);
+	window = glfwCreateWindow(800, 600, "Marching cubes", NULL, NULL);
 	if (!window) {
 		glfwTerminate();
 		return 2;
@@ -142,7 +142,7 @@ int main()
 		glLoadIdentity();
 	});
 
-	wnd = FindWindowA(0, "Multisampling test");
+	wnd = FindWindowA(0, "Marching cubes");
 	if (!wnd) {
 		printf("Failed to find window!\n");
 	}

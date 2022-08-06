@@ -154,6 +154,7 @@
     <ClCompile Include="..\..\common\glmath.cpp" />
     <ClCompile Include="..\..\common\rutility\rmemory.cpp" />
     <ClCompile Include="..\..\common\SimplexNoise.cpp" />
+    <ClCompile Include="CWorldInformation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="voxel.cpp" />
   </ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="..\..\common\glmath.h" />
     <ClInclude Include="..\..\common\rutility\rmemory.h" />
     <ClInclude Include="..\..\common\SimplexNoise.h" />
+    <ClInclude Include="CWorldInformation.h" />
     <ClInclude Include="voxel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

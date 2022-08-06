@@ -991,7 +991,8 @@ int CChunk::Init(vec3int &position, int sectors_count, int flags, long chunk_wid
 
 int CChunk::Shutdown()
 {
-	free(p_sectors);
+	//free(p_sectors);
+	delete[] p_sectors;
 	return 1;
 }
 
@@ -1045,7 +1046,7 @@ int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pF
 		if (y != GetChunkHeight() && y != 0 && y_local == 0) {
 			size_t top_sector_index = sector_index; //текущий сектор
 			if (top_sector_index > 0) //если индекс сектора > 0
-				top_sector_index--; //вычитаю индекса сектора, чтобы попасть на сектор выше
+				top_sector_index--; //вычитаю индекса сектора, чтобы попасть на сектор ниже
 
 			//TODO: вроде бы работает
 			p_dstVoxGroup->p_voxels[p_dstVoxGroup->num_of_voxels] = p_sectors[top_sector_index].VoxelAt(x, chunkWidth, z); //получаю последний воксель в верхнем секторе

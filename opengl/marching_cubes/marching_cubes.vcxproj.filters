@@ -8,6 +8,7 @@
     <ClCompile Include="..\..\common\rutility\rmemory.cpp">
       <Filter>utility</Filter>
     </ClCompile>
+    <ClCompile Include="CWorldInformation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\glfw\GLFW\glfw3.h" />
@@ -18,6 +19,7 @@
     <ClInclude Include="..\..\common\rutility\rmemory.h">
       <Filter>utility</Filter>
     </ClInclude>
+    <ClInclude Include="CWorldInformation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="utility">

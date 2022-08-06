@@ -6,6 +6,8 @@
 #include <vector> //for renderer vertex buffer, indices buffer
 #include "../../common/rutility/rmemory.h"
 
+#define NOTHINGMACRO(x) //for VS intellisense view struct size
+
 // -------------------------------------------------------------------------------------
 // Voxel Engine Main Part
 // 
@@ -81,6 +83,7 @@ public:
 private:
 	voxel_cell_t m_Flags;
 };
+NOTHINGMACRO(sizeof(CVoxel))
 
 #define COMPUTE_CHUNK_SIZE(w, h) (w * h * w * sizeof(CVoxel))
 
@@ -159,10 +162,10 @@ public:
 	triangle_t m_LastSelectTriangle;
 #endif
 
-	CChunk *m_pLeft;
-	CChunk *m_pRight;
-	CChunk *m_pFront;
-	CChunk *m_pBack;
+	//CChunk *m_pLeft;
+	//CChunk *m_pRight;
+	//CChunk *m_pFront;
+	//CChunk *m_pBack;
 
 	vec3int m_ChunkPos;
 	vec3int m_vecMax;
@@ -178,6 +181,7 @@ public:
 	std::vector<vec2> m_uvs;
 	std::vector<int> m_indices;
 };
+NOTHINGMACRO(sizeof(CVoxelSector))
 
 
 // 
@@ -209,7 +213,13 @@ struct CVoxelGroup
 	inline bool IsSolid() { return p_voxels[0]->IsSolid(); }
 	inline bool IsLiquid() { return p_voxels[0]->IsLiquid(); }
 };
+NOTHINGMACRO(sizeof(CVoxelGroup))
 
+// 
+// CChunk
+// 
+// Main world chunk class
+// 
 class CChunk
 {
 	int Flags;
@@ -219,7 +229,6 @@ class CChunk
 
 	size_t sectors_size;
 	CVoxelSector *p_sectors;
-
 public:
 	CChunk() {}
 	~CChunk() {}
@@ -239,6 +248,24 @@ public:
 #endif
 
 	int GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pFlags);
+};
+NOTHINGMACRO(sizeof(CChunk))
+
+// 
+// CChunkController
+// 
+// Load/move world chunks
+// 
+class CChunkController
+{
+	size_t num_of_chunks;
+	int chunks_load_distance; //from CWorldInformation
+public:
+	CChunkController() {}
+	~CChunkController() {}
+
+	int Init();
+	int Shutdown();
 };
 
 //////////////////// 07.10.2021 ////////////////////////
