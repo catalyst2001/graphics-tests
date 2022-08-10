@@ -313,6 +313,14 @@ int CVoxelSector::GetChunkHeight()
 	return m_nHeight;
 }
 
+void CVoxelSector::Move(vec3int &pos)
+{
+	m_ChunkPos = pos;
+	m_vecMax.x = pos.x + m_nWidth;
+	m_vecMax.y = pos.y + m_nWidth;
+	m_vecMax.z = pos.z + m_nWidth;
+}
+
 CVoxel *CVoxelSector::GetVoxels()
 {
 	return m_pVoxels;
@@ -858,6 +866,15 @@ CVoxelSector::CVoxelSector(vec3int pos, int width, int height)
 	Init(pos, width, height);
 }
 
+void CVoxelSector::AllocVoxelsIfNotAllocated()
+{
+	// проверка выделена ли память под воксели
+	if (!(nFlags & VSF_INITIALIZED) || !m_pVoxels) {
+		AllocVoxels(m_nWidth + 1, m_nHeight + 1);
+		printf("CVoxelSector::AllocVoxelsIfNotAllocated(): Sector 0x%x voxels allocation\n", this);
+	}
+}
+
 int CVoxelSector::Init(vec3int pos, int width, int height, int flags)
 {
 	m_pVoxels = NULL;
@@ -900,7 +917,7 @@ int CVoxelSector::AllocVoxels(int width, int height, int flags)
 	
 	//if (flags)
 	//memset(m_pVoxels, flags, size_in_bytes);
-	SetFlags(GetFlags() | VSF_INITIALIZED);
+	SetFlags(GetFlags() | VSF_INITIALIZED); //ставим флаг что воксели выделены
 	return 1;
 }
 
@@ -978,8 +995,13 @@ int CChunk::Init(vec3int &position, int sectors_count, int flags, long chunk_wid
 	}
 	
 	for (size_t i = 0; i < sectors_size; i++) {
-		p_sectors[i].InitNoAlloc(vec3int(Position.x, Position.y + (i * chunkWidth), Position.z), chunkWidth, chunkWidth); //init sector before voxels allocation
+		p_sectors[i].InitNoAlloc(vec3int(Position.x, Position.y + (i * chunkWidth), Position.z), chunkWidth, chunkWidth); //инициализация сектора без выделения памяти вокселей
+
+		// если выставлен флаг выделения памяти под все сектора, то память вокселей выделяется под каждый сектор
 		if (Flags & CF_INIT_ALL_SECTORS) {
+
+			// chunkWidth + 1 потому что крайние стенки воскелей в секторе мы тоже будем перебирать
+			// нужно будет это переделать на более понятную запись. Я сделал не прибавил 1 и искал ошибку 2 часа, а оказалось что у нас просто не хватало памяти
 			if (!p_sectors[i].AllocVoxels(chunkWidth + 1, chunkWidth + 1)) {
 				printf(__FUNCSIG__ " Failed to allocate memory for region %d voxels!\n", i);
 				return 0;
@@ -989,8 +1011,19 @@ int CChunk::Init(vec3int &position, int sectors_count, int flags, long chunk_wid
 	return 1;
 }
 
+void CChunk::Move(vec3int &position) //тестовая функция для перемещения чанка
+{
+	Position = position;
+	for (size_t i = 0; i < sectors_size; i++) {
+		vec3int pos = vec3int(Position.x, Position.y + (i * chunkWidth), Position.z);
+		p_sectors[i].Move(pos);
+	}
+}
+
 int CChunk::Shutdown()
 {
+	//TODO: CChunk::Shutdown() тут должно быть то, что будет разруливать сохранение мира, управлять памятью вокселей и тд.
+
 	//free(p_sectors);
 	delete[] p_sectors;
 	return 1;
@@ -1008,6 +1041,7 @@ long CChunk::GetChunkHeight()
 
 bool CChunk::RebuildMesh(size_t sector, int flags)
 {
+	//перестроить меш во всех секторах чанка
 	if (flags & CRB_ALL) {
 		for (size_t i = 0; i < sectors_size; i++)
 			p_sectors[i].RebuildMesh();
@@ -1015,6 +1049,7 @@ bool CChunk::RebuildMesh(size_t sector, int flags)
 		return true;
 	}
 
+	// перестроить меш только в определенном секторе
 	if (sector >= 0 && sector < sectors_size) {
 		p_sectors[sector].RebuildMesh();
 		return true;
@@ -1025,7 +1060,7 @@ bool CChunk::RebuildMesh(size_t sector, int flags)
 void CChunk::DrawChunk()
 {
 	for (size_t sectorIdx = 0; sectorIdx < sectors_size; sectorIdx++) {
-		if(p_sectors[sectorIdx].GetFlags() & VSF_INITIALIZED)
+		//if(p_sectors[sectorIdx].GetFlags() & VSF_MESH_EXISTS) //если меш существует
 			p_sectors[sectorIdx].DrawMesh();
 	}
 }
@@ -1038,6 +1073,10 @@ int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pF
 
 		// voxels between sectors
 		p_dstVoxGroup->num_of_voxels = 0;
+
+		if (Flags & CF_INIT_ON_INTERACTION)
+			p_sectors[sector_index].AllocVoxelsIfNotAllocated();
+
 		p_dstVoxGroup->p_voxels[p_dstVoxGroup->num_of_voxels] = p_sectors[sector_index].VoxelAt(x, y_local, z);
 		p_dstVoxGroup->num_of_voxels++;
 
@@ -1048,6 +1087,9 @@ int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pF
 			if (top_sector_index > 0) //если индекс сектора > 0
 				top_sector_index--; //вычитаю индекса сектора, чтобы попасть на сектор ниже
 
+			if (Flags & CF_INIT_ON_INTERACTION)
+				p_sectors[sector_index].AllocVoxelsIfNotAllocated();
+
 			//TODO: вроде бы работает
 			p_dstVoxGroup->p_voxels[p_dstVoxGroup->num_of_voxels] = p_sectors[top_sector_index].VoxelAt(x, chunkWidth, z); //получаю последний воксель в верхнем секторе
 			p_dstVoxGroup->num_of_voxels++;
@@ -1055,4 +1097,111 @@ int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pF
 		return 1;
 	}
 	return 0;
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+size_t CChunkController::NumberOfChunksFromLoadDistance(int distance)
+{
+	// distance=2
+	// x - center chunk
+	//[ ][ ][X][ ][ ]
+	size_t nChunks = (distance * 2 + 1); 
+
+	// ( [ ][ ][X][ ][ ] ) ^ 2 == area
+	nChunks = nChunks * nChunks;
+	return nChunks;
+}
+
+int CChunkController::Init(int chunk_load_distance, int chunk_width, vec3 &start_position)
+{
+	nChunkWidth = chunk_width;
+	chunks_load_distance = chunk_load_distance;
+	num_of_chunks = NumberOfChunksFromLoadDistance(chunks_load_distance);
+	p_chunks = new CChunk[num_of_chunks];
+	int i = 0;
+	for (int x = -chunks_load_distance; x <= chunks_load_distance; x++) {
+		for (int z = -chunks_load_distance; z <= chunks_load_distance; z++) {
+			vec3int chunk_pos;
+			chunk_pos.x = x * nChunkWidth;
+			chunk_pos.y = 0;
+			chunk_pos.z = z * nChunkWidth;
+
+			//TODO: 5 секторов в чанке, пока что просто для тестирования
+			//TODO: CF_INIT_ON_INTERACTION чтобы не выделять память под все, пока что просто так
+			p_chunks[i].Init(chunk_pos, 5, CF_INIT_ON_INTERACTION, chunk_width);
+			i++;
+		}
+	}
+
+	return 0;
+}
+
+int CChunkController::Shutdown()
+{
+	delete[] p_chunks;
+	return 0;
+}
+
+void CChunkController::DrawChunks()
+{
+	for (size_t i = 0; i < num_of_chunks; i++) {
+		p_chunks[i].DrawChunk();
+	}
+}
+
+void CChunkController::Update(vec3 &WorldPlayerOrigin)
+{
+	curr_position.x = (int)(round(WorldPlayerOrigin.x / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
+	curr_position.y = (int)(round(WorldPlayerOrigin.y / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
+	curr_position.z = (int)(round(WorldPlayerOrigin.z / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
+	if (curr_position.x != old_position.x || curr_position.z != old_position.z) {
+		UpdateChunks();
+		old_position = curr_position;
+	}
+}
+
+void CChunkController::UpdateChunks()
+{
+	// TODO: SPECIAL FOR ROMAN
+	// Оставляю это тебе =)
+
+	// Я что то пытался тут нагородить, но понял что ничего нового придумать не получится
+	// Нужно просто переставить выходящие за пределы чанки вперед, при этом не трогать другие (наверное помнишь как у нас стоящие на месте чанки перегенерировались)
+	// такого быть не должно.
+	printf("CChunkController::UpdateChunks() = ( %d %d %d )\n", curr_position.x, curr_position.y, curr_position.z);
+
+	int i = 0;
+
+	vec3int vecMin;
+	vecMin.x = curr_position.x - chunks_load_distance;
+	//vecMin.y = curr_position.y - chunks_load_distance;
+	vecMin.z = curr_position.z - chunks_load_distance;
+
+	vec3int vecMax;
+	vecMax.x = curr_position.x + chunks_load_distance;
+	//vecMax.y = curr_position.y + chunks_load_distance;
+	vecMax.z = curr_position.z + chunks_load_distance;
+
+	vec3int moveDir;
+	moveDir.x = curr_position.x - old_position.x;
+	//moveDir.y = curr_position.y - old_position.y;
+	moveDir.z = curr_position.z - old_position.z;
+
+	printf("Move direction: ( %d %d %d )\n", moveDir.x, moveDir.y, moveDir.z);
+
+	for (int x = vecMin.x; x <= vecMax.x; x++) {
+		for (int z = vecMin.z; z <= vecMax.z; z++) {
+			vec3int new_chunk_pos;
+			new_chunk_pos.x = x * nChunkWidth;
+			new_chunk_pos.y = 0;
+			new_chunk_pos.z = z * nChunkWidth;
+
+			if (p_chunks[i].Position.x < vecMin.x) {
+				p_chunks[i].Move(new_chunk_pos);
+				//printf("Chunk moved to ( %d %d %d )\n", new_chunk_pos.x, new_chunk_pos.y, new_chunk_pos.z);
+			}
+			i++;
+		}
+	}
 }

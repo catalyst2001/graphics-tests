@@ -8,7 +8,10 @@
     <ClCompile Include="..\..\common\rutility\rmemory.cpp">
       <Filter>utility</Filter>
     </ClCompile>
-    <ClCompile Include="CWorldInformation.cpp" />
+    <ClCompile Include="..\..\common\rutility\rcmdlib.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="CWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\glfw\GLFW\glfw3.h" />
@@ -19,7 +22,13 @@
     <ClInclude Include="..\..\common\rutility\rmemory.h">
       <Filter>utility</Filter>
     </ClInclude>
-    <ClInclude Include="CWorldInformation.h" />
+    <ClInclude Include="..\..\common\rutility\rcmdlib.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\rutility\icmdlib.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="utility">

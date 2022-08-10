@@ -15,8 +15,10 @@
 
 bool wireframe_mode = true;
 GLFWwindow* window;
-Camera camera(true);
+Camera camera(true, vec3(0.f, 0.f, 0.f));
 HWND wnd;
+
+GLUquadric *sphere;
 
 /*
    Linearly interpolate the position where an isosurface cuts
@@ -49,6 +51,8 @@ CVoxelSector sector;
 #else
 CChunk chunk;
 #endif
+
+//CChunkController chunk_controller;
 
 #ifdef VOXEL_SECTOR_TEST
 void TestVoxelSector()
@@ -89,7 +93,7 @@ void TestChunk()
 	SimplexNoise snoise;
 
 	vec3int chunk_pos(0, 0, 0);
-	chunk.Init(chunk_pos, 5, CF_INIT_ALL_SECTORS, 64);
+	chunk.Init(chunk_pos, 50, CF_INIT_ON_INTERACTION, 64);
 
 	float nfrequency = 0.009f; //noise frequency
 	float namplitude = 4.2f; //noise amplitude
@@ -116,6 +120,30 @@ void TestChunk()
 	chunk.RebuildMesh(0, CRB_ALL);
 }
 #endif
+
+void Draw3DSGrid()
+{
+	// Turn the lines GREEN
+	//glColor3ub(0, 255, 0);
+	int size = 500;
+	// Draw a 1x1 grid along the X and Z axis'
+	for (float i = -size; i <= size; i += 16)
+	{
+		// Start drawing some lines
+		glBegin(GL_LINES);
+
+		// Do the horizontal lines (along the X)
+		glVertex3f(-size, 0, i);
+		glVertex3f(size, 0, i);
+
+		// Do the vertical lines (along the Z)
+		glVertex3f(i, 0, -size);
+		glVertex3f(i, 0, size);
+
+		// Stop drawing lines
+		glEnd();
+	}
+}
 
 int main()
 {
@@ -169,6 +197,8 @@ int main()
 
 	glPolygonMode(GL_FRONT_AND_BACK, wireframe_mode ? GL_LINE : GL_FILL);
 
+	sphere = gluNewQuadric();
+
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 	glViewport(0, 0, width, height);
@@ -184,6 +214,9 @@ int main()
 	TestChunk();
 #endif
 
+	//vec3 spos(0, 0, 0);
+	//chunk_controller.Init(5, 16, spos);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -194,6 +227,11 @@ int main()
 #else
 		chunk.DrawChunk();
 #endif
+		//Draw3DSGrid();
+		//chunk_controller.Update(camera.Position);
+
+		//chunk_controller.DrawChunks();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

@@ -15,8 +15,8 @@
 // Marching cubes mesh generation defined here
 // 
 // Authors: Kikker, Catalyst
-// Last update: 18.04.2022
-// Updated: 02.07.2022
+// Created: 11.04.2021
+// Updated: 09.08.2022
 // 
 // Tasks:
 // - Add voxel sectors to chunks
@@ -87,19 +87,23 @@ NOTHINGMACRO(sizeof(CVoxel))
 
 #define COMPUTE_CHUNK_SIZE(w, h) (w * h * w * sizeof(CVoxel))
 
-#define VSF_INITIALIZED ( 1 << 1 )
+// Флаги для сектора чанка
+#define VSF_INITIALIZED ( 1 << 1 ) //выделена память под воксели
+#define VSF_MESH_EXISTS ( 1 << 2 ) //меш сектора существует
 
 class CVoxelSector
 {
 	int nFlags;
 public:
-	CVoxelSector() : nFlags(0), m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(0, 0, 0), m_vecMax(16, 16, 16) {
+	CVoxelSector() : nFlags(0), m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(vec3int()), m_vecMax(vec3int()) {
 #ifdef DEBUG_DRAW
 		m_nDDBounds = true;
 #endif
 	}
 	CVoxelSector(vec3int pos, int width, int height);
 	~CVoxelSector() {}
+
+	void AllocVoxelsIfNotAllocated();
 
 	int Init(vec3int pos, int width, int height, int flags = VOXEL_FLAG_AIR);
 	int InitNoAlloc(vec3int pos, int width, int height);
@@ -109,10 +113,14 @@ public:
 	void SetChunkPosition(vec3int pos);
 	void SetChunkPosition(int x, int y, int z);
 	void SetChunkSize(int width, int height);
-	inline int GetLayerArea();
+	inline int GetLayerArea(); //delete
 	int GetChunkWidth();
 	int GetChunkHeight();
 	int GetNumberVoxels();
+	
+
+	//TODO: test
+	void Move(vec3int &pos);
 
 	CVoxel *GetVoxels();
 	CVoxel *SetVoxels(CVoxel *pvoxels);
@@ -180,6 +188,9 @@ public:
 	std::vector<vec3> m_normals;
 	std::vector<vec2> m_uvs;
 	std::vector<int> m_indices;
+	
+	//unsigned int iIBO; //reserved
+	//unsigned int iVBO; //reserved
 };
 NOTHINGMACRO(sizeof(CVoxelSector))
 
@@ -188,7 +199,10 @@ NOTHINGMACRO(sizeof(CVoxelSector))
 // World Chunk
 //
 
-#define CF_INIT_ALL_SECTORS (1 << 1)
+// Chunk Flags
+#define CF_INIT_ALL_SECTORS (1 << 1) //Всем секторам чанка изначально выделена память вокселей
+#define CF_INIT_ON_INTERACTION (1 << 2) //Сектора чанка не имеет памяти вокселей. Память будет выделена только при обращении к этому сектору (не совмещать с CF_INIT_ALL_SECTORS)
+
 
 //
 // Voxels group for get/modify voxel from chunk
@@ -222,6 +236,7 @@ NOTHINGMACRO(sizeof(CVoxelGroup))
 // 
 class CChunk
 {
+public:
 	int Flags;
 	long chunkWidth;
 	long chunkHeight;
@@ -229,11 +244,15 @@ class CChunk
 
 	size_t sectors_size;
 	CVoxelSector *p_sectors;
-public:
+
 	CChunk() {}
 	~CChunk() {}
 
 	int Init(vec3int &position, int sectors_count, int flags, long chunk_width);
+
+	//TODO: test
+	void Move(vec3int &position);
+
 	int Shutdown();
 
 	long GetChunkWidth();
@@ -260,13 +279,27 @@ class CChunkController
 {
 	size_t num_of_chunks;
 	int chunks_load_distance; //from CWorldInformation
+	int nChunkWidth;
+	CChunk *p_chunks;
+
+	vec3int old_position;
+	vec3int curr_position;
+
+	size_t NumberOfChunksFromLoadDistance(int distance);
+
 public:
-	CChunkController() {}
+	CChunkController() : p_chunks(NULL) {}
 	~CChunkController() {}
 
-	int Init();
+	int Init(int chunk_load_distance, int chunk_width, vec3 &start_position);
 	int Shutdown();
+
+	void DrawChunks();
+
+	void Update(vec3 &WorldPlayerOrigin);
+	void UpdateChunks();
 };
+NOTHINGMACRO(sizeof(CChunkController))
 
 //////////////////// 07.10.2021 ////////////////////////
 /**
