@@ -12,6 +12,7 @@
       <Filter>utility</Filter>
     </ClCompile>
     <ClCompile Include="CWorld.cpp" />
+    <ClCompile Include="WormsNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\common\glfw\GLFW\glfw3.h" />
@@ -29,6 +30,7 @@
       <Filter>utility</Filter>
     </ClInclude>
     <ClInclude Include="CWorld.h" />
+    <ClInclude Include="WormsNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="utility">

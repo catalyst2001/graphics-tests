@@ -202,7 +202,7 @@ NOTHINGMACRO(sizeof(CVoxelSector))
 // Chunk Flags
 #define CF_INIT_ALL_SECTORS (1 << 1) //Всем секторам чанка изначально выделена память вокселей
 #define CF_INIT_ON_INTERACTION (1 << 2) //Сектора чанка не имеет памяти вокселей. Память будет выделена только при обращении к этому сектору (не совмещать с CF_INIT_ALL_SECTORS)
-
+#define CF_OUT_OF_LOAD_DISTANCE (1 << 3) //Чанк находится вне дистанции прогрузки и может быть перемещен
 
 //
 // Voxels group for get/modify voxel from chunk
@@ -286,7 +286,8 @@ class CChunkController
 	vec3int curr_position;
 
 	size_t NumberOfChunksFromLoadDistance(int distance);
-
+	
+	bbox_int load_distance_aabb;
 public:
 	CChunkController() : p_chunks(NULL) {}
 	~CChunkController() {}
@@ -295,6 +296,9 @@ public:
 	int Shutdown();
 
 	void DrawChunks();
+
+	void UpdateDistanceRange();
+	bool ChunkInRange(size_t chunk_index);
 
 	void Update(vec3 &WorldPlayerOrigin);
 	void UpdateChunks();

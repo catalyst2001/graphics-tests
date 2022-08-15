@@ -52,7 +52,7 @@ CVoxelSector sector;
 CChunk chunk;
 #endif
 
-//CChunkController chunk_controller;
+CChunkController chunk_controller;
 
 #ifdef VOXEL_SECTOR_TEST
 void TestVoxelSector()
@@ -104,11 +104,11 @@ void TestChunk()
 				float pn1v = snoise.noise((float)x * nfrequency, (float)z * nfrequency) * namplitude; //primary noise value
 				int voxel_height = floor(max_height - (pn1v + 10.f));
 				
-				if (y <= voxel_height) {
+				if (y < voxel_height) {
 					int nFlags = 0;
 					if (chunk.GetVoxel(&voxgroup, x, y, z, &nFlags)) {
 						//printf("%d %d %d\n", x, y, z);
-						voxgroup.SetFlag(VOXEL_FLAG_SOLID);
+						voxgroup.SetFlag(VOXEL_FLAG_AIR);
 					}
 					else {
 						printf("chunk.GetVoxel() returned NULL!\n");
@@ -214,8 +214,8 @@ int main()
 	TestChunk();
 #endif
 
-	//vec3 spos(0, 0, 0);
-	//chunk_controller.Init(5, 16, spos);
+	vec3 spos(0, 0, 0);
+	chunk_controller.Init(15, 32, spos);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	while (!glfwWindowShouldClose(window)) {
@@ -225,12 +225,12 @@ int main()
 #ifdef VOXEL_SECTOR_TEST
 		sector.DrawMesh();
 #else
-		chunk.DrawChunk();
+		//chunk.DrawChunk();
 #endif
 		//Draw3DSGrid();
-		//chunk_controller.Update(camera.Position);
+		chunk_controller.Update(camera.Position);
 
-		//chunk_controller.DrawChunks();
+		chunk_controller.DrawChunks();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -709,11 +709,45 @@ void CVoxelSector::ComputeNormals()
 	//}
 }
 
+void DrawAABB(vec3int &vmin, vec3int &vmax)
+{
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(vmin.x, vmin.y, vmin.z);
+	glVertex3f(vmax.x, vmin.y, vmin.z);
+	glVertex3f(vmax.x, vmin.y, vmax.z);
+	glVertex3f(vmin.x, vmin.y, vmax.z);
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(vmin.x, vmax.y, vmin.z);
+	glVertex3f(vmax.x, vmax.y, vmin.z);
+	glVertex3f(vmax.x, vmax.y, vmax.z);
+	glVertex3f(vmin.x, vmax.y, vmax.z);
+	glEnd();
+
+	glBegin(GL_LINES);
+	glVertex3f(vmin.x, vmin.y, vmin.z);
+	glVertex3f(vmin.x, vmax.y, vmin.z);
+
+	glVertex3f(vmax.x, vmin.y, vmin.z);
+	glVertex3f(vmax.x, vmax.y, vmin.z);
+
+	glVertex3f(vmax.x, vmin.y, vmax.z);
+	glVertex3f(vmax.x, vmax.y, vmax.z);
+
+	glVertex3f(vmin.x, vmin.y, vmax.z);
+	glVertex3f(vmin.x, vmax.y, vmax.z);
+	glEnd();
+}
+
 void CVoxelSector::DrawMesh()
 {
 #ifdef DEBUG_DRAW
 	glPushAttrib(GL_CURRENT_BIT);
-	glColor3ub(0, 100, 0);
+
+	if (nFlags & VSF_INITIALIZED)
+		glColor3ub(255, 0, 0);
+	else glColor3ub(128, 128, 128);
 
 	//draw debug chunk bounds
 	if (m_nDDBounds) {
@@ -725,36 +759,7 @@ void CVoxelSector::DrawMesh()
 		if (last_lighting_state)
 			glDisable(GL_LIGHTING);
 
-		vec3int vmin = m_ChunkPos;
-		vec3int vmax = m_vecMax;
-
-		glBegin(GL_LINE_LOOP);
-		glVertex3f(vmin.x, vmin.y, vmin.z);
-		glVertex3f(vmax.x, vmin.y, vmin.z);
-		glVertex3f(vmax.x, vmin.y, vmax.z);
-		glVertex3f(vmin.x, vmin.y, vmax.z);
-		glEnd();
-
-		glBegin(GL_LINE_LOOP);
-		glVertex3f(vmin.x, vmax.y, vmin.z);
-		glVertex3f(vmax.x, vmax.y, vmin.z);
-		glVertex3f(vmax.x, vmax.y, vmax.z);
-		glVertex3f(vmin.x, vmax.y, vmax.z);
-		glEnd();
-
-		glBegin(GL_LINES);
-		glVertex3f(vmin.x, vmin.y, vmin.z);
-		glVertex3f(vmin.x, vmax.y, vmin.z);
-
-		glVertex3f(vmax.x, vmin.y, vmin.z);
-		glVertex3f(vmax.x, vmax.y, vmin.z);
-
-		glVertex3f(vmax.x, vmin.y, vmax.z);
-		glVertex3f(vmax.x, vmax.y, vmax.z);
-
-		glVertex3f(vmin.x, vmin.y, vmax.z);
-		glVertex3f(vmin.x, vmax.y, vmax.z);
-		glEnd();
+		DrawAABB(m_ChunkPos, m_vecMax);
 
 		if (last_texture2d_state)
 			glEnable(GL_TEXTURE_2D);
@@ -868,10 +873,11 @@ CVoxelSector::CVoxelSector(vec3int pos, int width, int height)
 
 void CVoxelSector::AllocVoxelsIfNotAllocated()
 {
+	static int nAllocations = 0;
 	// проверка выделена ли память под воксели
 	if (!(nFlags & VSF_INITIALIZED) || !m_pVoxels) {
 		AllocVoxels(m_nWidth + 1, m_nHeight + 1);
-		printf("CVoxelSector::AllocVoxelsIfNotAllocated(): Sector 0x%x voxels allocation\n", this);
+		printf("CVoxelSector::AllocVoxelsIfNotAllocated(): Sector 0x%x voxels allocation. Allocation %d\n", this, nAllocations++);
 	}
 }
 
@@ -1063,6 +1069,18 @@ void CChunk::DrawChunk()
 		//if(p_sectors[sectorIdx].GetFlags() & VSF_MESH_EXISTS) //если меш существует
 			p_sectors[sectorIdx].DrawMesh();
 	}
+
+	if (Flags & CF_OUTOFRANGE) {
+		vec3int MaxVector;
+		MaxVector.x = Position.x + chunkWidth;
+		MaxVector.y = Position.y + chunkHeight;
+		MaxVector.z = Position.z + chunkWidth;
+
+		glPushAttrib(GL_CURRENT_BIT);
+		glColor3ub(80, 255, 255);
+		DrawAABB(Position, MaxVector);
+		glPopAttrib();
+	}
 }
 
 int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pFlags)
@@ -1133,7 +1151,6 @@ int CChunkController::Init(int chunk_load_distance, int chunk_width, vec3 &start
 			i++;
 		}
 	}
-
 	return 0;
 }
 
@@ -1148,6 +1165,29 @@ void CChunkController::DrawChunks()
 	for (size_t i = 0; i < num_of_chunks; i++) {
 		p_chunks[i].DrawChunk();
 	}
+
+	glPushAttrib(GL_CURRENT_BIT);
+	glColor3ub(0, 0, 255);
+	DrawAABB(load_distance_aabb.vmin, load_distance_aabb.vmax);
+	glPopAttrib();
+}
+
+void CChunkController::UpdateDistanceRange()
+{
+	int distance = chunks_load_distance * (nChunkWidth + 1);
+	load_distance_aabb.vmin.x = curr_position.x - distance;
+	load_distance_aabb.vmin.y = -400;
+	load_distance_aabb.vmin.z = curr_position.z - distance;
+
+	load_distance_aabb.vmax.x = curr_position.x + distance;
+	load_distance_aabb.vmax.y = 400;
+	load_distance_aabb.vmax.z = curr_position.z + distance;
+}
+
+bool CChunkController::ChunkInRange(size_t chunk_index)
+{
+	vec3int *p_position = &p_chunks[chunk_index].Position;
+	return load_distance_aabb.point_inside_xz(p_position->x, p_position->z);
 }
 
 void CChunkController::Update(vec3 &WorldPlayerOrigin)
@@ -1184,12 +1224,12 @@ void CChunkController::UpdateChunks()
 	vecMax.z = curr_position.z + chunks_load_distance;
 
 	vec3int moveDir;
-	moveDir.x = curr_position.x - old_position.x;
+	moveDir.x = (curr_position.x - old_position.x) / nChunkWidth;
 	//moveDir.y = curr_position.y - old_position.y;
-	moveDir.z = curr_position.z - old_position.z;
+	moveDir.z = (curr_position.z - old_position.z) / nChunkWidth;
 
 	printf("Move direction: ( %d %d %d )\n", moveDir.x, moveDir.y, moveDir.z);
-
+	UpdateDistanceRange();
 	for (int x = vecMin.x; x <= vecMax.x; x++) {
 		for (int z = vecMin.z; z <= vecMax.z; z++) {
 			vec3int new_chunk_pos;
@@ -1197,9 +1237,12 @@ void CChunkController::UpdateChunks()
 			new_chunk_pos.y = 0;
 			new_chunk_pos.z = z * nChunkWidth;
 
-			if (p_chunks[i].Position.x < vecMin.x) {
-				p_chunks[i].Move(new_chunk_pos);
+			if (!load_distance_aabb.point_inside_xz(p_chunks[i].Position.x, p_chunks[i].Position.z)) {
+				p_chunks[i].Flags |= CF_OUTOFRANGE;
 				//printf("Chunk moved to ( %d %d %d )\n", new_chunk_pos.x, new_chunk_pos.y, new_chunk_pos.z);
+			}
+			else {
+				p_chunks[i].Flags &= ~CF_OUTOFRANGE;
 			}
 			i++;
 		}

@@ -210,6 +210,14 @@ public:
 	vec3int(int xx, int yy, int zz) : x(xx), y(yy), z(zz) {}
 	vec3int(vec3 vecf) : x((int)vecf.x), y((int)vecf.y), z((int)vecf.z) {}
 	~vec3int() {}
+
+	bool operator<(vec3int &vint) const { return vint.x < x && vint.y < y && vint.z < z; }
+	bool operator<=(vec3int &vint) const { return vint.x <= x && vint.y <= y && vint.z <= z; }
+	bool operator==(vec3int &vint) const { return vint.x == x && vint.y == y && vint.z == z; }
+	bool operator!=(vec3int &vint) const { return vint.x != x && vint.y != y && vint.z != z; }
+	bool operator>(vec3int &vint) const { return vint.x > x && vint.y > y && vint.z > z; }
+	bool operator>=(vec3int &vint) const { return vint.x >= x && vint.y >= y && vint.z >= z; }
+
 	union {
 		struct { int x, y, z; };
 		struct { int i, j, k; };
@@ -316,7 +324,8 @@ public:
 			float w;
 		} v;
 	};
-}; MATH_NOTHINGMACRO(sizeof(quat))
+};
+MATH_NOTHINGMACRO(sizeof(quat))
 
 quat computew(quat q);
 float length_squared(quat q);
@@ -469,26 +478,6 @@ public:
 };
 
 // -------------------- 
-// Axis Aligned Bouding Box (AABB)
-// 
-// --------------------
-class bbox
-{
-public:
-	bbox() {}
-	bbox(vec3 __min, vec3 __max) : vmin(__min), vmax(__max) {}
-	bbox(float x, float y, float z, float size) {
-		vmin = vec3(x, y, z);
-		vmax = vec3(x + size, y + size, z + size);
-	}
-	~bbox() {}
-
-	vec3 vmin;
-	vec3 vmax;
-};
-typedef bbox aabb;
-
-// -------------------- 
 // RAY
 // 
 // --------------------
@@ -551,6 +540,108 @@ public:
 
 	vec3 origin;
 	vec3 direction;
+};
+
+// -------------------- 
+// Axis Aligned Bouding Box (AABB)
+// 
+// --------------------
+class bbox
+{
+public:
+	bbox() {}
+	bbox(vec3 __min, vec3 __max) : vmin(__min), vmax(__max) {}
+	bbox(float x, float y, float z, float size) {
+		vmin = vec3(x, y, z);
+		vmax = vec3(x + size, y + size, z + size);
+	}
+	~bbox() {}
+
+	void centred(vec3 &center_vec, float size) {
+		vmin.x = center_vec.x - size;
+		vmin.y = center_vec.y - size;
+		vmin.z = center_vec.z - size;
+		vmax.x = center_vec.x + size;
+		vmax.y = center_vec.y + size;
+		vmax.z = center_vec.z + size;
+	}
+
+	bool point_inside(vec3 &pt) {
+		return vmin.x < pt.x && vmin.y < pt.y &&
+			vmin.z < pt.z && vmax.x > pt.x &&
+			vmax.y > pt.y && vmax.z > pt.z;
+	}
+
+	bool bbox_insize(bbox &bbox_ref) {
+		return vmin < bbox_ref.vmin &&
+			vmax > bbox_ref.vmax;
+	}
+
+	bool ray_intersect(ray &ray, float *ptmin, float *ptmax) {
+		double tmin = -INFINITY, tmax = INFINITY;
+		for (int i = 0; i < 3; ++i) {
+			if (ray.direction[i] != 0.0) {
+				double t1 = (vmin[i] - ray.origin[i]) / ray.direction[i];
+				double t2 = (vmax[i] - ray.origin[i]) / ray.direction[i];
+
+				tmin = __mmax(tmin, __mmin(t1, t2));
+				tmax = __mmin(tmax, __mmax(t1, t2));
+			}
+			else if (ray.origin[i] < vmin[i] || ray.origin[i] > vmax[i])
+				return false;
+		}
+
+		if (ptmin)
+			*ptmin = (float)tmin;
+		if (ptmax)
+			*ptmax = (float)tmax;
+		return tmax >= tmin && tmax >= 0.0;
+	}
+
+	vec3 vmin;
+	vec3 vmax;
+};
+
+class bbox_int
+{
+public:
+	bbox_int() : vmin(0, 0, 0), vmax(0, 0, 0) {}
+	bbox_int(vec3int minvec, vec3int maxvec) : vmin(minvec), vmax(maxvec) {}
+	~bbox_int() {}
+
+	void centred(vec3int &center_vec, int size) {
+		vmin.x = center_vec.x - size;
+		vmin.y = center_vec.y - size;
+		vmin.z = center_vec.z - size;
+		vmax.x = center_vec.x + size;
+		vmax.y = center_vec.y + size;
+		vmax.z = center_vec.z + size;
+	}
+
+	void centred(vec3int &center_vec, vec3int &sizes) {
+		vmin.x = center_vec.x - sizes.x;
+		vmin.y = center_vec.y - sizes.y;
+		vmin.z = center_vec.z - sizes.z;
+		vmax.x = center_vec.x + sizes.x;
+		vmax.y = center_vec.y + sizes.y;
+		vmax.z = center_vec.z + sizes.z;
+	}
+
+	void to_bbox(bbox &dst_bbox) {
+		dst_bbox.vmin.x = (float)vmin.x;
+		dst_bbox.vmin.y = (float)vmin.y;
+		dst_bbox.vmin.z = (float)vmin.z;
+		dst_bbox.vmax.x = (float)vmax.x;
+		dst_bbox.vmax.y = (float)vmax.y;
+		dst_bbox.vmax.z = (float)vmax.z;
+	}
+
+	bool point_inside(vec3 &pt)           { return vmin.x < pt.x && vmin.y < pt.y && vmin.z < pt.z && vmax.x > pt.x && vmax.y > pt.y && vmax.z > pt.z; }
+	bool point_inside_xz(int x, int z)    { return vmin.x < x && vmin.z < z && vmax.x > x && vmax.z > z; }
+	bool bbox_insize(bbox_int &bbox_ref)  { return vmin < bbox_ref.vmin && vmax > bbox_ref.vmax; }
+
+	vec3int vmin;
+	vec3int vmax;
 };
 
 // -------------------- 

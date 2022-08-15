@@ -1,7 +1,9 @@
 ﻿  main.cpp
 e:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\glmath.h(307): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
+e:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
 e:\github\graphics-tests\common\euler_camera.h(110): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(111): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
 e:\github\graphics-tests\common\euler_camera.h(112): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
@@ -18,4 +20,33 @@ e:\github\graphics-tests\opengl\marching_cubes\main.cpp(136): warning C4244: а�
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(137): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(140): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
 e:\github\graphics-tests\opengl\marching_cubes\main.cpp(141): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+  voxel.cpp
+e:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
+e:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(412): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(433): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(468): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(472): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(642): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(715): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(716): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(717): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(718): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(722): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(723): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(724): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(725): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(729): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(730): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(732): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(733): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(735): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(736): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(738): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(739): warning C4244: аргумент: преобразование "int" в "GLfloat", возможна потеря данных
+e:\github\graphics-tests\opengl\marching_cubes\voxel.cpp(880): warning C4477: "printf": в строке форматирования "%x" требуется аргумент типа "unsigned int", но вариативный аргумент "1" имеет тип "CVoxelSector *"
+  Создание кода...
   marching_cubes.vcxproj -> E:\GITHUB\graphics-tests\Debug\marching_cubes.exe
