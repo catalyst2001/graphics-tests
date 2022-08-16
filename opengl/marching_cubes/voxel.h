@@ -6,8 +6,6 @@
 #include <vector> //for renderer vertex buffer, indices buffer
 #include "../../common/rutility/rmemory.h"
 
-#define NOTHINGMACRO(x) //for VS intellisense view struct size
-
 // -------------------------------------------------------------------------------------
 // Voxel Engine Main Part
 // 
@@ -24,6 +22,23 @@
 // 
 // 
 // -------------------------------------------------------------------------------------
+
+#define NOTHINGMACRO(x) //for VS intellisense view struct size
+
+#ifdef DEBUG_DRAW
+
+// --- 
+// Special debug draw flags for draw debug information
+// --- 
+#define DDF_NONE               (0)
+#define DDF_LASTTRIANGLE       (1 << 1)
+#define DDF_VOXELS             (1 << 2)
+#define DDF_LOAD_DISTANCE_AABB (1 << 3)
+#define DDF_CHUNK_AABB         (1 << 4)
+#define DDF_CHUNK_SECTOR_AABB  (1 << 5)
+
+extern int debug_draw_flags;
+#endif
 
 typedef char chunk_cell_t;
 typedef short voxel_cell_t;
@@ -95,11 +110,7 @@ class CVoxelSector
 {
 	int nFlags;
 public:
-	CVoxelSector() : nFlags(0), m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(vec3int()), m_vecMax(vec3int()) {
-#ifdef DEBUG_DRAW
-		m_nDDBounds = true;
-#endif
-	}
+	CVoxelSector() : nFlags(0), m_pVoxels(NULL), m_nWidth(16), m_nHeight(16), m_ChunkPos(vec3int()), m_vecMax(vec3int()) {}
 	CVoxelSector(vec3int pos, int width, int height);
 	~CVoxelSector() {}
 
@@ -155,20 +166,6 @@ public:
 	// --- Flags ---
 	int GetFlags();
 	int SetFlags(int flag);
-
-#ifdef DEBUG_DRAW
-	void DebugDraw_ChunkBounds(bool b);
-	void DebugDraw_ChunkVoxels(bool b);
-	void DebugDraw_ChunkCubes(bool b);
-	void DebugDraw_LastSelectTriangle(bool b);
-	void DebugDraw_SetLastSelectTriangle(triangle_t &tri);
-
-	bool m_nDDBounds;
-	bool m_nDDVoxels;
-	bool m_nDDCubes;
-	bool m_bDDLastSelectTri;
-	triangle_t m_LastSelectTriangle;
-#endif
 
 	//CChunk *m_pLeft;
 	//CChunk *m_pRight;

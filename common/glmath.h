@@ -691,3 +691,21 @@ public:
 // Graphics
 // ----------------------------------------------------------------------------------------------------------------------------
 //void ComputeNormalWithTriangle(vec3 &destnormal, vec3 &a, vec3 &b, vec3 &c);
+
+
+// ----------------------------------------------------------------------------------------------------------------------------
+// Bit Flags
+// ----------------------------------------------------------------------------------------------------------------------------
+#define bit_add(var, flag) (var |= flag)
+#define bit_disable(var, flag) (var &= ~flag)
+#define bit_toggle(var, flag) (var ^= flag)
+
+inline long toggle_flag(long var, long flag)
+{
+	if ((var & flag) == flag) {
+		var &= ~flag;
+		return var;
+	}
+	var |= flag;
+	return var;
+}

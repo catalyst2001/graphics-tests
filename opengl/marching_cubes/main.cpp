@@ -190,6 +190,18 @@ int main()
 				wireframe_mode = !wireframe_mode;
 				glPolygonMode(GL_FRONT_AND_BACK, wireframe_mode ? GL_LINE : GL_FILL);
 				break;
+
+			case GLFW_KEY_KP_1:
+				debug_draw_flags ^= DDF_LOAD_DISTANCE_AABB;
+				break;
+
+			case GLFW_KEY_KP_2:
+				debug_draw_flags ^= DDF_CHUNK_AABB;
+				break;
+
+			case GLFW_KEY_KP_3:
+				debug_draw_flags ^= DDF_CHUNK_SECTOR_AABB;
+				break;
 			}
 		}
 	});
@@ -215,7 +227,7 @@ int main()
 #endif
 
 	vec3 spos(0, 0, 0);
-	chunk_controller.Init(15, 32, spos);
+	chunk_controller.Init(5, 32, spos);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	while (!glfwWindowShouldClose(window)) {

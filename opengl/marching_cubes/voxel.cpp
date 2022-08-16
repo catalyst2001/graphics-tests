@@ -293,6 +293,10 @@ static int triangleTable[][16] = {
 	{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 };
 
+#ifdef DEBUG_DRAW
+int debug_draw_flags = DDF_NONE;
+#endif
+
 bool GetChunkMinByRay(vec3 &chunkmin, ray &r, float distance)
 {
 	float t = 0.f;
@@ -750,7 +754,7 @@ void CVoxelSector::DrawMesh()
 	else glColor3ub(128, 128, 128);
 
 	//draw debug chunk bounds
-	if (m_nDDBounds) {
+	if (debug_draw_flags & DDF_CHUNK_SECTOR_AABB) {
 		bool last_texture2d_state = glIsEnabled(GL_TEXTURE_2D);
 		if (last_texture2d_state)
 			glDisable(GL_TEXTURE_2D);
@@ -837,34 +841,6 @@ int CVoxelSector::SetFlags(int flag)
 	nFlags |= flag;
 	return oldFlags;
 }
-
-#ifdef DEBUG_DRAW
-void CVoxelSector::DebugDraw_ChunkBounds(bool b)
-{
-	m_nDDBounds = b;
-}
-
-void CVoxelSector::DebugDraw_ChunkVoxels(bool b)
-{
-	m_nDDVoxels = b;
-}
-
-void CVoxelSector::DebugDraw_ChunkCubes(bool b)
-{
-	m_nDDCubes = b;
-}
-
-void CVoxelSector::DebugDraw_LastSelectTriangle(bool b)
-{
-	m_bDDLastSelectTri = b;
-}
-
-void CVoxelSector::DebugDraw_SetLastSelectTriangle(triangle_t &tri)
-{
-	m_LastSelectTriangle = tri;
-}
-
-#endif
 
 CVoxelSector::CVoxelSector(vec3int pos, int width, int height)
 {
@@ -989,6 +965,8 @@ bool CVoxel::IsLiquid()
 
 int CChunk::Init(vec3int &position, int sectors_count, int flags, long chunk_width)
 {
+	printf("Initializing chunk 0x%x\n", this);
+
 	Flags = flags;
 	chunkWidth = chunk_width;
 	chunkHeight = chunk_width * sectors_count;
@@ -1070,17 +1048,18 @@ void CChunk::DrawChunk()
 			p_sectors[sectorIdx].DrawMesh();
 	}
 
-	if (Flags & CF_OUTOFRANGE) {
+#ifdef DEBUG_DRAW
+	if (Flags & CF_OUT_OF_LOAD_DISTANCE) {
 		vec3int MaxVector;
 		MaxVector.x = Position.x + chunkWidth;
 		MaxVector.y = Position.y + chunkHeight;
 		MaxVector.z = Position.z + chunkWidth;
-
 		glPushAttrib(GL_CURRENT_BIT);
-		glColor3ub(80, 255, 255);
+		glColor3ub(255, 20, 20);
 		DrawAABB(Position, MaxVector);
 		glPopAttrib();
 	}
+#endif
 }
 
 int CChunk::GetVoxel(CVoxelGroup *p_dstVoxGroup, long x, long y, long z, int *pFlags)
@@ -1166,15 +1145,19 @@ void CChunkController::DrawChunks()
 		p_chunks[i].DrawChunk();
 	}
 
-	glPushAttrib(GL_CURRENT_BIT);
-	glColor3ub(0, 0, 255);
-	DrawAABB(load_distance_aabb.vmin, load_distance_aabb.vmax);
-	glPopAttrib();
+#ifdef DEBUG_DRAW
+	if (debug_draw_flags & DDF_LOAD_DISTANCE_AABB) {
+		glPushAttrib(GL_CURRENT_BIT);
+		glColor3ub(0, 0, 255);
+		DrawAABB(load_distance_aabb.vmin, load_distance_aabb.vmax);
+		glPopAttrib();
+	}
+#endif
 }
 
 void CChunkController::UpdateDistanceRange()
 {
-	int distance = chunks_load_distance * (nChunkWidth + 1);
+	int distance = (chunks_load_distance + 1) * nChunkWidth;
 	load_distance_aabb.vmin.x = curr_position.x - distance;
 	load_distance_aabb.vmin.y = -400;
 	load_distance_aabb.vmin.z = curr_position.z - distance;
@@ -1190,25 +1173,20 @@ bool CChunkController::ChunkInRange(size_t chunk_index)
 	return load_distance_aabb.point_inside_xz(p_position->x, p_position->z);
 }
 
+// округление координаты игрока до координат чанков
 void CChunkController::Update(vec3 &WorldPlayerOrigin)
 {
 	curr_position.x = (int)(round(WorldPlayerOrigin.x / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
 	curr_position.y = (int)(round(WorldPlayerOrigin.y / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
 	curr_position.z = (int)(round(WorldPlayerOrigin.z / (float)nChunkWidth) * nChunkWidth);		// добавишь свою реализацию всего этого, все равно сделано все для тестирования
 	if (curr_position.x != old_position.x || curr_position.z != old_position.z) {
-		UpdateChunks();
+		UpdateChunks(); //вызывается только если координата сменилась
 		old_position = curr_position;
 	}
 }
 
 void CChunkController::UpdateChunks()
 {
-	// TODO: SPECIAL FOR ROMAN
-	// Оставляю это тебе =)
-
-	// Я что то пытался тут нагородить, но понял что ничего нового придумать не получится
-	// Нужно просто переставить выходящие за пределы чанки вперед, при этом не трогать другие (наверное помнишь как у нас стоящие на месте чанки перегенерировались)
-	// такого быть не должно.
 	printf("CChunkController::UpdateChunks() = ( %d %d %d )\n", curr_position.x, curr_position.y, curr_position.z);
 
 	int i = 0;
@@ -1230,21 +1208,41 @@ void CChunkController::UpdateChunks()
 
 	printf("Move direction: ( %d %d %d )\n", moveDir.x, moveDir.y, moveDir.z);
 	UpdateDistanceRange();
+
+	//перебор в чанках
+	std::vector<int> free_chunks;
 	for (int x = vecMin.x; x <= vecMax.x; x++) {
 		for (int z = vecMin.z; z <= vecMax.z; z++) {
 			vec3int new_chunk_pos;
+
+			//преобразование в координаты
 			new_chunk_pos.x = x * nChunkWidth;
 			new_chunk_pos.y = 0;
 			new_chunk_pos.z = z * nChunkWidth;
 
 			if (!load_distance_aabb.point_inside_xz(p_chunks[i].Position.x, p_chunks[i].Position.z)) {
-				p_chunks[i].Flags |= CF_OUTOFRANGE;
+				p_chunks[i].Flags |= CF_OUT_OF_LOAD_DISTANCE;
+				free_chunks.push_back(i);
 				//printf("Chunk moved to ( %d %d %d )\n", new_chunk_pos.x, new_chunk_pos.y, new_chunk_pos.z);
 			}
 			else {
-				p_chunks[i].Flags &= ~CF_OUTOFRANGE;
+				p_chunks[i].Flags &= ~CF_OUT_OF_LOAD_DISTANCE;
 			}
 			i++;
+		}
+	}
+
+	printf("free chunks: %d\n", free_chunks.size());
+
+	// расставить чанки по новым координатам начиная от центра
+	int middle_x = 
+	int positive_x;
+	int negative_x;
+	int positive_z;
+	int negative_z;
+	for (positive_x = 0, negative_x = 0; positive_x <= vecMax.x && negative_x >= vecMin.x; positive_x++, negative_x--) {
+		for (positive_z = 0, negative_z = 0; positive_z < vecMax.z && negative_z >= vecMin.z; positive_z++, negative_z--) {
+
 		}
 	}
 }
