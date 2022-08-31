@@ -1,0 +1,3 @@
+﻿  main.cpp
+e:\github\graphics-tests\opengl\opengl_template\main.cpp(130): warning C4305: +=: усечение из "double" в "float"
+  opengl_template.vcxproj -> E:\GITHUB\graphics-tests\Debug\opengl_template.exe

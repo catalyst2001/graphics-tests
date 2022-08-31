@@ -39,6 +39,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui_gl", "opengl\gui_gl\gui
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "perlin_worms", "opengl\libnoise_examples\perlin_worms\perlin_worms.vcxproj", "{F93F8398-1954-4154-98DC-27DB8DA06358}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_structures", "opengl\render_structures\render_structures.vcxproj", "{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opengl_template", "opengl\opengl_template\opengl_template.vcxproj", "{A6A2BF9D-4735-461E-8179-6055BBD65AF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -191,6 +195,22 @@ Global
 		{F93F8398-1954-4154-98DC-27DB8DA06358}.Release|x64.Build.0 = Release|x64
 		{F93F8398-1954-4154-98DC-27DB8DA06358}.Release|x86.ActiveCfg = Release|Win32
 		{F93F8398-1954-4154-98DC-27DB8DA06358}.Release|x86.Build.0 = Release|Win32
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Debug|x64.ActiveCfg = Debug|x64
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Debug|x64.Build.0 = Debug|x64
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Debug|x86.ActiveCfg = Debug|Win32
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Debug|x86.Build.0 = Debug|Win32
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Release|x64.ActiveCfg = Release|x64
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Release|x64.Build.0 = Release|x64
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Release|x86.ActiveCfg = Release|Win32
+		{5677E9A5-1E0A-4CDE-8467-8A118E45B75F}.Release|x86.Build.0 = Release|Win32
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Debug|x64.ActiveCfg = Debug|x64
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Debug|x64.Build.0 = Debug|x64
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Debug|x86.ActiveCfg = Debug|Win32
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Debug|x86.Build.0 = Debug|Win32
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x64.ActiveCfg = Release|x64
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x64.Build.0 = Release|x64
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x86.ActiveCfg = Release|Win32
+		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

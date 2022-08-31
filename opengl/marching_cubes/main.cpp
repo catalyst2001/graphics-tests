@@ -223,11 +223,11 @@ int main()
 #ifdef VOXEL_SECTOR_TEST
 	TestVoxelSector();
 #else
-	TestChunk();
+	//TestChunk();
 #endif
 
 	vec3 spos(0, 0, 0);
-	chunk_controller.Init(5, 32, spos);
+	chunk_controller.Init(2, 16, spos);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	while (!glfwWindowShouldClose(window)) {

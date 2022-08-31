@@ -1157,7 +1157,7 @@ void CChunkController::DrawChunks()
 
 void CChunkController::UpdateDistanceRange()
 {
-	int distance = (chunks_load_distance + 1) * nChunkWidth;
+	int distance = chunks_load_distance * (nChunkWidth + 2);
 	load_distance_aabb.vmin.x = curr_position.x - distance;
 	load_distance_aabb.vmin.y = -400;
 	load_distance_aabb.vmin.z = curr_position.z - distance;
@@ -1210,9 +1210,10 @@ void CChunkController::UpdateChunks()
 	UpdateDistanceRange();
 
 	//перебор в чанках
+	int x, z;
 	std::vector<int> free_chunks;
-	for (int x = vecMin.x; x <= vecMax.x; x++) {
-		for (int z = vecMin.z; z <= vecMax.z; z++) {
+	for (x = vecMin.x; x <= vecMax.x; x++) {
+		for (z = vecMin.z; z <= vecMax.z; z++) {
 			vec3int new_chunk_pos;
 
 			//преобразование в координаты
@@ -1235,14 +1236,29 @@ void CChunkController::UpdateChunks()
 	printf("free chunks: %d\n", free_chunks.size());
 
 	// расставить чанки по новым координатам начиная от центра
-	int middle_x = 
-	int positive_x;
-	int negative_x;
-	int positive_z;
-	int negative_z;
-	for (positive_x = 0, negative_x = 0; positive_x <= vecMax.x && negative_x >= vecMin.x; positive_x++, negative_x--) {
-		for (positive_z = 0, negative_z = 0; positive_z < vecMax.z && negative_z >= vecMin.z; positive_z++, negative_z--) {
+	struct vec_xz_int {
+		int x, z;
+	} min_load_coord, max_load_coord;
 
+	i = 0;
+	for (int curr_distance = 0; curr_distance < chunks_load_distance && i < free_chunks.size(); curr_distance++) {
+		min_load_coord.x = curr_position.x - curr_distance;
+		min_load_coord.z = curr_position.z - curr_distance;
+		max_load_coord.x = curr_position.x + curr_distance;
+		max_load_coord.z = curr_position.z + curr_distance;
+
+		//TODO: как то из curr_distance высянить что нужно пропускать центральные чанки которые уже были перемещены
+		for (x = min_load_coord.x; x < max_load_coord.x; x++) {
+			for (z = min_load_coord.z; z < max_load_coord.z; z++) {
+				vec3int chunk_new_position;
+				chunk_new_position.x = x * nChunkWidth;
+				chunk_new_position.y = 0;
+				chunk_new_position.z = z * nChunkWidth;
+				printf("chunk_new_position = %d %d\n", chunk_new_position.x, chunk_new_position.z);
+				p_chunks[free_chunks[i]].Move(chunk_new_position);
+				i++;
+			}
 		}
+		printf("\n");
 	}
 }

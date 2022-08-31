@@ -151,7 +151,7 @@ namespace rutl
 		// Free memory block
 		// 
 		bool mfree() {
-			if (p_data) {
+			if (is_allocated()) {
 				free(p_data);
 				p_data = NULL;
 				return true;
