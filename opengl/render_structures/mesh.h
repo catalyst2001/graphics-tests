@@ -43,7 +43,7 @@ typedef render_mesh_instance_t mesh_instance_t;
 // 
 struct vao_data_t {
 	int flags;	//buffer flags
-	int vao;	//vertex array object id
+	size_t vao;	//vertex array object id
 };
 
 // 

@@ -43,6 +43,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_structures", "opengl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opengl_template", "opengl\opengl_template\opengl_template.vcxproj", "{A6A2BF9D-4735-461E-8179-6055BBD65AF4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "playing_avi", "wingdi\playing_avi\playing_avi.vcxproj", "{A538814C-E6EF-4699-B255-8F121DF400A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -211,6 +213,14 @@ Global
 		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x64.Build.0 = Release|x64
 		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x86.ActiveCfg = Release|Win32
 		{A6A2BF9D-4735-461E-8179-6055BBD65AF4}.Release|x86.Build.0 = Release|Win32
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Debug|x64.ActiveCfg = Debug|x64
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Debug|x64.Build.0 = Debug|x64
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Debug|x86.ActiveCfg = Debug|Win32
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Debug|x86.Build.0 = Debug|Win32
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Release|x64.ActiveCfg = Release|x64
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Release|x64.Build.0 = Release|x64
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Release|x86.ActiveCfg = Release|Win32
+		{A538814C-E6EF-4699-B255-8F121DF400A9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,12 +41,19 @@ RENDER_STATUS render_meshes_shutdown(render_meshes_t *p_meshes_data)
 
 size_t render_alloc_vao_by_flags(render_meshes_t *p_render_mesh_manager, int flags)
 {
+	// find exists vao's
+	vao_data_t *p_vaodata;
+	for (size_t i = 0; i < p_render_mesh_manager->vaos.get_size(); i++)
+		if ((p_vaodata = p_render_mesh_manager->vaos.get_at_ptr(i)))
+			if (p_vaodata->flags == flags)
+				return p_vaodata->vao;
+
 #define glGenVertexArrays(x, cnt)
-	for (size_t i = 0; i < p_render_mesh_manager->vaos.get_size(); i++) {
-
-	}
-
-
+	// if not found
+	// allocate new vao
+	vao_data_t new_vao;
+	new_vao.flags = flags;
+	glGenVertexArrays(&new_vao.vao, 1);
 }
 
 RENDER_STATUS render_mesh_allocate(render_mesh_t **pp_dst_mesh_object, render_meshes_t *p_render_mesh_manager, const char *p_path, int flags, const void *p_data)
