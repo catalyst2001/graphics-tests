@@ -65,7 +65,7 @@ namespace rutl
 		// Add new element to container
 		// Memory will be automatic reallocated
 		// 
-		bool push(Type elem) {
+		bool push(const Type elem) {
 			if (size >= capacity) {
 				capacity += reserve;
 				if (!resize(capacity))
@@ -76,7 +76,7 @@ namespace rutl
 			return true;
 		}
 
-		bool push(Type *p_elem) {
+		bool push(const Type *p_elem) {
 			if (size >= capacity) {
 				capacity += reserve;
 				if (!resize(capacity))

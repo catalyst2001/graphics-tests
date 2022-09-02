@@ -1,0 +1,12 @@
+﻿  main.c
+e:\github\graphics-tests\perfomance_test\main.c(18): warning C4090: инициализация: разные квалификаторы "volatile"
+e:\github\graphics-tests\perfomance_test\main.c(31): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "unsigned __int64"
+  e:\github\graphics-tests\perfomance_test\main.c(31): note: рекомендуется использовать "%lld" в строке форматирования
+  e:\github\graphics-tests\perfomance_test\main.c(31): note: рекомендуется использовать "%I64d" в строке форматирования
+e:\github\graphics-tests\perfomance_test\main.c(38): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "unsigned __int64"
+  e:\github\graphics-tests\perfomance_test\main.c(38): note: рекомендуется использовать "%lld" в строке форматирования
+  e:\github\graphics-tests\perfomance_test\main.c(38): note: рекомендуется использовать "%I64d" в строке форматирования
+  Создание кода
+  All 5 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  perfomance_test.vcxproj -> E:\GITHUB\graphics-tests\Release\performance_test.exe

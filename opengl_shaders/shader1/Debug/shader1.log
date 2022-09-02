@@ -1,0 +1,4 @@
+﻿  main.c
+e:\github\graphics-tests\opengl_shaders\shader1\main.c(59): warning C4047: функция: "GLADloadproc" отличается по уровням косвенного обращения от "GLFWglproc (__cdecl *)(const char *)"
+e:\github\graphics-tests\opengl_shaders\shader1\main.c(59): warning C4022: gladLoadGLLoader: несоответствие указателя для фактического параметра 1
+  shader1.vcxproj -> E:\GITHUB\graphics-tests\Debug\shader1.exe
