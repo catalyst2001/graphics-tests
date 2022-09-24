@@ -125,7 +125,7 @@ void keydown(int keycode, int state)
 			break;
 
 		case VK_DOWN:
-			if(scale > 1.f)
+			if(scale > 0.f + SCALE_ADDITION)
 				scale -= SCALE_ADDITION;
 
 			printf("Noise scale: %f\n", scale);
@@ -133,7 +133,7 @@ void keydown(int keycode, int state)
 			break;
 
 		case VK_LEFT:
-			if (frequency > 1.f)
+			if (frequency > 0.f + FREQ_ADDITION)
 				frequency -= FREQ_ADDITION;
 
 			printf("Frequency: %f\n", frequency);
