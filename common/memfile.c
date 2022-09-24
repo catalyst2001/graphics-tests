@@ -5,13 +5,25 @@
 MEMFILE_RESULT mf_alloc_ex(memfile_t *p_dstmemfile, int flags, size_t start_size)
 {
 	mf_init(p_dstmemfile);
-	//p_dstmemfile->
+	p_dstmemfile->size = start_size;
+	p_dstmemfile->p_data = (unsigned char *)malloc(p_dstmemfile->size);
+	if (!p_dstmemfile->p_data)
+		return MF_OUT_OF_MEMORY;
+
+	if (flags & MFF_CLEAR_MEMORY)
+		memset(p_dstmemfile->p_data, 0, p_dstmemfile->size);
 
 	return MF_SUCCESS;
 }
 
 MEMFILE_RESULT mf_free_ex(memfile_t *p_dstmemfile, int flags)
 {
+	if (p_dstmemfile->p_data)
+		free(p_dstmemfile->p_data);
+
+	if (flags & MFF_CLEAR_MEMORY)
+		memset(p_dstmemfile, 0, sizeof(*p_dstmemfile));
+
 	return MF_SUCCESS;
 }
 
@@ -24,7 +36,8 @@ MEMFILE_RESULT mf_file_to_memory_ex(memfile_t *p_dstmemfile, int flags, size_t a
 	mf_init(p_dstmemfile);
 	result = MF_SUCCESS;
 	p_dstmemfile->abytes = additional_bytes;
-	FILE *fp = fopen(p_filename, "rb");
+	FILE *fp;
+	fopen_s(&fp, p_filename, "rb");
 	if (!fp)
 		return MF_FAILED_TO_OPEN;
 
@@ -98,16 +111,22 @@ MEMFILE_RESULT mf_memory_to_file_u(memfile_t *p_dstmemfile, int flags, const wch
 
 MEMFILE_RESULT mf_write_byte(memfile_t *p_dstmemfile, int byte)
 {
+	p_dstmemfile->p_data[p_dstmemfile->pos] = (unsigned char)byte;
+	p_dstmemfile->pos++;
+
 	return MF_SUCCESS;
 }
 
 MEMFILE_RESULT mf_read_byte(int *p_dstbyte, memfile_t *p_dstmemfile)
 {
+	*p_dstbyte = p_dstmemfile->p_data[p_dstmemfile->pos];
+	p_dstmemfile->pos++;
 	return MF_SUCCESS;
 }
 
 MEMFILE_RESULT mf_write_short(memfile_t *p_dstmemfile, int wbyte)
 {
+	unsigned char *p_data = (unsigned char *)&wbyte;
 	return MF_SUCCESS;
 }
 
@@ -142,6 +161,16 @@ MEMFILE_RESULT mf_write_string(memfile_t *p_dstmemfile, const char *p_string)
 }
 
 MEMFILE_RESULT mf_read_string(char *p_dststr, size_t maxlen, memfile_t *p_dstmemfile)
+{
+	return MF_SUCCESS;
+}
+
+MEMFILE_RESULT mf_write_bytes(memfile_t *p_dstmemfile, void *p_data, size_t size)
+{
+	return MF_SUCCESS;
+}
+
+MEMFILE_RESULT mf_read_bytes(void * p_data, size_t size, memfile_t * p_dstmemfile)
 {
 	return MF_SUCCESS;
 }

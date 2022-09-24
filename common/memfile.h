@@ -52,3 +52,5 @@ MEMFILE_RESULT mf_write_float(memfile_t *p_dstmemfile, float value);
 MEMFILE_RESULT mf_read_float(float *p_dstflt, memfile_t *p_dstmemfile);
 MEMFILE_RESULT mf_write_string(memfile_t *p_dstmemfile, const char *p_string);
 MEMFILE_RESULT mf_read_string(char *p_dststr, size_t maxlen, memfile_t *p_dstmemfile);
+MEMFILE_RESULT mf_write_bytes(memfile_t *p_dstmemfile, void *p_data, size_t size);
+MEMFILE_RESULT mf_read_bytes(void *p_data, size_t size, memfile_t *p_dstmemfile);

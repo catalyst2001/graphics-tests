@@ -5,7 +5,8 @@
     <ClCompile Include="..\..\common\glad\glad.c">
       <Filter>glad</Filter>
     </ClCompile>
-    <ClCompile Include="memfile.c" />
+    <ClCompile Include="..\..\common\gl_shader\gl_shader.c" />
+    <ClCompile Include="..\..\common\memfile.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glad">
@@ -19,6 +20,7 @@
     <ClInclude Include="..\..\common\glad\khrplatform.h">
       <Filter>glad</Filter>
     </ClInclude>
-    <ClInclude Include="memfile.h" />
+    <ClInclude Include="..\..\common\gl_shader\gl_shader.h" />
+    <ClInclude Include="..\..\common\memfile.h" />
   </ItemGroup>
 </Project>

@@ -136,12 +136,15 @@ int main()
     return (int) msg.wParam;
 }
 
+static long position = 0;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
 		case WM_TIMER: {
 			if (wParam == IDT_REDRAW) {
+				position = (position + 1) % avi_stream_info.dwLength;
 				InvalidateRect(hWnd, NULL, FALSE);
 				printf("IDT_REDRAW\n");
 			}
@@ -157,13 +160,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_PAINT: {
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hWnd, &ps);
-			static long position = 0;
 			LPBITMAPINFOHEADER lpbi = (LPBITMAPINFOHEADER)AVIStreamGetFrame(p_getframe, position);
 			char *pdata = (char *)lpbi + lpbi->biSize + lpbi->biClrUsed * sizeof(RGBQUAD); // Pointer To Data Returned By AVIStreamGetFrame
 			DrawDibDraw(h_drawdib, hdc, 0, 0, bitmap_header.biWidth, bitmap_header.biHeight, lpbi, pdata, 0, 0, bitmap_header.biWidth, bitmap_header.biHeight, 0);
 			//BitBlt(hdc, 0, 0, bitmap_header.biWidth, bitmap_header.biHeight, chdc, 0, 0, SRCCOPY);
 			EndPaint(hWnd, &ps);
-			position = (position + 1) % avi_stream_info.dwLength;
 			break;
 		}
 
