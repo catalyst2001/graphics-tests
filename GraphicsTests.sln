@@ -63,6 +63,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "point_inside_solid_polyhedr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vox_generate_convex_polyhedron", "opengl\vox_generate_convex_polyhedron\vox_generate_convex_polyhedron.vcxproj", "{AA4878C2-B6E4-4893-BB50-6D0A56261765}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plane_with_multiple_points", "opengl\plane_with_multiple_points\plane_with_multiple_points.vcxproj", "{DEFF11AB-DEEB-4919-A017-68380AAD43A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9DF3E0E4-88B2-456A-B5F2-5948D7FEB0CD}"
+	ProjectSection(SolutionItems) = preProject
+		snips.txt = snips.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -279,6 +286,14 @@ Global
 		{AA4878C2-B6E4-4893-BB50-6D0A56261765}.Release|x64.Build.0 = Release|x64
 		{AA4878C2-B6E4-4893-BB50-6D0A56261765}.Release|x86.ActiveCfg = Release|Win32
 		{AA4878C2-B6E4-4893-BB50-6D0A56261765}.Release|x86.Build.0 = Release|Win32
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Debug|x64.ActiveCfg = Debug|x64
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Debug|x64.Build.0 = Debug|x64
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Debug|x86.ActiveCfg = Debug|Win32
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Debug|x86.Build.0 = Debug|Win32
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Release|x64.ActiveCfg = Release|x64
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Release|x64.Build.0 = Release|x64
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Release|x86.ActiveCfg = Release|Win32
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -310,6 +325,7 @@ Global
 		{1901A0F3-A159-4936-887E-DE095F3964C8} = {853B84AF-C806-4FFC-A1BC-66343F3E50A1}
 		{548F6AD3-FCA9-44E3-8BDB-A0C9723D216B} = {CE431045-C17A-420E-AFCA-80ECAFAEE45C}
 		{AA4878C2-B6E4-4893-BB50-6D0A56261765} = {CE431045-C17A-420E-AFCA-80ECAFAEE45C}
+		{DEFF11AB-DEEB-4919-A017-68380AAD43A8} = {CE431045-C17A-420E-AFCA-80ECAFAEE45C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D5FC01-A559-4167-99B4-B463917F49C3}

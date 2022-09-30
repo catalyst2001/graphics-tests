@@ -75,7 +75,7 @@ void  quat_from_angle_axis(quat_t *p_dst, float angle, const vector3_t *p_axis);
 void vec3_add(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_sub(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_mul(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
-void vec3_mulsc(vector3_t *p_dst, const vector3_t *p_vec, float scalar);
+void vec3_scale(vector3_t *p_dst, const vector3_t *p_vec, float scalar);
 void vec3_div(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_divsc(vector3_t *p_dst, const vector3_t *p_vec_a, float scalar);
 
@@ -123,7 +123,7 @@ static bool PlaneIntersection5(vector3_t *planeP, vector3_t *planeN, vector3_t *
 	float t = -(d + rayP->z * planeN->z + rayP->y * planeN->y + rayP->x * planeN->x) / (rayD->z * planeN->z + rayD->y * planeN->y + rayD->x * planeN->x);
 	if (t > 0.f) {
 		vector3_t ipt;
-		vec3_mulsc(&ipt, rayD, t);
+		vec3_scale(&ipt, rayD, t);
 		vec3_add(&ipt, rayP, &ipt);
 		*intersect = ipt;
 		return true;

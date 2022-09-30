@@ -1,11 +1,11 @@
 ﻿  main.c
-e:\github\graphics-tests\common\camera.h(193): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(194): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\camera.h(195): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(227): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(228): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(229): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
-e:\github\graphics-tests\common\camera.h(230): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(196): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(197): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(229): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(230): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(231): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\camera.h(232): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(56): warning C4305: инициализация: усечение из "double" в "float"
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(183): warning C4244: функция: преобразование "float" в "int", возможна потеря данных
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(263): warning C4305: функция: усечение из "double" в "float"

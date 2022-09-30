@@ -1,0 +1,18 @@
+float PI = 3.14;
+float PI2 = PI * 2;
+float radius = 2.f;
+int lines_number = 110;
+
+glBegin(GL_LINES);
+for (int linei = 0; linei < lines_number; linei++) {
+	vector3_t line_to;
+	line_to.x = sinf(((float)linei / lines_number) * PI2) * radius;
+	line_to.z = cosf(((float)linei / lines_number) * PI2) * radius;
+	line_to.y = 0.f;
+	//line_add((vector3_t) { 0.f, 0.f, 0.f }, line_to, (color3_t) {0, 255, 0});
+			
+	glVertex3fv(&line_to);
+	line_to.y = 10.f;
+	glVertex3fv(&line_to);
+}
+glEnd();

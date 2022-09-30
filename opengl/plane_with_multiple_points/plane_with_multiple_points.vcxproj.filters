@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.c" />
+    <ClCompile Include="..\..\common\gldl.c" />
+    <ClCompile Include="..\..\common\math.c" />
+    <ClCompile Include="..\..\common\camera.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\common\camera.h" />
+    <ClInclude Include="..\..\common\gldl.h" />
+    <ClInclude Include="..\..\common\math.h" />
+  </ItemGroup>
+</Project>

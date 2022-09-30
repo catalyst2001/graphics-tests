@@ -84,7 +84,7 @@ typedef struct gldl_dt_s {
 	point_ptr_fn      GetMousePosition;
 
 	HWND              (*GetWindow)();
-
+	void              (*SetTitle)(const char *p_text, ...);
 } gldl_dt_t;
 
 //функции событий

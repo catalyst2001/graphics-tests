@@ -21,12 +21,12 @@
 #define DM_AIR   2
 #define DM_MAX   3 //not use for selection
 
-#define NOISE_FREQ  5.1
+#define NOISE_FREQ  0.00001
 #define NOISE_DEPTH 10.0
 #define NOISE_SCALE 7.0
 
 #define SCALE_ADDITION 0.1f
-#define FREQ_ADDITION 0.1f
+#define FREQ_ADDITION 0.001f
 
 #define VF_SOLID (1 << 1)
 
@@ -125,7 +125,7 @@ void keydown(int keycode, int state)
 			break;
 
 		case VK_DOWN:
-			if(scale > 0.f + SCALE_ADDITION)
+			if(scale > SCALE_ADDITION)
 				scale -= SCALE_ADDITION;
 
 			printf("Noise scale: %f\n", scale);
@@ -133,7 +133,7 @@ void keydown(int keycode, int state)
 			break;
 
 		case VK_LEFT:
-			if (frequency > 0.f + FREQ_ADDITION)
+			if (frequency > FREQ_ADDITION)
 				frequency -= FREQ_ADDITION;
 
 			printf("Frequency: %f\n", frequency);

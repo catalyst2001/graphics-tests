@@ -4,7 +4,7 @@
 #include "../../common/gldl.h"
 
 gldl_dt_t *pwnd;
-ecamera_t camera;
+camera2_t camera;
 
 int main()
 {

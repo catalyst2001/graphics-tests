@@ -124,7 +124,7 @@ void quat_from_angle_axis(quat_t *p_dst, float angle, const vector3_t *p_axis)
 {
 	vector3_t result;
 	float theta = angle * DTOR;
-	vec3_mulsc(&result, p_axis, -sin(theta / 2.f));
+	vec3_scale(&result, p_axis, -sin(theta / 2.f));
 	p_dst->x = result.x;
 	p_dst->y = result.y;
 	p_dst->z = result.z;
@@ -153,7 +153,7 @@ void vec3_mul(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec
 	p_dst->z = p_vec_a->z * p_vec_b->z;
 }
 
-void vec3_mulsc(vector3_t *p_dst, const vector3_t *p_vec, float scalar)
+void vec3_scale(vector3_t *p_dst, const vector3_t *p_vec, float scalar)
 {
 	p_dst->x = p_vec->x * scalar;
 	p_dst->y = p_vec->y * scalar;

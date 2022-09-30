@@ -95,15 +95,15 @@ static void camera_update_vectors(camera_t *p_camera)
 	vector3_t temp, side;
 	camera_get_forward_vector(&p_camera->direction, &p_camera->rot_quat);
 	camera_get_up_vector(&p_camera->up, &p_camera->rot_quat);
-	vec3_mulsc(&temp, &p_camera->direction, p_camera->movement.z);
+	vec3_scale(&temp, &p_camera->direction, p_camera->movement.z);
 	vec3_add(&p_camera->origin, &p_camera->origin, &temp);
 
-	vec3_mulsc(&temp, &p_camera->up, p_camera->movement.y);
+	vec3_scale(&temp, &p_camera->up, p_camera->movement.y);
 	vec3_add(&p_camera->origin, &p_camera->origin, &temp);
 
 	vec3_cross(&side, &p_camera->up, &p_camera->direction);
 	vec3_normalize(&side);
-	vec3_mulsc(&temp, &side, p_camera->movement.x);
+	vec3_scale(&temp, &side, p_camera->movement.x);
 	vec3_add(&p_camera->origin, &p_camera->origin, &temp);
 }
 
@@ -188,6 +188,8 @@ typedef struct camera2_s {
 	int flags;
 } camera2_t;
 
+#define CAMERA_FLAG_ACTIVE (1 << 1)
+
 static void camera2_update_vectors(camera2_t *p_camera)
 {
 	p_camera->direction.x = cosf(p_camera->rotation.yaw * DTOR) * cosf(p_camera->rotation.pitch * DTOR);
@@ -229,24 +231,28 @@ static void camera2_update(camera2_t *p_camera)
 	float xdiff = pt.x - cpt.x;
 	float ydiff = pt.y - cpt.y;
 
-	p_camera->rotation.yaw += (pt.x - cpt.x) * p_camera->sensitivity;
-	p_camera->rotation.pitch += -(pt.y - cpt.y) * p_camera->sensitivity;
+	p_camera->rotation.yaw += xdiff * p_camera->sensitivity;
+	p_camera->rotation.pitch += -ydiff * p_camera->sensitivity;
 	if (p_camera->rotation.pitch > 89.0f)
 		p_camera->rotation.pitch = 89.0f;
 	if (p_camera->rotation.pitch < -89.0f)
 		p_camera->rotation.pitch = -89.0f;
 
 	vector3_t front_movement, right_movement;
-	vec3_mulsc(&front_movement, &p_camera->direction, p_camera->movement_speed);
-	vec3_mulsc(&right_movement, &p_camera->right, p_camera->movement_speed);
-	if (GetAsyncKeyState('W'))
-		vec3_add(&p_camera->origin, &p_camera->origin, &front_movement);
-	if (GetAsyncKeyState('S'))
-		vec3_sub(&p_camera->origin, &p_camera->origin, &front_movement);
-	if (GetAsyncKeyState('A'))
-		vec3_sub(&p_camera->origin, &p_camera->origin, &right_movement);
-	if (GetAsyncKeyState('D'))
-		vec3_add(&p_camera->origin, &p_camera->origin, &right_movement);
+	//if (p_camera->flags & CAMERA_FLAG_ACTIVE) {
+		vec3_scale(&front_movement, &p_camera->direction, p_camera->movement_speed);
+		vec3_scale(&right_movement, &p_camera->right, p_camera->movement_speed);
+		if (GetAsyncKeyState('W'))
+			vec3_add(&p_camera->origin, &p_camera->origin, &front_movement);
+		if (GetAsyncKeyState('S'))
+			vec3_sub(&p_camera->origin, &p_camera->origin, &front_movement);
+		if (GetAsyncKeyState('A'))
+			vec3_sub(&p_camera->origin, &p_camera->origin, &right_movement);
+		if (GetAsyncKeyState('D'))
+			vec3_add(&p_camera->origin, &p_camera->origin, &right_movement);
+
+		SetCursorPos(cpt.x, cpt.y);
+	//}
 
 	camera2_update_vectors(p_camera);
 
@@ -261,7 +267,6 @@ static void camera2_update(camera2_t *p_camera)
 	//);
 
 	gluLookAt(p_camera->origin.x, p_camera->origin.y, p_camera->origin.z, dir.x, dir.y, dir.z, 0.f, 1.f, 0.f);
-	SetCursorPos(cpt.x, cpt.y);
 }
 
 

@@ -204,7 +204,7 @@ int main()
 		//if (k >= 0.f) {
 		//	vector3_t intersect_point;
 		//	vec3_add(&intersect_point, &ray.pos, &ray.dir);
-		//	vec3_mulsc(&intersect_point, &intersect_point, k);
+		//	vec3_scale(&intersect_point, &intersect_point, k);
 
 		//	glBegin(GL_LINE);
 		//	glVertex3f(intersect_point.x, 0.f, intersect_point.z);

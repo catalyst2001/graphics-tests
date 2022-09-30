@@ -139,6 +139,17 @@ HWND get_window()
 	return wd.h_window;
 }
 
+void set_window_title(const char *p_text, ...)
+{
+	char buffer[1024];
+	va_list argptr;
+	va_start(argptr, p_text);
+	vsprintf_s(buffer, sizeof(buffer), p_text, argptr);
+	va_end(argptr);
+
+	SetWindowTextA(wd.h_window, buffer);
+}
+
 gldl_dt_t *init_dispatch_table()
 {
 	static gldl_dt_t dispatch_table;
@@ -164,6 +175,7 @@ gldl_dt_t *init_dispatch_table()
 	(is_button_pressed)dispatch_table.IsButtonPressedOne = is_button_pressed_one; //TODO: not implemented
 	(print_text_fn)dispatch_table.PrintText = print_text_imp;
 	dispatch_table.GetWindow = get_window;
+	dispatch_table.SetTitle = set_window_title;
 	return &dispatch_table;
 }
 
