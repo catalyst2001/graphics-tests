@@ -105,16 +105,17 @@ int get_windowposy() { return wd.wy; }
 int get_windowwidth() { return wd.wwidth; }
 int get_windowheight() { return wd.wheight; }
 bool is_window_opened_imp() {
-	MSG msg = { 0 };
-	//if (PeekMessageA(&msg, NULL, NULL, NULL, PM_REMOVE) && msg.message != WM_QUIT) {
-	if (GetMessageA(&msg, 0, 0, 0)) {
+	MSG msg;
+	if (PeekMessageA(&msg, NULL, NULL, NULL, PM_REMOVE)) {
 		TranslateMessage(&msg);
 		DispatchMessageA(&msg);
-		SwapBuffers(wd.device_ctx);
-		return true;
 	}
-	printf("msg: %d (0x%x)\n", msg.message, msg.message);
-	return false;
+
+	if (msg.message == WM_QUIT)
+		return false;
+
+	SwapBuffers(wd.device_ctx);
+	return true;
 }
 
 bool is_button_pressed_imp(int button)

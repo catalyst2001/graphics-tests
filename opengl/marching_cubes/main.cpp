@@ -237,12 +237,12 @@ int main()
 #ifdef VOXEL_SECTOR_TEST
 		sector.DrawMesh();
 #else
-		//chunk.DrawChunk();
+		chunk.DrawChunk();
 #endif
 		//Draw3DSGrid();
-		chunk_controller.Update(camera.Position);
+		//chunk_controller.Update(camera.Position);
 
-		chunk_controller.DrawChunks();
+		//chunk_controller.DrawChunks();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

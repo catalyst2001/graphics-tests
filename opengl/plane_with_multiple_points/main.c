@@ -7,7 +7,7 @@
 #define DEMO_SCREEN_WIDTH  1280
 #define DEMO_SCREEN_HEIGHT 1024
 
-#define MOVE_SPEED  0.1
+#define MOVE_SPEED  0.001
 #define SENSITIVITY 0.1
 
 #define DEG2RAD 0.0174f

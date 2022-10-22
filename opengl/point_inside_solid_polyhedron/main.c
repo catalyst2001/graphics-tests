@@ -62,7 +62,20 @@ static vector3b_t colors[] = {
 	{ 0, 255, 0 }
 };
 
-bool point_inside_solid_polyhedron(const vector3_t *p_point, const vector3_t *p_coords, size_t coords_count)
+void compute_polygon_normal(vector3_t *p_dstnormal, const vector3_t *pts, int num)
+{
+	p_dstnormal->x = p_dstnormal->y = p_dstnormal->z = 0.f;
+	for (int i = 0; i < num; i++) {
+		vector3_t *p1 = &pts[i];
+		vector3_t *p2 = &pts[(i + 1) % num];
+		p_dstnormal->x += (p1->y - p2->y) * (p1->z + p2->z);
+		p_dstnormal->y += (p1->z - p2->z) * (p1->x + p2->x);
+		p_dstnormal->z += (p1->x - p2->x) * (p1->y + p2->y);
+	}
+	vec3_normalize(p_dstnormal);
+}
+
+bool point_inside_convex_polyhedron(const vector3_t *p_point, const vector3_t *p_coords, size_t coords_count)
 {
 	vector3_t normal;
 	for (size_t i = 0; i < coords_count; i++) {
@@ -82,21 +95,21 @@ bool point_inside_solid_polyhedron(const vector3_t *p_point, const vector3_t *p_
 
 int main()
 {
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
-	//point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+	//point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 	//point_coord.x += 10;
 	//return 0;
 
@@ -124,7 +137,7 @@ int main()
 		glVertexPointer(3, GL_FLOAT, 0, polyhedron_coords);
 		glDrawArrays(GL_POINTS, 0, 8);
 
-		bool b_inside = point_inside_solid_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
+		bool b_inside = point_inside_convex_polyhedron(&point_coord, polyhedron_coords, sizeof(polyhedron_coords) / sizeof(polyhedron_coords[0]));
 
 		glColor3ubv(&colors[b_inside]);
 		glVertexPointer(3, GL_FLOAT, 0, &point_coord);

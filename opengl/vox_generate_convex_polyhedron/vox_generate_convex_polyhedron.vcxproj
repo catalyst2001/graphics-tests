@@ -162,6 +162,7 @@
     <ClInclude Include="..\..\common\math.h" />
     <ClInclude Include="..\..\common\perlin.h" />
     <ClInclude Include="..\..\common\voxgroup\voxgroups.h" />
+    <ClInclude Include="voxdefs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

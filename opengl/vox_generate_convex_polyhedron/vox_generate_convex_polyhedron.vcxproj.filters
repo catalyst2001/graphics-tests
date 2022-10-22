@@ -30,5 +30,6 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\..\common\voxgroup\voxgroups.h" />
+    <ClInclude Include="voxdefs.h" />
   </ItemGroup>
 </Project>

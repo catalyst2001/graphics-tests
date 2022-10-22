@@ -18,6 +18,9 @@ const float ZOOM = 45.0f;
 class Camera
 {
 public:
+	Camera() {}
+	~Camera() {}
+
 	// camera Attributes
 	vec3 Position;
 	vec3 Front;

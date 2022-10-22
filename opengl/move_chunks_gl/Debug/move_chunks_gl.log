@@ -1,11 +1,15 @@
 ﻿  main.cpp
-e:\github\graphics-tests\common\glmath.h(254): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(110): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(111): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(112): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(113): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(129): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(130): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\euler_camera.h(131): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
+e:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
+e:\github\graphics-tests\common\euler_camera.h(113): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(114): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(115): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(116): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(132): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(133): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\euler_camera.h(134): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\move_chunks_gl\main.cpp(108): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
   move_chunks_gl.vcxproj -> E:\GITHUB\graphics-tests\Debug\move_chunks_gl.exe

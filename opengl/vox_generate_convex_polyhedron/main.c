@@ -3,11 +3,12 @@
 #include "../../common/gldl.h"
 #include "../../common/camera.h"
 #include "../../common/perlin.h"
+#include "voxdefs.h"
 
 #define DEMO_SCREEN_WIDTH  1280
 #define DEMO_SCREEN_HEIGHT 1024
 
-#define MOVE_SPEED  0.1
+#define MOVE_SPEED  0.009
 #define SENSITIVITY 0.1
 
 #define X_MAX 20
@@ -28,13 +29,6 @@
 #define SCALE_ADDITION 0.1f
 #define FREQ_ADDITION 0.001f
 
-#define VF_SOLID (1 << 1)
-
-// one voxel struct
-typedef struct voxel_s {
-	int data;
-} voxel_t;
-
 typedef struct color3_s {
 	unsigned char r, g, b;
 } color3_t;
@@ -44,21 +38,12 @@ typedef struct point3d_s {
 	color3_t color;
 } point3d_t;
 
-typedef struct voxel_chunk_s {
-	size_t x_size;
-	size_t y_size;
-	size_t z_size;
-	size_t total_size;
-	voxel_t *p_voxels;
-} voxel_chunk_t;
-
 float          scale = NOISE_SCALE;
 float          frequency = NOISE_FREQ;
 int            display_mode = DM_ALL;
 gldl_dt_t     *pwnd = NULL;
 size_t         number_of_points = 0;
 point3d_t     *p_convex_points = NULL;
-voxel_t       *p_voxels = NULL;
 camera2_t      camera;
 voxel_chunk_t  chunk;
 
@@ -210,13 +195,6 @@ typedef struct voxgroup_face_s {
 	size_t face_indices[MAX_FACE_INDICES];
 } voxgroup_face_t;
 
-typedef struct voxel_group_s {
-	size_t num_of_vertices;
-	size_t num_of_faces;
-	vector3_t *p_vertices;
-	voxgroup_face_t *p_faces;
-} voxel_group_t;
-
 enum VOXEL_GROUP {
 	VGROUP_AIR = 0,
 	VGROUP_SOLID,
@@ -224,16 +202,50 @@ enum VOXEL_GROUP {
 	VGROUP_MAX
 };
 
+typedef struct voxel_group_s {
+	char voxel_group;
+	bouding_box_t region;
+	size_t num_of_vertices;
+	size_t num_of_faces;
+	vector3_t *p_vertices;
+	voxgroup_face_t *p_faces;
+} voxel_group_t;
+
 typedef struct voxel_groups_s {
-	voxel_group_t groups[VGROUP_MAX];
+	size_t num_of_groups;
+	voxel_group_t *p_groups;
 } voxel_groups_t;
 
+// 
+// voxel_generate_group
+// 
+// generate voxels groups by voxel chunk
+// 
 bool voxel_generate_group(voxel_groups_t *p_vox_groups, voxel_chunk_t *p_vox_chunk)
 {
-	for (size_t y = 0; y < p_vox_chunk->y_size; y++) {
-		for (size_t x = 0; x < p_vox_chunk->x_size; x++) {
-			for (size_t z = 0; z < p_vox_chunk->z_size; z++) {
+	static vector3i_t corners[] = {
+		{ 0, 0, 0 },
+		{ 0, 0, 1 },
+		{ 0, 1, 1 },
+		//{  },
+		//{  },
+		//{  },
+		//{  },
+		//{  }
+	};
 
+
+	// check voxels for all groups
+	int x, y, z;
+	voxel_t *p_voxel;
+	for (int group = 0; group < VGROUP_MAX; group++) {
+		for (y = 0; y < p_vox_chunk->y_size - 1; y++) {
+			for (x = 0; x < p_vox_chunk->x_size - 1; x++) {
+				for (z = 0; z < p_vox_chunk->z_size - 1; z++) {
+					if ((p_voxel = voxel_get(p_vox_chunk, x, y, z))) {
+
+					}
+				}
 			}
 		}
 	}
