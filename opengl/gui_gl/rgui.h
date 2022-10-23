@@ -60,7 +60,6 @@ protected:
 	virtual void keyinput(wchar_t sym) = 0;
 	virtual void keydown(wchar_t sym, rbutton_state state) = 0;
 	virtual void mousewheel(int mwdelta) = 0;
-	virtual bool set_hidestate(bool bhide) = 0;
 	virtual void screen_resize(long width, long height) = 0;
 };
 
@@ -84,6 +83,8 @@ public:
 
 	bool pt_in_rect(rgui_point &pt) { return ( left < pt.x && top > pt.y && right > pt.x && bottom < pt.y ); }
 
+	long get_width() { return right - left; }
+	long get_height() { return bottom - top; }
 };
 
 enum rgui_element_general_flags : char {
@@ -103,12 +104,17 @@ class rgui_baseelement : public rgui_iface_base
 
 	int flags;
 	const char *p_name;
+	rgui_baseelement *p_parentaddr;
+	rgui_rect clip_rect;
 	std::vector<rgui_baseelement *> childs;
 protected:
-	rgui_baseelement() : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr) {}
-	rgui_baseelement(rgui_baseelement *p_parent) : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr) {
+	rgui_baseelement() : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr), p_parentaddr(nullptr) {}
+	rgui_baseelement(rgui_baseelement *p_parent, long x, long y, long width, long height) : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr), p_parentaddr(nullptr) {
+		clip_rect.init_from_coord(x, y, width, height);
 		if(p_parent)
 			p_parent->add_child(this);
+
+		p_parentaddr = p_parent;
 	}
 
 	void draw() {
@@ -117,7 +123,7 @@ protected:
 	void mousemove(int x, int y) {
 	}
 
-	void mouseclick(int x, int y, int button, int state) {
+	void mouseclick(int x, int y, int button, rbutton_state state) {
 	}
 
 	void keyinput(wchar_t sym) {
@@ -161,6 +167,28 @@ public:
 			}
 		}
 		return false;
+	}
+
+	rgui_baseelement *get_parent() { return p_parentaddr; }
+
+	// TODO: 
+	// TODO: 
+	// TODO: 
+	void move(long x, long y) {
+		if (p_parentaddr) {
+			//clip_rect.init_from_coord(p_parentaddr->clip_rect.x + x, p_parentaddr->clip_rect.y + y, );
+			return;
+		}
+		clip_rect.x += x;
+		clip_rect.y += y;
+	}
+
+	void resize(long width, long height) {
+		if (p_parentaddr) {
+			clip_rect.width = p_parentaddr->clip_rect.width + clip_rect.width + width;
+			clip_rect.height = p_parentaddr->clip_rect.height + clip_rect.height + height;
+			return;
+		}
 	}
 };
 
@@ -216,86 +244,89 @@ private:
 #define IS_DISABLED(elemx) (!elemx || !((elemx)->flags & UIF_ELEMVIS))
 
 	/* inner recursive functions */
-	void draw_recursive(rgui_baseelement *p_self) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->draw();
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			draw_recursive(p_self->childs[i]);
-	}
-
-	void mousemove_recursive(rgui_baseelement *p_self, int x, int y) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->mousemove(x, y);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			mousemove_recursive(p_self->childs[i], x, y);
-	}
-
-	void mouseclick_recursive(rgui_baseelement *p_self, int x, int y, int button, int state) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->mouseclick(x, y, button, state);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			mouseclick_recursive(p_self->childs[i], x, y, button, state);
-	}
-
-	void keyinput_recursive(rgui_baseelement *p_self, wchar_t sym) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->keyinput(sym);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			keyinput_recursive(p_self->childs[i], sym);
-	}
-
-	void keydown_recursive(rgui_baseelement *p_self, wchar_t sym, rbutton_state state) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->keydown(sym, state);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			keydown_recursive(p_self->childs[i], sym, state);
-	}
-
-	void mousewheel_recursive(rgui_baseelement *p_self, int mwdelta) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->mousewheel(mwdelta);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			mousewheel_recursive(p_self->childs[i], mwdelta);
-	}
-
-	void screen_resize_recursive(rgui_baseelement *p_self, long width, long height) {
-		if (IS_DISABLED(p_self))
-			return;
-
-		p_self->screen_resize(width, height);
-		for (size_t i = 0; i < p_self->childs.size(); i++)
-			screen_resize_recursive(p_self->childs[i], width, height);
-	}
+	void draw_recursive(rgui_baseelement *p_self);
+	void mousemove_recursive(rgui_baseelement *p_self, int x, int y);
+	void mouseclick_recursive(rgui_baseelement *p_self, int x, int y, int button, rbutton_state state);
+	void keyinput_recursive(rgui_baseelement *p_self, wchar_t sym);
+	void keydown_recursive(rgui_baseelement *p_self, wchar_t sym, rbutton_state state);
+	void mousewheel_recursive(rgui_baseelement *p_self, int mwdelta);
+	void screen_resize_recursive(rgui_baseelement *p_self, long width, long height);
 
 public:
 	/* events */
 	void draw()                                          { draw_recursive(this); }
 	void mousemove(int x, int y)                         { mousemove_recursive(this, x, y); }
-	void mouseclick(int x, int y, int button, int state) { mouseclick_recursive(this, x, y, button, state); }
+	void mouseclick(int x, int y, int button, rbutton_state state) { mouseclick_recursive(this, x, y, button, state); }
 	void keyinput(wchar_t sym)                           { keyinput_recursive(this, sym); }
+	void keydown(wchar_t sym, rbutton_state state)       { keydown_recursive(this, sym, state); }
+	void mousewheel(int mwdelta)                         { mousewheel_recursive(this, mwdelta); }
+	void screen_resize(long width, long height)          { screen_resize_recursive(this, width, height); }
+};
 
-	void keydown(wchar_t sym, rbutton_state state) {
-	}
+class rgui_texture_info
+{
+	rgui_rect rect;
+	const char *p_texture_name;
+	unsigned int texture_id;
+public:
+	rgui_texture_info() : p_texture_name(nullptr), texture_id(0) {}
+	~rgui_texture_info() {}
 
-	void mousewheel(int mwdelta) {
-	}
+	void set_rect(rgui_rect &new_rect)     { rect = new_rect; }
+	rgui_rect &get_rect()                  { return rect; }
+	void set_name(const char *p_name)      { p_texture_name = p_name; }
+	const char *get_name()                 { return p_texture_name; }
+	void set_texid(unsigned int new_texid) { texture_id = new_texid; }
+	unsigned int get_texid()               { return texture_id; }
+};
 
-	bool set_hidestate(bool bhide) {
-	}
+class rgui_imaterial
+{
+public:
+	virtual bool load_texture(rgui_texture_info *p_dst_texture, const char *p_path) = 0;
+	virtual void unload_texture(const rgui_texture_info *p_texture) = 0;
+};
 
-	void screen_resize(long width, long height) {
-	}
+#define NOTHING_MACRO(x)
+NOTHING_MACRO(sizeof(rgui_texture_info));
+
+class rgui_base_background
+{
+	rgui_texture_info background_texture;
+public:
 
 };
+
+// 
+// Label class
+// 
+class rgui_label : public rgui_baseelement//, public rgui_base_background
+{
+	char buffer[256];
+	void draw();
+public:
+	rgui_label(rgui_baseelement *p_parent, long x, long y, long width, long height);
+	~rgui_label();
+
+	void set_text(const char *p_text);
+	const char *get_text();
+	void format(const char *p_format, ...);
+};
+NOTHING_MACRO(sizeof(rgui_label));
+
+// 
+// Image panel class
+// 
+class rgui_imagepanel : public rgui_baseelement
+{
+	rgui_texture_info *p_texture;
+
+	void draw();
+public:
+	rgui_imagepanel(rgui_baseelement *p_parent, long x, long y, long width, long height, const rgui_texture_info *p_imgtexture);
+	~rgui_imagepanel();
+
+	void set_image(rgui_texture_info *p_tex);
+	rgui_texture_info *get_image();
+};
+NOTHING_MACRO(sizeof(rgui_imagepanel));

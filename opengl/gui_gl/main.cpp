@@ -14,6 +14,11 @@ bool has_enable_multisampling = false;
 #define GL_MULTISAMPLE  0x809D
 #endif
 
+#include "rgui.h"
+
+rgui_root_dispatcher g_gui;
+rgui_root_dispatcher *p_gui = &g_gui;
+
 int main()
 {
 	printf("Press F1 to switch Multisampling\n\n");
@@ -51,6 +56,7 @@ int main()
 				break;
 			}
 		}
+		p_gui->keydown(key, (rbutton_state)action);
 	});
 	glfwMakeContextCurrent(window);
 
@@ -79,7 +85,7 @@ int main()
 		gluOrtho2D(0., width, 0., height);
 		glMatrixMode(GL_MODELVIEW);
 
-
+		p_gui->draw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
