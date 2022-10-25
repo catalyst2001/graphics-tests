@@ -174,6 +174,48 @@ void vec3_divsc(vector3_t *p_dst, const vector3_t *p_vec_a, float scalar)
 	p_dst->z = p_vec_a->z / scalar;
 }
 
+void vec3i_add(vector3i_t *p_dst, const vector3i_t *p_veca, const vector3i_t *p_vecb)
+{
+	p_dst->x = p_veca->x + p_vecb->x;
+	p_dst->y = p_veca->y + p_vecb->y;
+	p_dst->z = p_veca->z + p_vecb->z;
+}
+
+void vec3i_sub(vector3i_t *p_dst, const vector3i_t *p_veca, const vector3i_t *p_vecb)
+{
+	p_dst->x = p_veca->x - p_vecb->x;
+	p_dst->y = p_veca->y - p_vecb->y;
+	p_dst->z = p_veca->z - p_vecb->z;
+}
+
+void vec3i_mul(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b)
+{
+	p_dst->x = p_vec_a->x * p_vec_b->x;
+	p_dst->y = p_vec_a->y * p_vec_b->y;
+	p_dst->z = p_vec_a->z * p_vec_b->z;
+}
+
+void vec3i_scale(vector3i_t *p_dst, const vector3i_t *p_vec, int scalar)
+{
+	p_dst->x = p_vec->x * scalar;
+	p_dst->y = p_vec->y * scalar;
+	p_dst->z = p_vec->z * scalar;
+}
+
+void vec3i_div(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b)
+{
+	p_dst->x = p_vec_a->x / p_vec_b->x;
+	p_dst->y = p_vec_a->y / p_vec_b->y;
+	p_dst->z = p_vec_a->z / p_vec_b->z;
+}
+
+void vec3i_divsc(vector3i_t *p_dst, const vector3i_t *p_vec_a, int scalar)
+{
+	p_dst->x = p_vec_a->x / scalar;
+	p_dst->y = p_vec_a->y / scalar;
+	p_dst->z = p_vec_a->z / scalar;
+}
+
 float vec3_length(const vector3_t *p_dst)
 {
 	return sqrtf((p_dst->x * p_dst->x) + (p_dst->y * p_dst->y) + (p_dst->z * p_dst->z));

@@ -158,11 +158,12 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\common\dheap.h" />
     <ClInclude Include="..\..\common\gldl.h" />
     <ClInclude Include="..\..\common\math.h" />
     <ClInclude Include="..\..\common\perlin.h" />
+    <ClInclude Include="..\..\common\voxgroup\voxdefs.h" />
     <ClInclude Include="..\..\common\voxgroup\voxgroups.h" />
-    <ClInclude Include="voxdefs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

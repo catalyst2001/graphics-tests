@@ -20,6 +20,10 @@ typedef struct vector3_s {
 	};
 } vector3_t;
 
+typedef struct vector3i_s {
+	int x, y, z;
+} vector3i_t;
+
 // Byte vector3 ( 3 bytes )
 // Range -128 / +127
 typedef struct vector3b_s {
@@ -78,6 +82,13 @@ void vec3_mul(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec
 void vec3_scale(vector3_t *p_dst, const vector3_t *p_vec, float scalar);
 void vec3_div(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_divsc(vector3_t *p_dst, const vector3_t *p_vec_a, float scalar);
+
+void vec3i_add(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b);
+void vec3i_sub(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b);
+void vec3i_mul(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b);
+void vec3i_scale(vector3i_t *p_dst, const vector3i_t *p_vec, int scalar);
+void vec3i_div(vector3i_t *p_dst, const vector3i_t *p_vec_a, const vector3i_t *p_vec_b);
+void vec3i_divsc(vector3i_t *p_dst, const vector3i_t *p_vec_a, int scalar);
 
 void vec3_cross(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_normalize(vector3_t *p_vec);

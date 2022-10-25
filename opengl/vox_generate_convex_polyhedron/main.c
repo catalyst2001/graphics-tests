@@ -3,7 +3,7 @@
 #include "../../common/gldl.h"
 #include "../../common/camera.h"
 #include "../../common/perlin.h"
-#include "voxdefs.h"
+#include "../../common/voxgroup/voxgroups.h"
 
 #define DEMO_SCREEN_WIDTH  1280
 #define DEMO_SCREEN_HEIGHT 1024
@@ -14,7 +14,7 @@
 #define X_MAX 20
 #define Y_MAX 15
 #define Z_MAX 20
-#define MAX_VOXELS (X_MAX * Y_MAX * Z_MAX)
+#define MAX_VOXELS ((X_MAX + 1) * (Y_MAX + 1) * (Z_MAX + 1))
 #define MAX_POINTS MAX_VOXELS //points == voxels
 
 #define DM_ALL   0
@@ -51,9 +51,9 @@ void voxels_generate(float freq, float scale, float depth);
 
 bool voxels_alloc(voxel_chunk_t *p_vchunk, size_t xsize, size_t ysize, size_t zsize)
 {
-	p_vchunk->x_size = xsize;
-	p_vchunk->y_size = ysize;
-	p_vchunk->z_size = zsize;
+	p_vchunk->x_size = xsize + 1;
+	p_vchunk->y_size = ysize + 1;
+	p_vchunk->z_size = zsize + 1;
 	p_vchunk->total_size = p_vchunk->x_size * p_vchunk->y_size * p_vchunk->z_size;
 	return (bool)(p_vchunk->p_voxels = (voxel_t *)calloc(p_vchunk->total_size, sizeof(voxel_t)));
 }
@@ -153,9 +153,9 @@ inline void point_add(const vector3_t point, const color3_t color)
 void voxels_generate(float freq, float scale, float depth)
 {
 	points_reset(); //reset points buffer
-	for (size_t y = 0; y < Y_MAX; y++) {
-		for (size_t x = 0; x < X_MAX; x++) {
-			for (size_t z = 0; z < Z_MAX; z++) {
+	for (size_t y = 0; y <= Y_MAX; y++) {
+		for (size_t x = 0; x <= X_MAX; x++) {
+			for (size_t z = 0; z <= Z_MAX; z++) {
 				static const color3_t colors[] = {
 					{ 255, 0, 0 },
 					{ 0, 0, 255 }
@@ -202,57 +202,13 @@ enum VOXEL_GROUP {
 	VGROUP_MAX
 };
 
-typedef struct voxel_group_s {
-	char voxel_group;
-	bouding_box_t region;
-	size_t num_of_vertices;
-	size_t num_of_faces;
-	vector3_t *p_vertices;
-	voxgroup_face_t *p_faces;
-} voxel_group_t;
-
-typedef struct voxel_groups_s {
-	size_t num_of_groups;
-	voxel_group_t *p_groups;
-} voxel_groups_t;
-
-// 
-// voxel_generate_group
-// 
-// generate voxels groups by voxel chunk
-// 
-bool voxel_generate_group(voxel_groups_t *p_vox_groups, voxel_chunk_t *p_vox_chunk)
-{
-	static vector3i_t corners[] = {
-		{ 0, 0, 0 },
-		{ 0, 0, 1 },
-		{ 0, 1, 1 },
-		//{  },
-		//{  },
-		//{  },
-		//{  },
-		//{  }
-	};
-
-
-	// check voxels for all groups
-	int x, y, z;
-	voxel_t *p_voxel;
-	for (int group = 0; group < VGROUP_MAX; group++) {
-		for (y = 0; y < p_vox_chunk->y_size - 1; y++) {
-			for (x = 0; x < p_vox_chunk->x_size - 1; x++) {
-				for (z = 0; z < p_vox_chunk->z_size - 1; z++) {
-					if ((p_voxel = voxel_get(p_vox_chunk, x, y, z))) {
-
-					}
-				}
-			}
-		}
-	}
-}
-
 int main()
 {
+	//Beep(600, 50);
+	//Beep(650, 50);
+	//Beep(450, 50);
+	//return 0;
+
 	gldl_events_dt_t events;
 	memset(&events, 0, sizeof(events));
 	events.p_keydown_input_event = keydown;

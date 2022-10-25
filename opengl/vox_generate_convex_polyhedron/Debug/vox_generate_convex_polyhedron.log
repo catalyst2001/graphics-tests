@@ -8,6 +8,6 @@ e:\github\graphics-tests\common\camera.h(231): warning C4244: инициализ
 e:\github\graphics-tests\common\camera.h(232): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(42): warning C4305: инициализация: усечение из "double" в "float"
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(168): warning C4244: функция: преобразование "float" в "int", возможна потеря данных
-e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(275): warning C4305: функция: усечение из "double" в "float"
+e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(280): warning C4305: функция: усечение из "double" в "float"
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(252): warning C4716: voxel_generate_group: должна возвращать значение
   vox_generate_convex_polyhedron.vcxproj -> E:\GITHUB\graphics-tests\Debug\vox_generate_convex_polyhedron.exe
