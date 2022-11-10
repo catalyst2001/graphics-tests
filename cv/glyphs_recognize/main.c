@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <string.h>
 #include <stdint.h>
+#include "rasterlib.h"
 
 #define WINDOW_CLASS "WindowClass"
 
@@ -11,6 +12,8 @@ HWND h_wnd;
 
 void ErrorMessage(const char *p_format, ...);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+rlib_dt_t *p_reapi;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -41,7 +44,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	ShowWindow(h_wnd, nCmdShow);
 	UpdateWindow(h_wnd);
 
+	p_reapi = get_raster_api(0);
+	p_reapi->rlib_init(0, 0);
 
+	hlayer_t h_layer = p_reapi->rlib_create_layer(NULL, 400, 400);
 
     MSG msg;
     while (GetMessage(&msg, 0, 0, 0)) {

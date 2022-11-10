@@ -85,7 +85,7 @@ bool rlib_draw_polygon(hlayer_t h_layer, const point_t *p_points, int pts_count,
 
 typedef struct rlib_image_processor_dt_s {
 	hbitmap_t (*rlib_image_import_routine)(const char *p_path);
-	bool      (*rlib_on_image_export_routine)(hbitmap_t h_bitmap, const char *p_path);
+	bool      (*rlib_image_export_routine)(hbitmap_t h_bitmap, const char *p_path);
 } rlib_image_processor_dt_t;
 
 //built-in image processors
@@ -93,6 +93,8 @@ typedef struct rlib_image_processor_dt_s {
 #define TGA_IMAGE "TrueVisionTGA"
 #define PCX_IMAGE "PCExchange"
 #define DDS_IMAGE "DirectDrawSurface"
+
+#define RLIB_MULTISAMPLING 0
 
 typedef struct rlib_dt_s {
 	bool      (*rlib_init)(malloc_func p_malloc, calloc_func p_calloc);
@@ -106,7 +108,7 @@ typedef struct rlib_dt_s {
 	void      (*rlib_push_option)(int opt);
 	void      (*rlib_pop_option)(int opt);
 
-	bool      (*rlib_export_image)(hbitmap_t h_bitmap, const char *p_filename, const char *p_format);
+	bool      (*rlib_export_image)(hbitmap_t h_bitmap, const char *p_format, const char *p_filename);
 	hbitmap_t (*rlib_load_image)(const char *p_image);
 	hbitmap_t (*rlib_create_bitmap)(int width, int height, int bpp, int format);
 	hbitmap_t (*rlib_copy_bitmap)(hbitmap_t h_bitmap);
@@ -114,7 +116,7 @@ typedef struct rlib_dt_s {
 	uchar_t  *(*rlib_get_bitmap_pixels)(hbitmap_t hbitmap);
 	void      (*rlib_bitmap_fill_pixel)(hbitmap_t hbitmap, int x, int y, color_t color);
 
-	hlayer_t  (*rlib_create_layer)(hlayer_t h_parent_layer);
+	hlayer_t  (*rlib_create_layer)(hlayer_t h_parent_layer, int width, int height);
 	void      (*rlib_delete_layer)(hlayer_t h_layer);
 	rlibobj_t (*rlib_select)(hlayer_t h_layer, int res_type, rlibobj_t h_object);
 	rlibobj_t (*rlib_get_object)(hlayer_t h_layer, int res_type);
@@ -133,3 +135,5 @@ typedef struct rlib_dt_s {
 	void      (*rlib_draw_polygon)(hlayer_t h_layer, const point_t *p_points, int pts_count, int fillmode);
 	void      (*rlib_draw_circle)(hlayer_t h_layer, int x, int y, int radius, color_t color);
 } rlib_dt_t;
+
+const rlib_dt_t *get_raster_api(int version);
