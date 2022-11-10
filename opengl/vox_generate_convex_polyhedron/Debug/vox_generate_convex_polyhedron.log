@@ -1,4 +1,22 @@
-﻿  main.c
+﻿  math.c
+e:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
+e:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+e:\github\graphics-tests\common\math.c(253): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+  voxgroups.c
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(13): warning C4013: voxel_get: нет определения; предполагается "extern" с возвратом типа "int"
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(13): warning C4047: =: "voxel_t *" отличается по уровням косвенного обращения от "int"
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(18): warning C4133: функция: несовместимые типы - из "vector3i_t *" в "vector3_t *"
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(18): warning C4133: функция: несовместимые типы - из "vector3i_t *" в "const vector3_t *"
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(22): warning C4047: =: "voxel_t *" отличается по уровням косвенного обращения от "int"
+  main.c
 e:\github\graphics-tests\common\camera.h(195): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\camera.h(196): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
 e:\github\graphics-tests\common\camera.h(197): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
@@ -8,6 +26,8 @@ e:\github\graphics-tests\common\camera.h(231): warning C4244: инициализ
 e:\github\graphics-tests\common\camera.h(232): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(42): warning C4305: инициализация: усечение из "double" в "float"
 e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(168): warning C4244: функция: преобразование "float" в "int", возможна потеря данных
-e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(280): warning C4305: функция: усечение из "double" в "float"
-e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(252): warning C4716: voxel_generate_group: должна возвращать значение
-  vox_generate_convex_polyhedron.vcxproj -> E:\GITHUB\graphics-tests\Debug\vox_generate_convex_polyhedron.exe
+e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(175): error C2039: data: не является членом "voxel_s"
+  e:\github\graphics-tests\common\voxgroup\voxdefs.h(13): note:  см. объявление "voxel_s"
+e:\github\graphics-tests\opengl\vox_generate_convex_polyhedron\main.c(231): warning C4305: функция: усечение из "double" в "float"
+  Создание кода...
+e:\github\graphics-tests\common\voxgroup\voxgroups.c(33): warning C4716: voxel_generate_group: должна возвращать значение

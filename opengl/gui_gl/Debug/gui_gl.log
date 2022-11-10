@@ -11,4 +11,5 @@ e:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобра�
 e:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
 e:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
   Создание кода...
+LINK : warning LNK4098: сшсышюЄхър яю єьюыўрэш■ "MSVCRT" яЁюЄштюЁхўшЄ шёяюы№чютрэш■ фЁєушї сшсышюЄхъ; шёяюы№чєщЄх ярЁрьхЄЁ /NODEFAULTLIB:library
   gui_gl.vcxproj -> E:\GITHUB\graphics-tests\Debug\gui_gl.exe
