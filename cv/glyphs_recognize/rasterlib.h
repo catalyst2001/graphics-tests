@@ -5,11 +5,13 @@
 * Author: Deryabin K.
 * Date: 11.11.2022
 */
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
 #define RLIBNO(x)
+#define RLIB_CLAMP(x, minimum, maximum) ((x < minimum) ? minimum : (x > maximum) ? maximum : x)
 
 typedef unsigned char uchar_t;
 
@@ -33,15 +35,19 @@ typedef struct point_s {
 	int x, y;
 } point_t;
 
-typedef struct bitmap_s {
+typedef struct bitmap_info_s {
 	int pixels_format;
 	int bits_per_pixel;
-	int bytes_per_pixel;
 	int width;
 	int height;
-	size_t total_bytes;
-	uchar_t *p_data;
-} bitmap_t;
+} bitmap_info_t;
+
+typedef struct rect_s {
+	int left;
+	int top;
+	int right;
+	int bottom;
+} rect_t;
 
 enum BITMAP_FLIP_OPERATION {
 	BITMAP_FLIP_VERTICAL = 0,
@@ -52,29 +58,13 @@ enum BITMAP_RASTER_OPERATION {
 	BITMAP_ROP_SRCCOPY
 };
 
-bool bitmap_create(bitmap_t *p_dstbmp, int format, int bpp, int width, int height);
-bool bitmap_flip(const bitmap_t *p_srcbmp, int flipop);
-void bitmap_free(const bitmap_t *p_srcbmp);
-bool bitmap_bitblt(bitmap_t *p_dstbmp, int xdst, int ydst, const bitmap_t *p_srcbmp, int xsrc, int ysrc, int rastrop);
-
-typedef struct layer_s {
-	bitmap_t *p_bitmap;
-} layer_t;
-
-hbitmap_t rlib_create_bitmap(int width, int height, int bpp, int format);
-void rlib_delete_bitmap(hbitmap_t hbitmap);
-
-hlayer_t rlib_create_layer(hlayer_t h_parent_layer);
-void rlib_delete_layer(hlayer_t h_layer);
-bool rlib_draw_pixel(hlayer_t h_layer, const point_t *p_pt, const color_t *p_srcclr);
-bool rlib_draw_line(hlayer_t h_layer, const point_t *p_from, const point_t *p_to);
-bool rlib_draw_polyline(hlayer_t h_layer, const point_t *p_points, int pts_count);
-bool rlib_draw_rect(hlayer_t h_layer, int x, int y, int width, int height, int fillmode);
-bool rlib_draw_polygon(hlayer_t h_layer, const point_t *p_points, int pts_count, int fillmode);
+#define BITMAP_FORMAT_RGBA 0
+#define BITMAP_FORMAT_ABGR 1
 
 // tools flags
 #define TOOL_PEN (1 << 0)
 #define TOOL_BRUSH (1 << 1)
+#define TOOL
 
 #define RGB3(r, g, b)    (r | (g << 8) | (b << 16))
 #define RGB4(r, g, b, a) (r | (g << 8) | (b << 16) | (a << 24))
@@ -83,10 +73,21 @@ bool rlib_draw_polygon(hlayer_t h_layer, const point_t *p_points, int pts_count,
 #define GETB(clr)        ((clr >> 16) & 0xff)
 #define GETA(clr)        ((clr >> 24) & 0xff)
 
+inline int inverse_pixel(int color)
+{
+	return RGB3(255 - GETR(color), 255 - GETG(color), 255 - GETB(color));
+}
+
 typedef struct rlib_image_processor_dt_s {
-	hbitmap_t (*rlib_image_import_routine)(const char *p_path);
+	const char *p_format_name;
+	hbitmap_t (*rlib_image_import_routine)(FILE *fp, const char *p_path);
 	bool      (*rlib_image_export_routine)(hbitmap_t h_bitmap, const char *p_path);
 } rlib_image_processor_dt_t;
+
+typedef struct rlib_image_filter_dt_s {
+	const char *p_filter_name;
+	void       (*rlib_apply_filter_routine)(hbitmap_t h_bitmap);
+} rlib_image_filter_dt_t;
 
 //built-in image processors
 #define BMP_IMAGE "MicrosoftBitMap"
@@ -94,13 +95,21 @@ typedef struct rlib_image_processor_dt_s {
 #define PCX_IMAGE "PCExchange"
 #define DDS_IMAGE "DirectDrawSurface"
 
+//built-in image filters
+#define FILTER_INVERSE "Inverse"
+#define FILTER_SEPIA   "Sepia"
+
 #define RLIB_MULTISAMPLING 0
+
+//raster operations
+#define SRCCPY 0
 
 typedef struct rlib_dt_s {
 	bool      (*rlib_init)(malloc_func p_malloc, calloc_func p_calloc);
 	void      (*rlib_shutdown)();
 	bool      (*rlib_register_image_processor)(rlib_image_processor_dt_t *p_imgprocdt, const char *p_formatname);
 	bool      (*rlib_unregister_image_processor)(const char *p_formatname);
+
 
 	bool      (*rlib_enable)(int opt);
 	bool      (*rlib_disable)(int opt);
@@ -115,6 +124,7 @@ typedef struct rlib_dt_s {
 	void      (*rlib_delete_bitmap)(hbitmap_t hbitmap);
 	uchar_t  *(*rlib_get_bitmap_pixels)(hbitmap_t hbitmap);
 	void      (*rlib_bitmap_fill_pixel)(hbitmap_t hbitmap, int x, int y, color_t color);
+	void      (*rlib_bitmap_get_info)(bitmap_info_t *p_dstinfo, hbitmap_t hbitmap);
 
 	hlayer_t  (*rlib_create_layer)(hlayer_t h_parent_layer, int width, int height);
 	void      (*rlib_delete_layer)(hlayer_t h_layer);
@@ -134,6 +144,9 @@ typedef struct rlib_dt_s {
 	void      (*rlib_draw_rect)(hlayer_t h_layer, int x, int y, int width, int height, int fillmode);
 	void      (*rlib_draw_polygon)(hlayer_t h_layer, const point_t *p_points, int pts_count, int fillmode);
 	void      (*rlib_draw_circle)(hlayer_t h_layer, int x, int y, int radius, color_t color);
+
+	void      (*rlib_apply_filter_ex)(hbitmap_t h_bitmap, const char *p_filtername, int flags, const rect_t *p_rect, rlibobj_t info);
+	void      (*rlib_bitmap_inverse_filter)(hbitmap_t h_bitmap, const rect_t *p_rect);
 } rlib_dt_t;
 
 const rlib_dt_t *get_raster_api(int version);
