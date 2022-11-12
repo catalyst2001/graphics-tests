@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "rasterlib.h"
 
+int min_pixel = 20;
+
 #define WINDOW_CLASS "WindowClass"
 
 HINSTANCE g_instance;
@@ -51,6 +53,35 @@ int get_avg_color(PBYTE p_pixels, int bpp, int width, int height)
 	colors_summ[1] /= pixels_count;
 	colors_summ[2] /= pixels_count;
 	return RGB3(RLIB_CLAMP(colors_summ[0], 0, 255), RLIB_CLAMP(colors_summ[1], 0, 255), RLIB_CLAMP(colors_summ[2], 0, 255));
+}
+
+void apply_negative(PBYTE p_pixels, int bpp, int width, int height)
+{
+	PBYTE p_pixel;
+	int bytes_per_pixel = bpp / 8;
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			p_pixel = &p_pixels[((y * width) + x) * bytes_per_pixel];
+			p_pixel[0] = RLIB_CLAMP(255 - p_pixel[0], 0, 255);
+			p_pixel[1] = RLIB_CLAMP(255 - p_pixel[1], 0, 255);
+			p_pixel[2] = RLIB_CLAMP(255 - p_pixel[2], 0, 255);
+		}
+	}
+}
+
+void apply_gray(PBYTE p_pixels, int bpp, int width, int height)
+{
+	PBYTE p_pixel;
+	int bytes_per_pixel = bpp / 8;
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			p_pixel = &p_pixels[((y * width) + x) * bytes_per_pixel];
+			int pix = (p_pixel[0] + p_pixel[1] + p_pixel[2]) / 3;
+			p_pixel[0] = RLIB_CLAMP(pix, 0, 255);
+			p_pixel[1] = RLIB_CLAMP(pix, 0, 255);
+			p_pixel[2] = RLIB_CLAMP(pix, 0, 255);
+		}
+	}
 }
 
 void compute_boundbox(rect_t *p_dstrect, PBYTE p_pixels, int bpp, int width, int height, color_t color)
@@ -174,7 +205,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	//hlayer_t h_layer = p_reapi->rlib_create_layer(NULL, 400, 400);
 
-	if (!(h_bitmap = LoadImageA(0, "hello.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE|LR_CREATEDIBSECTION)))
+	if (!(h_bitmap = LoadImageA(0, "text.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE|LR_CREATEDIBSECTION)))
 		MessageBoxA(0, 0, 0, 0);
 
 	test1();
@@ -212,7 +243,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			GetObjectA(h_bitmap, sizeof(bmpinf), &bmpinf);
 			HDC imagedc = CreateCompatibleDC(hdc);
 			SelectObject(imagedc, h_bitmap);
-			BitBlt(chdc, 0, 0, bmpinf.bmWidth, bmpinf.bmHeight, imagedc, 0, 0, SRCCOPY);
+			//BitBlt(chdc, 0, 0, bmpinf.bmWidth, bmpinf.bmHeight, imagedc, 0, 0, SRCCOPY);
 
 			size_t total_bytes = bmp_pixels_total_size(&bmpinf);
 			uchar_t *p_dst_pixels = (uchar_t *)calloc(total_bytes, 1);
@@ -237,14 +268,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HBRUSH nullbrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 			HBRUSH oldbrush = (HBRUSH)SelectObject(chdc, nullbrush);
 
-			//PBYTE p_pixel;
-			//int bytes_per_pixel = bmpinf.bmBitsPixel / 8;
-			//for (int y = 0; y < bmpinf.bmHeight; y++) {
-			//	for (int x = 0; x < bmpinf.bmWidth; x++) {
-			//		p_pixel = &p_dst_pixels[((y * bmpinf.bmWidth) + x) * bytes_per_pixel];
-			//		SetPixel(chdc, x, y, RGB(p_pixel[0], p_pixel[1], p_pixel[2]));
-			//	}
-			//}
+			//apply_negative(p_dst_pixels, bmpinf.bmBitsPixel, bmpinf.bmWidth, bmpinf.bmHeight);
+
+			PBYTE p_pixel;
+			int bytes_per_pixel = bmpinf.bmBitsPixel / 8;
+			for (int y = 0; y < bmpinf.bmHeight; y++) {
+				for (int x = 0; x < bmpinf.bmWidth; x++) {
+					p_pixel = &p_dst_pixels[((y * bmpinf.bmWidth) + x) * bytes_per_pixel];
+					SetPixel(chdc, x, y, RGB(p_pixel[0], p_pixel[1], p_pixel[2]));
+				}
+			}
 
 			//SetBitmapBits(h_drawbitmap, total_bytes, p_dst_pixels);
 
@@ -265,6 +298,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			EndPaint(hWnd, &ps);
 			break;
 		}
+
+		case WM_KEYDOWN:
+			switch (wParam) {
+			case VK_DOWN:
+				if (min_pixel > 0)
+					min_pixel -= 5;
+
+				printf("MinPixel: %d\n", min_pixel);
+				InvalidateRect(hWnd, 0, TRUE);
+				break;
+
+			case VK_UP:
+				min_pixel += 5;
+				printf("MinPixel: %d\n", min_pixel);
+				InvalidateRect(hWnd, 0, TRUE);
+				break;
+			}
+			break;
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
