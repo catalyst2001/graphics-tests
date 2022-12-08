@@ -252,6 +252,7 @@ int main()
 		glColorPointer(3, GL_UNSIGNED_BYTE, sizeof(point3d_t), ((char*)p_convex_points + offsetof(point3d_t, color)));
 		glDrawArrays(GL_POINTS, 0, number_of_points);
 
+		
 		glPopAttrib();
 	}
 	free(p_convex_points);

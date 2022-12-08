@@ -36,17 +36,6 @@ typedef struct vox_polygon_s {
 } vox_polygon_t;
 #pragma pack(pop)
 
-vector3i_t cube_corners_offsets[] = {
-	{ 0, 0, 0 },
-	{ 1, 0, 0 }, 
-	{ 0, 0, 1 }, 
-	{ 1, 0, 1 }, 
-	{ 0, 1, 0 }, 
-	{ 1, 1, 0 }, 
-	{ 0, 1, 1 }, 
-	{ 1, 1, 1 }
-};
-
 typedef struct vox_group_s {
 	int c;
 } vox_group_t;

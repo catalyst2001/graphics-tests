@@ -3,7 +3,7 @@
 void rgui_root_dispatcher::draw_recursive(rgui_baseelement *p_self) {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMVIS)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMVISIBLE)) {
 			p_elem->draw();
 			draw_recursive(p_self->childs[i]);
 		}
@@ -14,7 +14,7 @@ void rgui_root_dispatcher::mousemove_recursive(rgui_baseelement *p_self, int x, 
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->mousemove(x, y);
 			mousemove_recursive(p_self->childs[i], x, y);
 		}
@@ -25,7 +25,7 @@ void rgui_root_dispatcher::mouseclick_recursive(rgui_baseelement *p_self, int x,
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->mouseclick(x, y, button, state);
 			mouseclick_recursive(p_self->childs[i], x, y, button, state);
 		}
@@ -36,7 +36,7 @@ void rgui_root_dispatcher::keyinput_recursive(rgui_baseelement *p_self, wchar_t 
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->keyinput(sym);
 			keyinput_recursive(p_self->childs[i], sym);
 		}
@@ -47,7 +47,7 @@ void rgui_root_dispatcher::keydown_recursive(rgui_baseelement *p_self, wchar_t s
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->keydown(sym, state);
 			keydown_recursive(p_self->childs[i], sym, state);
 		}
@@ -58,7 +58,7 @@ void rgui_root_dispatcher::mousewheel_recursive(rgui_baseelement *p_self, int mw
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->mousewheel(mwdelta);
 			mousewheel_recursive(p_self->childs[i], mwdelta);
 		}
@@ -69,7 +69,7 @@ void rgui_root_dispatcher::screen_resize_recursive(rgui_baseelement *p_self, lon
 {
 	for (size_t i = 0; i < p_self->childs.size(); i++) {
 		rgui_baseelement *p_elem = p_self->childs[i];
-		if (p_elem && (p_elem->flags & UIF_ELEMEVENTSRECV)) {
+		if (p_elem && (p_elem->flags & UIF_ELEMEVENTS)) {
 			p_elem->screen_resize(width, height);
 			screen_resize_recursive(p_self->childs[i], width, height);
 		}

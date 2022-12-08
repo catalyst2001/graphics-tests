@@ -13,6 +13,7 @@ VOX_NOTHING_MACRO(sizeof(vox_byte));
 typedef struct voxel_s {
 	vox_ushort flags;
 	vox_ushort material_group;
+	int data;
 	unsigned int health;
 } voxel_t;
 VOX_NOTHING_MACRO(sizeof(voxel_t));

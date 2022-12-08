@@ -74,7 +74,12 @@ void  quat_from_angle_axis(quat_t *p_dst, float angle, const vector3_t *p_axis);
 	(v)->y = _y; \
 	(v)->z = _z;
 
-#define VEC3(x, y, z) ((vector3_t){ x, y, z })
+#define VEC3(x, y, z)              ((vector3_t){ x, y, z })
+#define vec3equ(pva, pvb)          ((pva)->x == (pvb)->x && (pva)->y == (pvb)->y && (pva)->z == (pvb)->z)
+#define vec3les(pva, pvb)          ((pva)->x < (pvb)->x && (pva)->y < (pvb)->y && (pva)->z < (pvb)->z)
+#define vec3les_or_eq(pva, pvb)    ((pva)->x <= (pvb)->x && (pva)->y <= (pvb)->y && (pva)->z <= (pvb)->z)
+#define vec3gtr(pva, pvb)          ((pva)->x > (pvb)->x && (pva)->y > (pvb)->y && (pva)->z > (pvb)->z)
+#define vec3gtr_or_eq(pva, pvb)    ((pva)->x >= (pvb)->x && (pva)->y >= (pvb)->y && (pva)->z >= (pvb)->z)
 
 void vec3_add(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
 void vec3_sub(vector3_t *p_dst, const vector3_t *p_vec_a, const vector3_t *p_vec_b);
@@ -120,6 +125,13 @@ typedef struct bouding_box_s {
 	vector3_t max;
 } bouding_box_t;
 
+typedef struct bouding_boxi_s {
+	vector3i_t min;
+	vector3i_t max;
+} bouding_boxi_t;
+
+#define point_in_bbox(ppt, pbb) ((pbb)->min.x < ppt.x && (pbb)->min.y < ppt.y && (pbb)->min.z < ppt.z  &&  (pbb)->max.x > ppt.x && (pbb)->max.y > ppt.y && (pbb)->max.z > ppt.z)
+#define point_in_bbox_or_on(ppt, pbb) ((pbb)->min.x <= ppt.x && (pbb)->min.y <= ppt.y && (pbb)->min.z <= ppt.z  &&  (pbb)->max.x >= ppt.x && (pbb)->max.y >= ppt.y && (pbb)->max.z >= ppt.z)
 bool point_in_sphere(const bouding_sphere_t *p_sphere, const vector3_t *p_point);
 bool ray_sphere_intersect(const ray_t *p_ray, const bouding_sphere_t *p_sphere);
 bool ray_sphere_intersect_ilya(const ray_t *p_ray, const bouding_sphere_t *p_sphere);

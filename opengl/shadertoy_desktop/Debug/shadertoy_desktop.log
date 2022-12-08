@@ -1,5 +1,0 @@
-﻿  main.cpp
-  windows_controls.cpp
-e:\github\graphics-tests\opengl\shadertoy_desktop\windows_controls.cpp(154): warning C4838: преобразование из "INT" в "BYTE" требует сужающего преобразования
-  Создание кода...
-  shadertoy_desktop.vcxproj -> E:\GITHUB\graphics-tests\Debug\shadertoy_desktop.exe

@@ -1,3 +1,0 @@
-﻿  main.c
-e:\github\graphics-tests\vertex_compress\main.c(31): warning C4244: инициализация: преобразование "int" в "float", возможна потеря данных
-  vertex_compress.vcxproj -> E:\GITHUB\graphics-tests\Debug\vertex_compress.exe

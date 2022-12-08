@@ -89,8 +89,8 @@ public:
 
 enum rgui_element_general_flags : char {
 	UIF_NONE = 0,				   // element no have flags
-	UIF_ELEMVIS = (1 << 0),		   // element has visible
-	UIF_ELEMEVENTSRECV = (1 << 1)  // element receved events (mouse move, keys down)
+	UIF_ELEMVISIBLE = (1 << 0),		   // element has visible
+	UIF_ELEMEVENTS = (1 << 1)  // element receved events (mouse move, keys down)
 };
 
 class rgui_root_dispatcher;
@@ -108,8 +108,8 @@ class rgui_baseelement : public rgui_iface_base
 	rgui_rect clip_rect;
 	std::vector<rgui_baseelement *> childs;
 protected:
-	rgui_baseelement() : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr), p_parentaddr(nullptr) {}
-	rgui_baseelement(rgui_baseelement *p_parent, long x, long y, long width, long height) : flags(UIF_ELEMVIS|UIF_ELEMEVENTSRECV), p_name(nullptr), p_parentaddr(nullptr) {
+	rgui_baseelement() : flags(UIF_ELEMVISIBLE|UIF_ELEMEVENTS), p_name(nullptr), p_parentaddr(nullptr) {}
+	rgui_baseelement(rgui_baseelement *p_parent, long x, long y, long width, long height) : flags(UIF_ELEMVISIBLE|UIF_ELEMEVENTS), p_name(nullptr), p_parentaddr(nullptr) {
 		clip_rect.init_from_coord(x, y, width, height);
 		if(p_parent)
 			p_parent->add_child(this);
@@ -241,7 +241,7 @@ public:
 	}
 
 private:
-#define IS_DISABLED(elemx) (!elemx || !((elemx)->flags & UIF_ELEMVIS))
+#define IS_DISABLED(elemx) (!elemx || !((elemx)->flags & UIF_ELEMVISIBLE))
 
 	/* inner recursive functions */
 	void draw_recursive(rgui_baseelement *p_self);
