@@ -1,38 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
+    <ClCompile Include="..\..\common\gldl.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="..\..\common\math.c" />
+    <ClCompile Include="..\..\common\perlin.c" />
+    <ClCompile Include="..\..\common\voxgroup\voxel.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\gldl.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\math.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\perlin.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\common\voxgroup\voxgroups.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="..\..\common\dheap.h" />
     <ClInclude Include="..\..\common\gldl.h" />
     <ClInclude Include="..\..\common\math.h" />
-    <ClInclude Include="..\..\common\perlin.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\common\voxgroup\voxgroups.h" />
-    <ClInclude Include="..\..\common\voxgroup\voxdefs.h" />
-    <ClInclude Include="..\..\common\dheap.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\common\perlin.h" />
+    <ClInclude Include="..\..\common\voxgroup\voxel.h" />
   </ItemGroup>
 </Project>

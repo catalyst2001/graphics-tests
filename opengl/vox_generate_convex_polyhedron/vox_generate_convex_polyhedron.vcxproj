@@ -154,7 +154,7 @@
     <ClCompile Include="..\..\common\gldl.c" />
     <ClCompile Include="..\..\common\math.c" />
     <ClCompile Include="..\..\common\perlin.c" />
-    <ClCompile Include="..\..\common\voxgroup\voxgroups.c" />
+    <ClCompile Include="..\..\common\voxgroup\voxel.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +162,7 @@
     <ClInclude Include="..\..\common\gldl.h" />
     <ClInclude Include="..\..\common\math.h" />
     <ClInclude Include="..\..\common\perlin.h" />
-    <ClInclude Include="..\..\common\voxgroup\voxdefs.h" />
-    <ClInclude Include="..\..\common\voxgroup\voxgroups.h" />
+    <ClInclude Include="..\..\common\voxgroup\voxel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

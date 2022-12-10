@@ -3,7 +3,7 @@
 #include "../../common/gldl.h"
 #include "../../common/camera.h"
 #include "../../common/perlin.h"
-#include "../../common/voxgroup/voxgroups.h"
+#include "../../common/voxgroup/voxel.h"
 
 #define DEMO_SCREEN_WIDTH  1280
 #define DEMO_SCREEN_HEIGHT 1024
@@ -48,31 +48,6 @@ camera2_t      camera;
 voxel_chunk_t  chunk;
 
 void voxels_generate(float freq, float scale, float depth);
-
-bool voxels_alloc(voxel_chunk_t *p_vchunk, size_t xsize, size_t ysize, size_t zsize)
-{
-	p_vchunk->x_size = xsize + 1;
-	p_vchunk->y_size = ysize + 1;
-	p_vchunk->z_size = zsize + 1;
-	p_vchunk->total_size = p_vchunk->x_size * p_vchunk->y_size * p_vchunk->z_size;
-	return (bool)(p_vchunk->p_voxels = (voxel_t *)calloc(p_vchunk->total_size, sizeof(voxel_t)));
-}
-
-voxel_t *voxel_get(voxel_chunk_t *p_vchunk, size_t x, size_t y, size_t z)
-{
-	size_t offset;
-	offset = (x * p_vchunk->z_size + y) * p_vchunk->y_size + x;
-	if (offset >= p_vchunk->total_size)
-		return NULL;
-
-	return &p_vchunk->p_voxels[offset];
-}
-
-void voxels_free(voxel_chunk_t *p_vchunk)
-{
-	if (p_vchunk->p_voxels)
-		free(p_vchunk->p_voxels);
-}
 
 void keydown(int keycode, int state)
 {
@@ -168,7 +143,7 @@ void voxels_generate(float freq, float scale, float depth)
 				float noise_val = perlin2d(vec_float.x, vec_float.z, freq, depth) * scale;
 				bool is_solid = (bool)(noise_val <= vec_float.y); //this voxel is solid?
 
-				voxel_t *p_voxel = voxel_get(&chunk, x, y, z);
+				voxel_t *p_voxel = vox_get(&chunk, x, y, z);
 				if (!p_voxel)
 					continue;
 
@@ -217,7 +192,7 @@ int main()
 		return 1;
 	}
 
-	if (!voxels_alloc(&chunk, X_MAX, Y_MAX, Z_MAX)) {
+	if (!vox_chunk_alloc(&chunk, X_MAX, Y_MAX, Z_MAX)) {
 		printf("Failed to allocate voxels!\n");
 		return 1;
 	}
@@ -256,7 +231,7 @@ int main()
 		glPopAttrib();
 	}
 	free(p_convex_points);
-	voxels_free(&chunk);
+	vox_chunk_free(&chunk);
 	gldl_shutdown(pwnd);
 	return 0;
 }
