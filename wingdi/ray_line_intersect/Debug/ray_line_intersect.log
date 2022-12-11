@@ -1,2 +1,5 @@
-﻿  main.cpp
-  ray_line_intersect.vcxproj -> E:\GITHUB\graphics-tests\Debug\ray_line_intersect.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (ray_line_intersect.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  main.cpp
+e:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(162): warning C4101: h_oldpen: неиспользованная локальная переменная
+e:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(161): warning C4101: buffer: неиспользованная локальная переменная
+  ray_line_intersect.vcxproj -> E:\GITHUB\graphics-tests\Debug\point_in_polygon.exe

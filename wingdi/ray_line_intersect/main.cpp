@@ -18,10 +18,10 @@ HPEN h_pen_ray;
 HPEN h_pen_poly;
 HBRUSH h_white_brush;
 
-int ray_coords_idx = 0;
-int line_coords_idx = 0;
-vec2_t ray_coords[2];
-vec2_t line_coords[2];
+#define MAX_POLYGON_COORDS 128
+
+int curr_poly_coord = 0;
+vec2_t poly_coords[MAX_POLYGON_COORDS];
 
 void ErrorMessage(const char *p_format, ...);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -79,6 +79,31 @@ void draw_line(HDC hdc, int xfrom, int yfrom, int xto, int yto)
 	MoveToEx(hdc, oldpt.x, oldpt.y, &oldpt);
 }
 
+void draw_polygon(HDC hdc, vec2_t *p_coords, int num_coords)
+{
+	if (num_coords < 1)
+		return;
+
+	POINT oldpt;
+	MoveToEx(hdc, (int)p_coords[0].x, (int)p_coords[0].y, &oldpt);
+	for (int i = 1; i < num_coords; i++)
+		LineTo(hdc, (int)p_coords[i].x, (int)p_coords[i].y);
+	
+	LineTo(hdc, (int)p_coords[0].x, (int)p_coords[0].y);
+	MoveToEx(hdc, oldpt.x, oldpt.y, &oldpt);
+}
+
+void draw_textf(HDC hdc, int x, int y, const char *p_format, ...)
+{
+	va_list argptr;
+	char buffer[512];
+	va_start(argptr, p_format);
+	vsprintf_s(buffer, sizeof(buffer), p_format, argptr);
+	va_end(argptr);
+
+	TextOutA(hdc, x, y, buffer, strlen(buffer));
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	RECT current_rect;
@@ -122,6 +147,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case WM_DESTROY:
 			DeleteDC(h_chdc);
+			DeleteObject(h_bitmap);
 			PostQuitMessage(0);
 			break;
 
@@ -141,39 +167,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			HDC hdc = BeginPaint(hWnd, &ps);
 			GetClientRect(hWnd, &current_rect);
 			FillRect(h_chdc, &current_rect, h_white_brush);
+			draw_textf(h_chdc, 10, 10, "For paint polygon, press right mouse button, for clear polygon, press ESC");
+			draw_textf(h_chdc, 10, 30, "For move point, click left mouse button");
+			draw_polygon(h_chdc, poly_coords, curr_poly_coord);
 
-			/* draw other info */
-			sprintf_s(buffer, sizeof(buffer), "Mouse coords ( %d %d )  Window size: ( %d %d )", cursor_pt.x, cursor_pt.y, current_rect.right, current_rect.bottom);
-			TextOutA(h_chdc, 10, 30, buffer, strlen(buffer));
-			
+			polygon_t polygon;
+			polygon.num_of_points = curr_poly_coord;
+			polygon.p_points = poly_coords;
 
-			
-			/* draw ray */
-			vec2_t dst = { 1000.f, 0.f };
-			vec2_add(&dst, &cursorf, &dst);
-			
-			sprintf_s(buffer, sizeof(buffer), "Ray ( %f %f )", dst.x, dst.y);
-			TextOutA(h_chdc, cursor_pt.x, cursor_pt.y, buffer, strlen(buffer));
-
-			h_oldpen = SelectObject(h_chdc, h_pen_ray);
-			draw_line(h_chdc, cursor_pt.x, cursor_pt.y, (int)dst.x, (int)dst.y);
-			SelectObject(h_chdc, h_oldpen);
-
-			/* draw line */
-			h_oldpen = SelectObject(h_chdc, h_pen_poly);
-			draw_line(h_chdc, (int)line_coords[0].x, (int)line_coords[0].y, (int)line_coords[1].x, (int)line_coords[1].y);
-			sprintf_s(buffer, sizeof(buffer), "Line (%f %f) (%f %f)", line_coords[0].x, line_coords[0].y, line_coords[1].x, line_coords[1].y);
-			TextOutA(h_chdc, (int)line_coords[0].x, (int)line_coords[0].y, buffer, strlen(buffer));
-			SelectObject(h_chdc, h_oldpen);
-
-			//vec2_t diff;
-			//vec2_sub(&diff, &line_coords[1], &line_coords[0]);
-
-			static const char *p_text[] = { "No intersect", "INTERSECT!!!" };
-			char *p_str = (char *)p_text[line_line_intersection2(NULL, cursorf, dst, line_coords[1], line_coords[0])];
-			TextOutA(h_chdc, 10, 10, p_str, strlen(p_str));
-
-
+			RECT cursor_rect;
+			cursor_rect.left = cursor_pt.x - 2;
+			cursor_rect.top = cursor_pt.y - 2;
+			cursor_rect.right = cursor_pt.x + 2;
+			cursor_rect.bottom = cursor_pt.y + 2;
+			FillRect(h_chdc, &cursor_rect, (HBRUSH)(DKGRAY_BRUSH + 1));
 
 			BitBlt(hdc, 0, 0, current_rect.right, current_rect.bottom, h_chdc, 0, 0, SRCCOPY);
 			EndPaint(hWnd, &ps);
@@ -183,18 +190,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE: {
 			cursor_pt.x = LOWORD(lParam);
 			cursor_pt.y = HIWORD(lParam);
-
 			InvalidateRect(hWnd, NULL, TRUE);
 			break;
 		}
 
 		case WM_RBUTTONDOWN: {
-			line_coords[line_coords_idx].x = LOWORD(lParam);
-			line_coords[line_coords_idx].y = HIWORD(lParam);
-			line_coords_idx = (line_coords_idx + 1) % 2;
+			poly_coords[curr_poly_coord].x = LOWORD(lParam);
+			poly_coords[curr_poly_coord].y = HIWORD(lParam);
+			curr_poly_coord = (curr_poly_coord + 1) % MAX_POLYGON_COORDS;
 			InvalidateRect(hWnd, NULL, TRUE);
 			break;
 		}
+
+		case WM_KEYDOWN:
+			if (wParam == 27) {
+				curr_poly_coord = 0;
+				InvalidateRect(hWnd, NULL, TRUE);
+			}
+			break;
 
 		case WM_ERASEBKGND:
 			return 1;

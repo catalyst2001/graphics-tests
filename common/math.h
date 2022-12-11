@@ -188,7 +188,7 @@ void vec2_sub(vec2_t *p_vecdst, const vec2_t *p_veca, vec2_t *p_vecb);
 
 typedef struct polygon_s {
 	int num_of_points;
-	point_t *p_points;
+	vec2_t *p_points;
 } polygon_t;
 
 bool line_line_intersection(vec2_t *p_dst_isct_pt, const vec2_t *p_linea_from, const vec2_t *p_linea_to, const vec2_t *p_lineb_from, const vec2_t *p_lineb_to);

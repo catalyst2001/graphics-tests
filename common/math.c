@@ -453,11 +453,15 @@ bool line_line_intersection2(vec2_t *p_dst_isct_pt, const vec2_t A, const vec2_t
 //	return c;
 //}
 
+//https://stackoverflow.com/questions/11716268/point-in-polygon-algorithm
 bool point_in_polygon(const polygon_t *p_poly, const point_t *p_point)
 {
-	bool has_intersect = false;
-	for (int i = 0; i < p_poly->num_of_points; i++) {
-
+	int i, j;
+	bool c = false;
+	for (i = 0, j = p_poly->num_of_points - 1; i < p_poly->num_of_points; j = i++) {
+		if (((p_poly->p_points[i].y >= p_point->y) != (p_poly->p_points[j].y >= p_point->y)) &&
+			(p_point->x <= (p_poly->p_points[j].x - p_poly->p_points[i].x) * (p_point->y - p_poly->p_points[i].y) / (p_poly->p_points[j].y - p_poly->p_points[i].y) + p_poly->p_points[i].x))
+			c = !c;
 	}
-	return false;
+	return c;
 }
