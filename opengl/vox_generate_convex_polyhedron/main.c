@@ -163,26 +163,49 @@ void voxels_generate(float freq, float scale, float depth)
 	}
 }
 
-#define MAX_FACE_INDICES 64
-
-typedef struct voxgroup_face_s {
-	short num_of_face_vertices;
-	size_t face_indices[MAX_FACE_INDICES];
-} voxgroup_face_t;
-
-enum VOXEL_GROUP {
-	VGROUP_AIR = 0,
-	VGROUP_SOLID,
-
-	VGROUP_MAX
-};
-
 int main()
 {
-	//Beep(600, 50);
-	//Beep(650, 50);
-	//Beep(450, 50);
-	//return 0;
+	//while (1) {
+	//	//Beep(1900, 50);
+	//	//Beep(2000, 50);
+	//	//Beep(1800, 50);
+
+
+	//	Beep(1500, 500);
+	//	Beep(2000, 500);
+	//	Beep(1500, 500);
+	//	Beep(2000, 500);
+
+	//	//Sleep(100);
+	//}
+
+
+	vec2_t vectors[] = {
+		{ 1.f, 0.f }, 
+		{ 0.f, 1.f }, 
+	};
+	float angle = acosf(vec2_dot(&vectors[0], &vectors[1]));
+	printf("DEG: %f\n", angle * RTOD);
+
+	vec2_t ray;
+	vec2_t pt = { 0.5f, 0.5f };
+	vec2_t dst = { 1.f, 0.f };
+	vec2_add(&dst, &pt, &dst);
+	vec2_normalize(&ray, &dst);
+	
+	printf("Ray direction: ( %f %f )\n", ray.x, ray.y);
+
+	/* line intersection test */
+	vec2_t diff;
+	vec2_sub(&diff, &vectors[1], &vectors[0]);
+
+	float ang_rad = fabsf(vec2_dot(&ray, &diff));
+	printf("angle radians: %f\n", ang_rad);
+	if (ang_rad > EPSILON) {
+		printf("RAY INTERSECT LINE!\n");
+	}
+
+	return 0;
 
 	gldl_events_dt_t events;
 	memset(&events, 0, sizeof(events));

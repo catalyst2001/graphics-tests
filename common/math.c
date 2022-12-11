@@ -340,3 +340,124 @@ float ray_plane_intersect(const ray_t *p_ray, const vector3_t *p_origin, const v
 	}
 	return -1.f;
 }
+
+float vec2_length_squared(const vec2_t *p_vec2)
+{
+	return p_vec2->x * p_vec2->x + p_vec2->y * p_vec2->y;
+}
+
+float vec2_length(const vec2_t *p_vec2)
+{
+	return sqrtf(vec2_length_squared(p_vec2));
+}
+
+void vec2_normalize(vec2_t *p_vec2dst, const vec2_t *p_vec2)
+{
+	float l = vec2_length(p_vec2);
+
+	// prevent division by zero
+	if (l < EPSILON)
+		l = 1.f;
+
+	p_vec2dst->x = p_vec2->x / l;
+	p_vec2dst->y = p_vec2->y / l;
+}
+
+float vec2_dot(const vec2_t *p_vec_a, const vec2_t *p_vec_b)
+{
+	return p_vec_a->x * p_vec_b->x + p_vec_a->y * p_vec_b->y;
+}
+
+void vec2_scale(vec2_t *p_vecdst, const vec2_t *p_vecsrc, float scalar)
+{
+	p_vecdst->x = p_vecsrc->x * scalar;
+	p_vecdst->y = p_vecsrc->y * scalar;
+}
+
+void vec2_add(vec2_t *p_vecdst, const vec2_t *p_veca, vec2_t *p_vecb)
+{
+	p_vecdst->x = p_veca->x + p_vecb->x;
+	p_vecdst->y = p_veca->y + p_vecb->y;
+}
+
+void vec2_sub(vec2_t * p_vecdst, const vec2_t * p_veca, vec2_t * p_vecb)
+{
+	p_vecdst->x = p_veca->x - p_vecb->x;
+	p_vecdst->y = p_veca->y - p_vecb->y;
+}
+
+bool line_line_intersection(vec2_t *p_dst_isct_pt, const vec2_t *p_linea_from, const vec2_t *p_linea_to, const vec2_t *p_lineb_from, const vec2_t *p_lineb_to)
+{
+	// Line AB represented as a1x + b1y = c1
+	float a1 = p_linea_to->y - p_linea_from->y;
+	float b1 = p_linea_from->x - p_linea_to->x;
+	float c1 = a1 * (p_linea_from->x) + b1 * (p_linea_from->y);
+
+	// Line CD represented as a2x + b2y = c2
+	float a2 = p_lineb_to->y - p_lineb_from->y;
+	float b2 = p_lineb_from->x - p_lineb_to->x;
+	float c2 = a2 * (p_lineb_from->x) + b2 * (p_lineb_from->y);
+
+	float determinant = a1 * b2 - a2 * b1;
+	if (determinant == 0.f) {
+		// The lines are parallel. This is simplified
+		// by returning a pair of FLT_MAX
+		return false;
+	}
+
+	if (p_dst_isct_pt) {
+		p_dst_isct_pt->x = (b2 * c1 - b1 * c2) / determinant;
+		p_dst_isct_pt->y = (a1 * c2 - a2 * c1) / determinant;
+	}
+	return true;
+}
+
+bool line_line_intersection2(vec2_t *p_dst_isct_pt, const vec2_t A, const vec2_t B, const vec2_t C, const vec2_t D)
+{
+	// Line AB represented as a1x + b1y = c1
+	float a1 = B.y - A.y;
+	float b1 = A.x - B.x;
+	float c1 = a1 * (A.x) + b1 * (A.y);
+
+	// Line CD represented as a2x + b2y = c2
+	float a2 = D.y - C.y;
+	float b2 = C.x - D.x;
+	float c2 = a2 * (C.x) + b2 * (C.y);
+
+	float determinant = a1 * b2 - a2 * b1;
+
+	if (determinant == 0) {
+		// The lines are parallel. This is simplified
+		// by returning a pair of FLT_MAX
+		return false;
+	}
+
+	if (p_dst_isct_pt) {
+		p_dst_isct_pt->x = (b2 * c1 - b1 * c2) / determinant;
+		p_dst_isct_pt->y = (a1 * c2 - a2 * c1) / determinant;
+	}
+	return true;
+}
+
+//bool PointInPolygon(Point point, Polygon polygon) {
+//	vector<Point> points = polygon.getPoints();
+//	int i, j, nvert = points.size();
+//	bool c = false;
+//
+//	for (i = 0, j = nvert - 1; i < nvert; j = i++) {
+//		if (((points[i].y >= point.y) != (points[j].y >= point.y)) &&
+//		(point.x <= (points[j].x - points[i].x) * (point.y - points[i].y) / (points[j].y - points[i].y) + points[i].x))
+//			c = !c;
+//	}
+//
+//	return c;
+//}
+
+bool point_in_polygon(const polygon_t *p_poly, const point_t *p_point)
+{
+	bool has_intersect = false;
+	for (int i = 0; i < p_poly->num_of_points; i++) {
+
+	}
+	return false;
+}

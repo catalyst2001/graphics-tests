@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <float.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define math_abs(x) (x < 0) ? -x : x
 #define FLOAT_PI 3.141592653589793238462643
 #define RTOD 57.2957795
@@ -153,3 +157,44 @@ static bool PlaneIntersection5(vector3_t *planeP, vector3_t *planeN, vector3_t *
 	}
 	return false;
 }
+
+/* 2D math */
+typedef struct vec2i_s {
+	int x, y;
+} vec2i_t;
+
+typedef struct vec2_s {
+	float x, y;
+} vec2_t;
+
+typedef vec2i_t point_t;
+typedef vec2_t pointf_t;
+
+float vec2_length_squared(const vec2_t *p_vec2);
+float vec2_length(const vec2_t *p_vec2);
+void vec2_normalize(vec2_t *p_vec2dst, const vec2_t *p_vec2);
+float vec2_dot(const vec2_t *p_vec_a, const vec2_t *p_vec_b);
+void vec2_scale(vec2_t *p_vecdst, const vec2_t *p_vecsrc, float scalar);
+void vec2_add(vec2_t *p_vecdst, const vec2_t *p_veca, vec2_t *p_vecb);
+void vec2_sub(vec2_t *p_vecdst, const vec2_t *p_veca, vec2_t *p_vecb);
+
+#define VEC3_TO_VEC2_XY(pvec2, pvec3) \
+	(pvec2)->x = (pvec3)->x; \
+	(pvec2)->y = (pvec3)->y;
+
+#define VEC3_TO_VEC2_XZ(pvec2, pvec3) \
+	(pvec2)->x = (pvec3)->x; \
+	(pvec2)->y = (pvec3)->z;
+
+typedef struct polygon_s {
+	int num_of_points;
+	point_t *p_points;
+} polygon_t;
+
+bool line_line_intersection(vec2_t *p_dst_isct_pt, const vec2_t *p_linea_from, const vec2_t *p_linea_to, const vec2_t *p_lineb_from, const vec2_t *p_lineb_to);
+bool line_line_intersection2(vec2_t *p_dst_isct_pt, const vec2_t A, const vec2_t B, const vec2_t C, const vec2_t D);
+bool point_in_polygon(const polygon_t *p_poly, const point_t *p_point);
+
+#ifdef __cplusplus
+}
+#endif

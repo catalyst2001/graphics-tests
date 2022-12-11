@@ -78,6 +78,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glyphs_recognize", "cv\glyp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb_truetype_gl", "stb_truetype_gl\stb_truetype_gl.vcxproj", "{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ray_line_intersect", "wingdi\ray_line_intersect\ray_line_intersect.vcxproj", "{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -318,6 +320,14 @@ Global
 		{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B}.Release|x64.Build.0 = Release|x64
 		{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B}.Release|x86.ActiveCfg = Release|Win32
 		{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B}.Release|x86.Build.0 = Release|Win32
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Debug|x64.ActiveCfg = Debug|x64
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Debug|x64.Build.0 = Debug|x64
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Debug|x86.ActiveCfg = Debug|Win32
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Debug|x86.Build.0 = Debug|Win32
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x64.ActiveCfg = Release|x64
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x64.Build.0 = Release|x64
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x86.ActiveCfg = Release|Win32
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -353,6 +363,7 @@ Global
 		{7DC7965C-FF7C-44DD-BA5A-F46037202C38} = {CE431045-C17A-420E-AFCA-80ECAFAEE45C}
 		{4C321CEE-DC7C-411B-BFFF-D4425D3C96FA} = {AF693833-1ECC-43F8-B9DA-61E29A4B20B3}
 		{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B} = {7DC7965C-FF7C-44DD-BA5A-F46037202C38}
+		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF} = {BF98DDB8-340E-4FF8-88AB-843EFAF570E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D5FC01-A559-4167-99B4-B463917F49C3}

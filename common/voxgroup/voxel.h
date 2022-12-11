@@ -104,10 +104,19 @@ typedef struct vox_group_s {
 #define VOX_DIR_FLAG_TOP (1 << 4)
 #define VOX_DIR_FLAG_BOTTOM (1 << 5)
 
+typedef struct vox_xz_s {
+	int x, z;
+} vox_xz_t;
+
+typedef struct vox_bounding_rect_s {
+	vox_xz_t min, max;
+} vox_bounding_rect_t;
+
 /* ALGORITHM VERSION 1 */
 typedef struct vox_bounding_poly_s {
 	size_t number_of_points;
 	vector3i_t *p_points;
+	vox_bounding_rect_t bounding;
 } vox_bounding_poly_t;
 
 

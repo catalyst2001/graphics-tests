@@ -92,7 +92,8 @@ voxel_t *vox_get(voxel_chunk_t *p_vchunk, size_t x, size_t y, size_t z)
 //	}
 //}
 
-bool vox_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p_coord, int vox_type)
+/* V1 */
+bool vox_layer_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p_coord, int vox_type)
 {
 	static const vector3i_t neighbor_coords[] = {
 		{  0,  0,  0 }, //center
@@ -108,13 +109,40 @@ bool vox_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p_coord
 
 	vector3i_t curr_coord;
 	voxel_t *p_current_voxel;
-	for (int i = 0; i < sizeof(neighbor_coords) / sizeof(neighbor_coords[0]); i++)
+	for (int i = 0; i < sizeof(neighbor_coords) / sizeof(neighbor_coords[0]); i++) {
 		vec3i_add(&curr_coord, p_coord, &neighbor_coords[i]);
-		if (!(p_current_voxel = vox_get(p_vox_chunk, curr_coord.x, curr_coord.y, curr_coord.z)) || p_current_voxel->data != vox_type)
+		if (!(p_current_voxel = vox_get(p_vox_chunk, curr_coord.x, curr_coord.y, curr_coord.z)) || p_current_voxel->data != vox_type) {
 			return false;
-	
+		}
+	}
 	return true;
 }
+
+///* V2 */
+//bool vox_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p_coord, int vox_type)
+//{
+//	static const vector3i_t neighbor_coords[] = {
+//		{  0,  0,  0 }, //center
+//		{ -1,  0,  0 },	//left
+//		{  1,  0,  0 },	//right
+//		{  0,  0,  1 },	//forward
+//		{  0,  0, -1 },	//back
+//		{ -1,  0,  1 },	//left forward
+//		{  1,  0, -1 },	//right back
+//		{  1,  0,  1 },	//right forward
+//		{ -1,  0, -1 }	//left back
+//	};
+//
+//	vector3i_t curr_coord;
+//	voxel_t *p_current_voxel;
+//	for (int i = 0; i < sizeof(neighbor_coords) / sizeof(neighbor_coords[0]); i++) {
+//		vec3i_add(&curr_coord, p_coord, &neighbor_coords[i]);
+//		if (!(p_current_voxel = vox_get(p_vox_chunk, curr_coord.x, curr_coord.y, curr_coord.z)) || p_current_voxel->data != vox_type) {
+//			return false;
+//		}
+//	}
+//	return true;
+//}
 
 bool vox_generate_bounding_polygon(vox_bounding_poly_t *p_dst_layer_poly, voxel_chunk_t *p_vox_chunk, int voxel_type, int y)
 {
@@ -127,7 +155,7 @@ bool vox_generate_bounding_polygon(vox_bounding_poly_t *p_dst_layer_poly, voxel_
 	current_points_count = 0;
 	p_dst_layer_poly->number_of_points = 0;
 	p_dst_layer_poly->p_points = NULL;
-	max_points = (size_t)(p_vox_chunk->x_size * p_vox_chunk->z_size) * 2;
+	max_points = (size_t)(p_vox_chunk->x_size * p_vox_chunk->z_size) / 2;
 	if (!max_points)
 		return false;
 
@@ -145,8 +173,8 @@ bool vox_generate_bounding_polygon(vox_bounding_poly_t *p_dst_layer_poly, voxel_
 			if ((p_current_voxel = vox_get(p_vox_chunk, vox_start_coord.x, vox_start_coord.y, vox_start_coord.z)) && p_current_voxel->data == voxel_type)
 				break; //first voxel found in layer
 
-	/* check voxel ptr */
-	if (!p_current_voxel)
+	/* check voxel */
+	if (!p_current_voxel || p_current_voxel->data != voxel_type)
 		return false;
 
 	//TODO: continue!!!
