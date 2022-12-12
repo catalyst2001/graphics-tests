@@ -454,7 +454,7 @@ bool line_line_intersection2(vec2_t *p_dst_isct_pt, const vec2_t A, const vec2_t
 //}
 
 //https://stackoverflow.com/questions/11716268/point-in-polygon-algorithm
-bool point_in_polygon(const polygon_t *p_poly, const point_t *p_point)
+bool point_in_polygon(const polygon_t *p_poly, const vec2_t *p_point)
 {
 	int i, j;
 	bool c = false;

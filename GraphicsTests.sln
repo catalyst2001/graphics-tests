@@ -78,7 +78,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glyphs_recognize", "cv\glyp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb_truetype_gl", "stb_truetype_gl\stb_truetype_gl.vcxproj", "{9E3F816F-5FE8-4440-B560-0A1A07E3EF2B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ray_line_intersect", "wingdi\ray_line_intersect\ray_line_intersect.vcxproj", "{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "point_in_polygon", "wingdi\ray_line_intersect\ray_line_intersect.vcxproj", "{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vox_layer_gen_polygons", "vox_layer_gen_polygons\vox_layer_gen_polygons.vcxproj", "{63BBF5AE-8923-469A-9249-D20DE7C8EA87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -328,6 +330,14 @@ Global
 		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x64.Build.0 = Release|x64
 		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x86.ActiveCfg = Release|Win32
 		{9F189B57-41D5-46A5-BCA3-20D52CFB9FDF}.Release|x86.Build.0 = Release|Win32
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Debug|x64.ActiveCfg = Debug|x64
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Debug|x64.Build.0 = Debug|x64
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Debug|x86.ActiveCfg = Debug|Win32
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Debug|x86.Build.0 = Debug|Win32
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Release|x64.ActiveCfg = Release|x64
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Release|x64.Build.0 = Release|x64
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Release|x86.ActiveCfg = Release|Win32
+		{63BBF5AE-8923-469A-9249-D20DE7C8EA87}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

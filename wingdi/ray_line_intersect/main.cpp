@@ -171,16 +171,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			draw_textf(h_chdc, 10, 30, "For move point, click left mouse button");
 			draw_polygon(h_chdc, poly_coords, curr_poly_coord);
 
-			polygon_t polygon;
-			polygon.num_of_points = curr_poly_coord;
-			polygon.p_points = poly_coords;
-
 			RECT cursor_rect;
 			cursor_rect.left = cursor_pt.x - 2;
 			cursor_rect.top = cursor_pt.y - 2;
 			cursor_rect.right = cursor_pt.x + 2;
 			cursor_rect.bottom = cursor_pt.y + 2;
 			FillRect(h_chdc, &cursor_rect, (HBRUSH)(DKGRAY_BRUSH + 1));
+
+			vec2_t point;
+			point.x = (float)cursor_pt.x;
+			point.y = (float)cursor_pt.y;
+
+			polygon_t polygon;
+			polygon.num_of_points = curr_poly_coord;
+			polygon.p_points = poly_coords;
+			bool has_intersect = point_in_polygon(&polygon, &point);
+			draw_textf(h_chdc, cursor_pt.x, cursor_pt.y, "( %d %d ) %s", cursor_pt.x, cursor_pt.y, (has_intersect) ? "INTERSECT" : "");
 
 			BitBlt(hdc, 0, 0, current_rect.right, current_rect.bottom, h_chdc, 0, 0, SRCCOPY);
 			EndPaint(hWnd, &ps);

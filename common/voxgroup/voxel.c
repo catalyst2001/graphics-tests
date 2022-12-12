@@ -18,7 +18,7 @@ void vox_chunk_free(voxel_chunk_t *p_vchunk)
 voxel_t *vox_get(voxel_chunk_t *p_vchunk, size_t x, size_t y, size_t z)
 {
 	size_t offset;
-	offset = (x * p_vchunk->z_size + y) * p_vchunk->y_size + x;
+	offset = (x * p_vchunk->z_size + y) * p_vchunk->y_size + x; //TODO: апед!!!
 	if (offset >= p_vchunk->total_size)
 		return NULL;
 
@@ -118,33 +118,83 @@ bool vox_layer_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p
 	return true;
 }
 
-///* V2 */
-//bool vox_has_all_neighbors(voxel_chunk_t *p_vox_chunk, const vector3i_t *p_coord, int vox_type)
-//{
-//	static const vector3i_t neighbor_coords[] = {
-//		{  0,  0,  0 }, //center
-//		{ -1,  0,  0 },	//left
-//		{  1,  0,  0 },	//right
-//		{  0,  0,  1 },	//forward
-//		{  0,  0, -1 },	//back
-//		{ -1,  0,  1 },	//left forward
-//		{  1,  0, -1 },	//right back
-//		{  1,  0,  1 },	//right forward
-//		{ -1,  0, -1 }	//left back
-//	};
-//
-//	vector3i_t curr_coord;
-//	voxel_t *p_current_voxel;
-//	for (int i = 0; i < sizeof(neighbor_coords) / sizeof(neighbor_coords[0]); i++) {
-//		vec3i_add(&curr_coord, p_coord, &neighbor_coords[i]);
-//		if (!(p_current_voxel = vox_get(p_vox_chunk, curr_coord.x, curr_coord.y, curr_coord.z)) || p_current_voxel->data != vox_type) {
-//			return false;
-//		}
-//	}
-//	return true;
-//}
+bool vox_layer_vox_have_heighbors(voxel_chunk_t *p_vox_chunk, int x, int y, int z, int vox_type)
+{
+	voxel_t *p_vox;
+	if (!(p_vox = vox_get(p_vox_chunk, x + 1, y, z)) || p_vox->data != vox_type)
+		return false;
+	
+	if (!(p_vox = vox_get(p_vox_chunk, x - 1, y, z)) || p_vox->data != vox_type)
+		return false;
 
-bool vox_generate_bounding_polygon(vox_bounding_poly_t *p_dst_layer_poly, voxel_chunk_t *p_vox_chunk, int voxel_type, int y)
+	if (!(p_vox = vox_get(p_vox_chunk, x, y, z + 1)) || p_vox->data != vox_type)
+		return false;
+
+	if (!(p_vox = vox_get(p_vox_chunk, x, y, z - 1)) || p_vox->data != vox_type)
+		return false;
+
+	return true;
+}
+
+bool vox_layer_vox_have_heighbors_diagonal(voxel_chunk_t *p_vox_chunk, int x, int y, int z, int vox_type)
+{
+	voxel_t *p_vox;
+	if (!(p_vox = vox_get(p_vox_chunk, x + 1, y, z + 1)) || p_vox->data != vox_type)
+		return false;
+
+	if (!(p_vox = vox_get(p_vox_chunk, x - 1, y, z + 1)) || p_vox->data != vox_type)
+		return false;
+
+	if (!(p_vox = vox_get(p_vox_chunk, x - 1, y, z - 1)) || p_vox->data != vox_type)
+		return false;
+
+	if (!(p_vox = vox_get(p_vox_chunk, x + 1, y, z - 1)) || p_vox->data != vox_type)
+		return false;
+
+	return true;
+}
+
+bool vox_layer_vox_have_heighbors_arround(voxel_chunk_t *p_vox_chunk, int x, int y, int z, int vox_type)
+{
+	return vox_layer_vox_have_heighbors(p_vox_chunk, x, y, z, vox_type) && vox_layer_vox_have_heighbors_diagonal(p_vox_chunk, x, y, z, vox_type);
+}
+
+bool vox_gen_bound_rect(vox_bounding_rect_t *p_dst_bounding_rect, voxel_chunk_t *p_vox_chunk, int y, int vox_type)
+{
+	int x, z;
+	voxel_t *p_vox;
+
+	/* check chunk size */
+	if (!p_vox_chunk->x_size || !p_vox_chunk->z_size)
+		return false;
+
+	/* set MIN vec to chunk size and MAX vec to 0 */
+	p_dst_bounding_rect->min.x = p_vox_chunk->x_size;
+	p_dst_bounding_rect->min.z = p_vox_chunk->z_size;
+	p_dst_bounding_rect->max.x = 0;
+	p_dst_bounding_rect->max.z = 0;
+	for (x = 0; x < p_vox_chunk->x_size; x++) {
+		for (z = 0; z < p_vox_chunk->z_size; z++) {
+			if ((p_vox = vox_get(p_vox_chunk, x, y, z)) && p_vox->data == vox_type) {
+				p_dst_bounding_rect->min.x = x;
+				p_dst_bounding_rect->min.z = z;
+				break;
+			}
+		}
+	}
+
+	for (x = p_vox_chunk->x_size; x > 0; x--) {
+		for (z = p_vox_chunk->z_size; z > 0; z--) {
+			if ((p_vox = vox_get(p_vox_chunk, x, y, z)) && p_vox->data == vox_type) {
+				p_dst_bounding_rect->max.x = x;
+				p_dst_bounding_rect->max.z = z;
+				break;
+			}
+		}
+	}
+}
+
+bool vox_gen_bound_poly(vox_bounding_poly_t *p_dst_layer_poly, voxel_chunk_t *p_vox_chunk, int voxel_type, int y)
 {
 	vector3i_t vox_start_coord;
 	vector3i_t *p_points;
@@ -155,9 +205,11 @@ bool vox_generate_bounding_polygon(vox_bounding_poly_t *p_dst_layer_poly, voxel_
 	current_points_count = 0;
 	p_dst_layer_poly->number_of_points = 0;
 	p_dst_layer_poly->p_points = NULL;
-	max_points = (size_t)(p_vox_chunk->x_size * p_vox_chunk->z_size) / 2;
+	max_points = (size_t)(p_vox_chunk->x_size * p_vox_chunk->z_size);
 	if (!max_points)
 		return false;
+
+	max_points /= 2;
 
 	/* allocate temporary memory */
 	p_points = (vector3i_t *)malloc(max_points * sizeof(vector3i_t));

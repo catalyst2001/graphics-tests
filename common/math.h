@@ -193,7 +193,7 @@ typedef struct polygon_s {
 
 bool line_line_intersection(vec2_t *p_dst_isct_pt, const vec2_t *p_linea_from, const vec2_t *p_linea_to, const vec2_t *p_lineb_from, const vec2_t *p_lineb_to);
 bool line_line_intersection2(vec2_t *p_dst_isct_pt, const vec2_t A, const vec2_t B, const vec2_t C, const vec2_t D);
-bool point_in_polygon(const polygon_t *p_poly, const point_t *p_point);
+bool point_in_polygon(const polygon_t *p_poly, const vec2_t *p_point);
 
 #ifdef __cplusplus
 }
