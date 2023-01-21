@@ -23,7 +23,7 @@
     <ProjectGuid>{09e3c629-7f7e-4d0c-9810-dd7940a3fc33}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vector_angle_gl</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>vectors_angle_gl</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

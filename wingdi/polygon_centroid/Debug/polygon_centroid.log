@@ -1,0 +1,7 @@
+﻿  main.cpp
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(83): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(84): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(87): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(88): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(91): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  polygon_centroid.vcxproj -> D:\GITHUB\graphics-tests\Debug\polygon_centroid.exe

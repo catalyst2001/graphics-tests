@@ -1,0 +1,10 @@
+﻿  main.cpp
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(83): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(84): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(87): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(88): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\polygon_centroid\main.cpp(91): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  Создание кода
+  All 13 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  polygon_centroid.vcxproj -> D:\GITHUB\graphics-tests\Release\polygon_centroid.exe

@@ -23,7 +23,7 @@
     <ProjectGuid>{da55bf5f-766c-406c-87a6-3f336a50ba2a}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>camera_euler_gl</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

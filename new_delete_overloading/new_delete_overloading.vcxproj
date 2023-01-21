@@ -23,7 +23,7 @@
     <ProjectGuid>{9a4b28df-739d-4165-80e2-ac4a01f91baf}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>new_delete_overloading</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

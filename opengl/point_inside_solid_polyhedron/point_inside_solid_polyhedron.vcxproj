@@ -23,7 +23,7 @@
     <ProjectGuid>{548f6ad3-fca9-44e3-8bdb-a0c9723d216b}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>point_inside_solid_polyhedron</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ProjectName>point_inside_convex_polyhedron</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

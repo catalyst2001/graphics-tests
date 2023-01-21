@@ -1,0 +1,69 @@
+﻿  gldl.c
+d:\github\graphics-tests\common\gldl.c(109): warning C4047: функция: "UINT" отличается по уровням косвенного обращения от "void *"
+d:\github\graphics-tests\common\gldl.c(109): warning C4024: PeekMessageA: различные типы для формального и фактического параметров 3
+d:\github\graphics-tests\common\gldl.c(109): warning C4024: PeekMessageA: различные типы для формального и фактического параметров 4
+  math.c
+d:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
+d:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(253): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+  Создание кода...
+  glmath.cpp
+d:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\common\glmath.cpp(37): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(50): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(59): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(119): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(134): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(154): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(179): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(187): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(210): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(211): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(212): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(320): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(332): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(333): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(334): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(335): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(424): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(427): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(434): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(435): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(477): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(478): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(689): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(688): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(696): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(694): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(702): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(701): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(925): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.cpp(945): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+  main.cpp
+d:\github\graphics-tests\common\glmath.h(139): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(143): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(315): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\common\euler_camera.h(113): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(114): warning C4244: =: преобразование "float" в "LONG", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(115): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(116): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(132): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(133): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\euler_camera.h(134): warning C4244: аргумент: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\opengl\vec_cross_gl\main.cpp(65): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+  Создание кода...
+  vec_cross_gl.vcxproj -> D:\GITHUB\graphics-tests\Debug\vec_cross_gl.exe

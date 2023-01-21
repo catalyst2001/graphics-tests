@@ -23,7 +23,7 @@
     <ProjectGuid>{1901a0f3-a159-4936-887e-de095f3964c8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>shadertoy_desktop</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

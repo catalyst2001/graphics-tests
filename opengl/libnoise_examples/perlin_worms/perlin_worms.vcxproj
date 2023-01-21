@@ -23,7 +23,7 @@
     <ProjectGuid>{F93F8398-1954-4154-98DC-27DB8DA06358}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>perlinworms</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

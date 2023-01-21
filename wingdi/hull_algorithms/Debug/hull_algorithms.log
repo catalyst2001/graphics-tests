@@ -1,0 +1,7 @@
+﻿  main.cpp
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(97): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(98): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(101): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(102): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(105): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  hull_algorithms.vcxproj -> D:\GITHUB\graphics-tests\Debug\hull_algorithms.exe

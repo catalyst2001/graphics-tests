@@ -23,7 +23,7 @@
     <ProjectGuid>{63bbf5ae-8923-469a-9249-d20de7c8ea87}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>vox_layer_gen_polygons</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

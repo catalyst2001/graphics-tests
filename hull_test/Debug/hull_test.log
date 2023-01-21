@@ -1,0 +1,3 @@
+﻿  main.cpp
+d:\github\graphics-tests\hull_test\main.cpp(118): warning C4305: инициализация: усечение из "double" в "float"
+  hull_test.vcxproj -> D:\GITHUB\graphics-tests\Debug\hull_test.exe

@@ -1,17 +1,17 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: промежуточный каталог (Debug\) содержит файлы, которые используются совместно с другим проектом (ray_line_intersect.vcxproj).  Это может привести к ошибкам очистки и перестроения.
   math.c
-e:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
-e:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-e:\github\graphics-tests\common\math.c(253): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(4): warning C4028: формальный параметр 1 отличается от объявления
+d:\github\graphics-tests\common\math.c(6): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(16): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(112): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(113): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(103): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(106): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(127): warning C4244: функция: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(131): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(126): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\math.c(253): warning C4244: return: преобразование "double" в "float", возможна потеря данных
   main.cpp
-e:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(162): warning C4101: h_oldpen: неиспользованная локальная переменная
-e:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(161): warning C4101: buffer: неиспользованная локальная переменная
-  ray_line_intersect.vcxproj -> E:\GITHUB\graphics-tests\Debug\point_in_polygon.exe
+d:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(162): warning C4101: h_oldpen: неиспользованная локальная переменная
+d:\github\graphics-tests\wingdi\ray_line_intersect\main.cpp(161): warning C4101: buffer: неиспользованная локальная переменная
+  ray_line_intersect.vcxproj -> D:\GITHUB\graphics-tests\Debug\point_in_polygon.exe

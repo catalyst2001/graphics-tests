@@ -1,0 +1,12 @@
+﻿  main.cpp
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(97): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(98): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(101): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(102): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+d:\github\graphics-tests\wingdi\hull_algorithms\main.cpp(105): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  Создание кода
+  1 of 16 functions ( 6.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Создание кода завершено
+  hull_algorithms.vcxproj -> D:\GITHUB\graphics-tests\Release\hull_algorithms.exe
