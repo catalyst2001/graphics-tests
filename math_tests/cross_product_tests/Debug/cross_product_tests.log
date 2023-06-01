@@ -1,0 +1,8 @@
+﻿  main.cpp
+d:\github\graphics-tests\common\glmath.h(140): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(144): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(316): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+d:\github\graphics-tests\common\glmath.h(588): warning C4804: >: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\common\glmath.h(589): warning C4804: <: небезопасное использование типа "bool" в операции
+d:\github\graphics-tests\math_tests\cross_product_tests\main.cpp(126): warning C4101: status: неиспользованная локальная переменная
+  cross_product_tests.vcxproj -> D:\GITHUB\graphics-tests\Debug\cross_product_tests.exe

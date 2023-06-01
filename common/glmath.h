@@ -124,6 +124,7 @@ public:
 	friend vec3 operator / (const vec3 &u, const vec3 &v){return vec3(u.x / v.x, u.y / v.y, u.z / v.z);}
 
 	inline bool operator == (vec3 &v) { return x == v.x && y == v.y && z == v.z; }
+	inline bool operator != (vec3 &v) { return x != v.x && y != v.y && z != v.z; }
 	inline bool operator < (vec3 &v) { return x < v.x && y < v.y && z < v.z; }
 	inline bool operator <= (vec3 &v) { return x <= v.x && y <= v.y && z <= v.z; }
 	inline bool operator > (vec3 &v) { return x > v.x && y > v.y && z > v.z; }

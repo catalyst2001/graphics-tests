@@ -1,5 +1,1 @@
 ﻿  main.cpp
-d:\github\graphics-tests\common\glmath.h(587): warning C4804: >: небезопасное использование типа "bool" в операции
-d:\github\graphics-tests\common\glmath.h(588): warning C4804: <: небезопасное использование типа "bool" в операции
-d:\github\graphics-tests\opengl\random_generate_convex_polyhedron\main.cpp(128): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  random_generate_convex_polyhedron.vcxproj -> D:\GITHUB\graphics-tests\Debug\random_generate_convex_polyhedron.exe
