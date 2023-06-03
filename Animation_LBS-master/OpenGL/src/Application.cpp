@@ -78,14 +78,14 @@ int main(void)
 	Shader skeletonShader("res/shaders/skeleton.vs", "res/shaders/skeleton.fs");
 
 	//Model aModel("res/object/body/pedobear_animated.fbx");
-	//Model aModel("res/object/body/skinning_test_2.fbx");
+	Model aModel("res/object/body/skinning_test_2.fbx");
 	//Model aModel("res/object/body/skinning_test.fbx");
 	//Model aModel("res/object/body/skinning_test_3.fbx");
 	//Model aModel("res/object/body/silly_dance.fbx");
 	//Model aModel("res/object/body/Mannequin_Animation.fbx");
 	//Model aModel("res/object/body/turtle_texture.fbx");
 	//Model aModel("res/object/cylinder/leafbone.fbx");
-	Model aModel("res/object/body/groo.fbx");
+	//Model aModel("res/object/body/groo.fbx");
 	//Model aModel("res/object/body/sk2_leafbone.fbx");
 	
 	//				lamp position					light color
@@ -148,7 +148,7 @@ int main(void)
 		lampShader.setMat4("projection", projection);
 		lampShader.setMat4("view", view);
 		glm::mat4 lamp_cube;
-		//lamp_cube = glm::rotate(lamp_cube, (float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0));
+		lamp_cube = glm::rotate(lamp_cube, (float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0));
 		lamp_cube = glm::translate(lamp_cube, lamp.Position);
 		lamp_cube = glm::scale(lamp_cube, glm::vec3(0.2f));	// it's a bit too big for our scene, so scale it down
 		//set uniforms for lamp shader

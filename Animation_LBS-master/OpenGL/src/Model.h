@@ -83,7 +83,8 @@ public:
 		
 		//debugSkeletonPose(skeleton_pose);
 		
-		Transforms.resize(m_NumBones);
+		if(Transforms.size() < m_NumBones) //TODO:
+			Transforms.resize(m_NumBones);
 
 		for (unsigned int i = 0; i < m_NumBones; i++) {
 			Transforms[i] = m_BoneInfo[i].FinalTransformation;
